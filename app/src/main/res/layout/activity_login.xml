@@ -77,7 +77,7 @@
         android:backgroundTint="@color/colorPrimary"
         android:hapticFeedbackEnabled="true"
         android:text="Login"
-        android:textColor="#090808"
+        android:textColor="#ffff"
         android:textStyle="bold"
         app:backgroundTint="@color/colorPrimary"
         app:iconTint="#FF5722"
