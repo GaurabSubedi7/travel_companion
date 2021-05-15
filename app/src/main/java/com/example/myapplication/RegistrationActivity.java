@@ -40,12 +40,10 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-
+        databaseReference = database.getReference();
         progressDialog = new ProgressDialog(RegistrationActivity.this);
         progressDialog.setTitle("Account Creation");
         progressDialog.setMessage("Creating your account");
-
-
         binding.signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,18 +56,14 @@ public class RegistrationActivity extends AppCompatActivity {
                                 if(task.isSuccessful()){
                                     Log.d(TAG, "onComplete: **********************************************************************************************");
                                     User users = new User(binding.usernameReg.getText().toString(), binding.emailReg.getText().toString(), binding.passwordReg.getText().toString());
-                                    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-                                    System.out.println("\nUsername : " + users.getUserName());
-                                    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-
+                                    
                                     //gets userID from the Auth Task we need this to store users in database
+                                    String id = task.getResult().getUser().getUid();
+                                    
+                                    databaseReference.child("Users").child(id).setValue(users);
 
-                                    String id = Objects.requireNonNull(Objects.requireNonNull(task.getResult()).getUser()).getUid();
-                                    Log.d(TAG, "onComplete: " + id);
-                                    databaseReference = database.getReference("message");
-                                    databaseReference.setValue(users);
-                                    Log.d(TAG, "onComplete: ##################################################################################");
-                                    Toast.makeText(RegistrationActivity.this, "User Created Successfully", Toast.LENGTH_SHORT).show();
+
+                                            Toast.makeText(RegistrationActivity.this, "User Created Successfully", Toast.LENGTH_SHORT).show();
 
                                 }else{
                                     Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();

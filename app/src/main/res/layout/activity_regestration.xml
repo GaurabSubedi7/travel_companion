@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
+
     <View
         android:id="@+id/topView"
         android:layout_width="0dp"
@@ -12,7 +13,7 @@
         android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="1dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/waveView"
@@ -33,6 +34,7 @@
         android:text="Travel Companion"
         android:textColor="#F1EEEE"
         android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="@+id/topView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.129"
         app:layout_constraintStart_toStartOf="@+id/topView"
@@ -49,11 +51,11 @@
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="250dp"
         android:layout_height="49dp"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="68dp"
         android:drawableLeft="@drawable/ic_email"
         android:ems="10"
         android:hint="  Enter your Email"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         android:selectAllOnFocus="false"
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +82,7 @@
         style="@android:style/Widget.Material.Light.Button.Borderless"
         android:layout_width="250dp"
         android:layout_height="49dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:background="#5A5857"
         android:backgroundTint="@color/colorPrimary"
         android:hapticFeedbackEnabled="true"
@@ -94,6 +96,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/passwordReg"
         app:layout_constraintTop_toBottomOf="@+id/passwordReg"
+        app:layout_constraintBottom_toTopOf="@+id/OR"
         app:rippleColor="#FF5722" />
 
     <TextView
@@ -112,42 +115,55 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="TextView"
+        android:text="Sign Up With"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/OR"
-        tools:layout_editor_absoluteX="165dp"
-        tools:text="Sign Up With" />
+         />
 
     <Button
         android:id="@+id/btn_google_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
         android:backgroundTint="@color/white"
         android:drawableLeft="@drawable/ic_search"
         android:text="Google"
         android:textColor="@color/black"
         app:cornerRadius="6dp"
-        tools:layout_editor_absoluteX="18dp"
-        tools:layout_editor_absoluteY="667dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signUpWith"
+        app:layout_constraintVertical_bias="0.156" />
 
     <Button
         android:id="@+id/bth_facebook_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@android:color/holo_blue_bright"
+        android:backgroundTint="#3B5988"
         android:drawableLeft="@drawable/ic_facebook"
         android:text="Facebook"
+        android:textColor="#FFFFFF"
         app:cornerRadius="6dp"
-        tools:layout_editor_absoluteX="214dp"
-        tools:layout_editor_absoluteY="667dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.453"
+        app:layout_constraintStart_toEndOf="@+id/btn_google_register"
+        app:layout_constraintTop_toBottomOf="@+id/signUpWith"
+        app:layout_constraintVertical_bias="0.156" />
 
     <EditText
         android:id="@+id/usernameReg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="49dp"
         android:ems="10"
+        android:hint="UserName"
         android:inputType="textPersonName"
-        android:text="Username"
-        tools:layout_editor_absoluteX="95dp"
-        tools:layout_editor_absoluteY="302dp" />
+        app:layout_constraintBottom_toTopOf="@+id/emailReg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/waveView"
+        app:layout_constraintVertical_bias="0.105" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
