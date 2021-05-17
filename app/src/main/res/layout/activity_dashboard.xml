@@ -7,10 +7,10 @@
     tools:context=".DashboardActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World, You are logged in..."
+        android:text="Logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
