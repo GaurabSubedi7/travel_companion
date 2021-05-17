@@ -6,12 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.myapplication.Models.User;
-import com.example.myapplication.databinding.ActivityRegistrationBinding;
 import com.example.myapplication.databinding.ActivityRegistrationBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,8 +19,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -94,7 +90,7 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (auth.getCurrentUser() != null) {
-                    Toast.makeText(RegistrationActivity.this, "Session Exist, Redirecting to dashboard", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this, "Session already exist, Redirecting to dashboard", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RegistrationActivity.this, DashboardActivity.class);
                     startActivity(intent);
                 }else {
