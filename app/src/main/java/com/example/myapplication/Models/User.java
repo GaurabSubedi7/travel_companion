@@ -1,22 +1,22 @@
 package com.example.myapplication.Models;
 
 public class User {
-    String profilePic, userName, email, password;
+    String profilePic, userName, email;
 
-    public User(String profilePic, String userName, String email, String password) {
+    public User(String profilePic, String userName, String email) {
         this.profilePic = profilePic;
         this.userName = userName;
         this.email = email;
-        this.password = password;
+
     }
 
     public User(){}
 
     //SignUp Constructor
-    public User(String userName, String email, String password) {
+    public User(String userName, String email) {
         this.userName = userName;
         this.email = email;
-        this.password = password;
+
     }
 
     public String getProfilePic() {
@@ -43,11 +43,4 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
