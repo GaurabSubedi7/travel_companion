@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.myapplication.Models.User;
@@ -28,6 +29,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
     private static final String TAG = "RegistrationActivity";
+    private static final String MY_DATABASE ="https://travel-companion-9af58-default-rtdb.asia-southeast1.firebasedatabase.app/";
 
     //Loading prompt class
     ProgressDialog progressDialog;
@@ -36,10 +38,10 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityRegestrationBinding.inflate(getLayoutInflater());
-
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(binding.getRoot());
         auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
+        database = FirebaseDatabase.getInstance(MY_DATABASE);
         databaseReference = database.getReference();
         progressDialog = new ProgressDialog(RegistrationActivity.this);
         progressDialog.setTitle("Account Creation");
@@ -78,9 +80,6 @@ public class RegistrationActivity extends AppCompatActivity {
 }
 /*
 TODO:
- Layout / Constraints management
-    Signup, Login page
  Add Input validation and form validation in userName, Email and Password section...
  Click Effect on various redirection points
- After user clicks the signup button... (Creates a User Account) so redirection back to login page after confirmation.
 */
