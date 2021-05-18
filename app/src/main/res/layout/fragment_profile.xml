@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.ProfileFragment">
+
+    <!-- TODO: Update blank fragment layout
+    profile photo golo
+    tesko post
+    -->
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="PROFILE panel" />
+
+    <TextView
+        android:id="@+id/logout"
+        android:layout_width="25dp"
+        android:layout_height="30dp"
+        android:background="@color/colorPrimary"
+        android:fontFamily="@font/amarante"
+        android:gravity="bottom"
+        android:textSize="34sp"
+        app:drawableRightCompat="@drawable/ic_logout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.94"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.023"
+        app:menu="@menu/navigation_item" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
