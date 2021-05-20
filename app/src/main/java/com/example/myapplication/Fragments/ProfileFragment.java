@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 import com.example.myapplication.LoginActivity;
 import com.example.myapplication.R;
 
@@ -22,7 +22,7 @@ public class ProfileFragment extends Fragment {
     //so many unnecessary things are given while creating fragments so removed it
     //variables are declared here in fragment
     FirebaseAuth auth = FirebaseAuth.getInstance();
-    TextView logout;
+    Button logout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
