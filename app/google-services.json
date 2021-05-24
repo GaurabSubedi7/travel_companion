@@ -1,33 +1,42 @@
 {
   "project_info": {
-    "project_number": "447000975640",
-    "project_id": "travelcompanion1-cd636",
-    "storage_bucket": "travelcompanion1-cd636.appspot.com"
+    "project_number": "4439034205",
+    "firebase_url": "https://travel-companion-9af58-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "travel-companion-9af58",
+    "storage_bucket": "travel-companion-9af58.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:447000975640:android:43c2fd3216f7f1ab29266d",
+        "mobilesdk_app_id": "1:4439034205:android:49689bed3870cc0244c0b4",
         "android_client_info": {
           "package_name": "com.example.myapplication"
         }
       },
       "oauth_client": [
         {
-          "client_id": "447000975640-8bcrvtvrfjme2f7ilri8m3cck12emq0i.apps.googleusercontent.com",
+          "client_id": "4439034205-ocpran2cjr2d2rng5ngssqu5kv7p0kcb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "23f519b313da76691117c4c09bed1c1d44d9222e"
+          }
+        },
+        {
+          "client_id": "4439034205-9djbuh6pg150dilgvukvq12ubn193548.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBZyuu-dM3j2VS6g9cPVZBhWqdBehjldl0"
+          "current_key": "AIzaSyCzOhp-0yw0x2RwuUF4eVQ-NihzvDuTxxc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "447000975640-8bcrvtvrfjme2f7ilri8m3cck12emq0i.apps.googleusercontent.com",
+              "client_id": "4439034205-9djbuh6pg150dilgvukvq12ubn193548.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
