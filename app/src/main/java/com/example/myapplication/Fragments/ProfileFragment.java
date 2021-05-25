@@ -46,6 +46,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 auth.signOut();
                 Intent intent = new Intent(getContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });

@@ -1,28 +1,31 @@
 package com.example.myapplication.Fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
 import com.example.myapplication.R;
 
-
-public class PostFragment extends Fragment {
-
+import org.jetbrains.annotations.NotNull;
 
 
-
+public class PostFragment extends DialogFragment {
+    @NonNull
+    @NotNull
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public Dialog onCreateDialog(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_post, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                .setView(view).setTitle("Share Your Experience");
 
-             View view =   inflater.inflate(R.layout.fragment_post, container, false);
-
-        return view;
+        return builder.create();
     }
 }

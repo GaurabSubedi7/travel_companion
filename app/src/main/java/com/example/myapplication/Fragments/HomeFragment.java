@@ -18,22 +18,25 @@ import com.example.myapplication.R;
 
 public class HomeFragment extends Fragment {
 
+    private Button createPost;
 
     public HomeFragment() {
 
     }
-    Button createPost;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-             View view =  inflater.inflate(R.layout.fragment_home, container, false);
-
-
-
-
+        View view =  inflater.inflate(R.layout.fragment_home, container, false);
+        createPost = view.findViewById(R.id.createPost);
+        createPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PostFragment postFragment = new PostFragment();
+                postFragment.show(getFragmentManager(), "show my post");
+            }
+        });
         return view;
     }
 }
