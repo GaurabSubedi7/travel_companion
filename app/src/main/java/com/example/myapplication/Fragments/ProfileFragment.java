@@ -7,22 +7,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
 import com.example.myapplication.LoginActivity;
 import com.example.myapplication.R;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+
 
 
 public class ProfileFragment extends Fragment {
 
 
+
+
     public ProfileFragment() {
         // Required empty public constructor
     }
-    //so many unnecessary things are given while creating fragments so removed it
     //variables are declared here in fragment
+
+
     FirebaseAuth auth = FirebaseAuth.getInstance();
     Button logout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,6 +49,8 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+
         return view;
     }
 }

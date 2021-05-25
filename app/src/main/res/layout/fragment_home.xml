@@ -14,34 +14,28 @@
 
     -->
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/firstOne"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="370dp"
-        app:layout_constraintBottom_toTopOf="@+id/secondOne"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true">
+        app:cardPreventCornerOverlap="true"
+       >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Home " />
+        <Button
+            android:id="@+id/createPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Post"
+            android:layout_gravity="center"
+            android:textColor="#F1EEEE"
+            app:backgroundTint="@color/colorPrimary"
+
+            />
+
 
     </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/secondOne"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/firstOne"
-        android:layout_marginTop="40dp"
-        android:layout_centerHorizontal="true">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Home "/>
 
-    </com.google.android.material.card.MaterialCardView>
+
+
 
 </RelativeLayout>

@@ -11,12 +11,8 @@ import android.view.ViewGroup;
 import com.example.myapplication.R;
 
 
-public class BudgetFragment extends Fragment {
+public class PostFragment extends Fragment {
 
-
-    public BudgetFragment() {
-
-    }
 
 
 
@@ -24,7 +20,9 @@ public class BudgetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         View view = inflater.inflate(R.layout.fragment_budget, container, false);
+
+             View view =   inflater.inflate(R.layout.fragment_post, container, false);
+
         return view;
     }
 }
