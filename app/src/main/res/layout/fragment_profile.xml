@@ -16,7 +16,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="70dp"
-        app:cardCornerRadius="80pt"
+        app:cardCornerRadius="80dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
-
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/ic_luser"
             tools:layout_editor_absoluteY="25dp" />
