@@ -32,7 +32,7 @@ public class ProfileFragment extends Fragment {
 
 
     FirebaseAuth auth = FirebaseAuth.getInstance();
-    Button logout;
+    Button logout, createPost;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +41,7 @@ public class ProfileFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         logout = view.findViewById(R.id.logout);
+        createPost = view.findViewById(R.id.createPost);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,6 +49,16 @@ public class ProfileFragment extends Fragment {
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+            }
+        });
+
+        createPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PostFragment postFragment = new PostFragment();
+                if(getFragmentManager() != null) {
+                    postFragment.show(getFragmentManager(), "show my post");
+                }
             }
         });
 
