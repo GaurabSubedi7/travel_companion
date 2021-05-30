@@ -5,43 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/userImageRelLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/editUserImage"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_user"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="3dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/userImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_launcher_foreground"
-            app:civ_border_color="@color/white"
-            app:civ_border_width="3dp" />
-
-    </RelativeLayout>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:backgroundTint="@color/white"
-        app:cardCornerRadius="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="33dp"
+        app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/userImageRelLayout"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.25">
+        app:layout_constraintStart_toEndOf="@+id/editUserImage">
 
-
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_gravity="center"
+        <ImageButton
+            android:layout_width="37dp"
+            android:layout_height="27dp"
+            android:background="@color/colorPrimary"
             android:src="@drawable/ic_camera" />
+
     </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
     <EditText

@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +38,8 @@ import static com.example.myapplication.MainActivity.MY_DATABASE;
 public class ProfileFragment extends Fragment {
 
     private TextView userName;
-    private Button editProfile,logout;
+    private ImageView createPost, userImage, logout;
+    private Button editProfile;
     private ConstraintLayout profileFragment;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);
@@ -54,11 +56,8 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        userName = view.findViewById(R.id.userName);
-        editProfile = view.findViewById(R.id.editProfile);
-        logout = view.findViewById(R.id.logout);
-        profileFragment = view.findViewById(R.id.profileFragment);
 
+        initView(view);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -73,6 +72,16 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError error) {
 
+            }
+        });
+
+        createPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PostFragment postFragment = new PostFragment();
+                if(getFragmentManager() != null) {
+                    postFragment.show(getFragmentManager(), "show my post");
+                }
             }
         });
 
@@ -93,14 +102,19 @@ public class ProfileFragment extends Fragment {
 //                FrameLayout p = (FrameLayout) view.findViewById(R.id.profileFragment);
 //                p.removeAllViews();
                 ft.replace( R.id.FrameContainer, new EditProfileFragment());
-
                 ft.commit();
-
-
-
             }
         });
 
         return view;
+    }
+
+    private void initView(View view){
+        userName = view.findViewById(R.id.userName);
+        editProfile = view.findViewById(R.id.editProfile);
+        logout = view.findViewById(R.id.logout);
+        profileFragment = view.findViewById(R.id.profileFragment);
+        userImage = view.findViewById(R.id.userImage);
+        createPost = view.findViewById(R.id.createPost);
     }
 }
