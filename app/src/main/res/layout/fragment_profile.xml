@@ -4,12 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.ProfileFragment">
+    tools:context=".Fragments.ProfileFragment"
+    android:id="@+id/profileFragment">
 
-    <!-- TODO: Update blank fragment layout
-    profile photo golo
-    tesko post
-    -->
+
 
     <com.google.android.material.circularreveal.cardview.CircularRevealCardView
         android:id="@+id/circularRevealCardView"
@@ -54,19 +52,19 @@
         android:text="LogOut"
         android:textColor="#F1EEEE"
         app:backgroundTint="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/createPost"
+        app:layout_constraintBottom_toBottomOf="@+id/editProfile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.243"
-        app:layout_constraintStart_toEndOf="@+id/createPost"
-        app:layout_constraintTop_toTopOf="@+id/createPost"
+        app:layout_constraintStart_toEndOf="@+id/editProfile"
+        app:layout_constraintTop_toTopOf="@+id/editProfile"
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/createPost"
+        android:id="@+id/editProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
-        android:text="Create Post"
+        android:text="Edit Profile"
         android:textColor="#F1EEEE"
         app:backgroundTint="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"

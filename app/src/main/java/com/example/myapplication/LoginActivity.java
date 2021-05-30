@@ -97,6 +97,4 @@ public class LoginActivity extends AppCompatActivity {
     }
 }
 
-/*
-    TODO : call signin function  : youtube : 7.37 reached
-*/
+

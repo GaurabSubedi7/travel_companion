@@ -2,37 +2,51 @@ package com.example.myapplication.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.LoginActivity;
 import com.example.myapplication.R;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.NotNull;
 
+import java.sql.SQLOutput;
 
+import static com.example.myapplication.MainActivity.MY_DATABASE;
 
 
 public class ProfileFragment extends Fragment {
 
-
-
+    private TextView userName;
+    private Button editProfile,logout;
+    private ConstraintLayout profileFragment;
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);
+    private DatabaseReference databaseReference = database.getReference();
 
     public ProfileFragment() {
         // Required empty public constructor
     }
     //variables are declared here in fragment
-
-
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    Button logout, createPost;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,8 +54,28 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        userName = view.findViewById(R.id.userName);
+        editProfile = view.findViewById(R.id.editProfile);
         logout = view.findViewById(R.id.logout);
-        createPost = view.findViewById(R.id.createPost);
+        profileFragment = view.findViewById(R.id.profileFragment);
+
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    if(auth.getUid() != null){
+                        userName.setText(dataSnapshot.child("Users").child(auth.getUid()).child("userName").getValue(String.class));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError error) {
+
+            }
+        });
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,17 +85,21 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-        createPost.setOnClickListener(new View.OnClickListener() {
+        editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PostFragment postFragment = new PostFragment();
-                if(getFragmentManager() != null) {
-                    postFragment.show(getFragmentManager(), "show my post");
-                }
+                FragmentManager fm= getFragmentManager();
+                FragmentTransaction ft= fm.beginTransaction();
+//                FrameLayout p = (FrameLayout) view.findViewById(R.id.profileFragment);
+//                p.removeAllViews();
+                ft.replace( R.id.FrameContainer, new EditProfileFragment());
+
+                ft.commit();
+
+
+
             }
         });
-
 
         return view;
     }

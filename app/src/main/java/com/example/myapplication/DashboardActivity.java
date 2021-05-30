@@ -69,4 +69,3 @@ public class DashboardActivity extends AppCompatActivity {
     }
 }
 
-//TODO: add fragments for each menu items and design those fragments

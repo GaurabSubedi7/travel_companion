@@ -21,13 +21,11 @@ public class EditProfileFragment extends Fragment {
     private Button btnSave;
     private ImageView userImage;
 
-    @Nullable
-    @org.jetbrains.annotations.Nullable
     @Override
-    public View onCreateView(@NonNull @NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_edit_profile, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        initView(view);
+        View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
 
         return view;
     }
