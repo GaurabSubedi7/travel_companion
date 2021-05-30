@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/userImageRelLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_launcher_foreground"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="3dp" />
+
+    </RelativeLayout>
+
+    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="100dp"
+        app:cardCornerRadius="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        android:backgroundTint="@color/white">
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_camera"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"/>
+
+
+    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+    <EditText
+        android:id="@+id/editTxtFullName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+
+        android:hint="Full Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline4" />
+
+    <EditText
+        android:id="@+id/editTxtAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Address"
+        app:layout_constraintEnd_toEndOf="@+id/editTxtFullName"
+        app:layout_constraintStart_toStartOf="@+id/editTxtFullName"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtFullName" />
+
+    <EditText
+        android:id="@+id/editTxtPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="PhoneNumber"
+        app:layout_constraintEnd_toEndOf="@+id/editTxtAddress"
+        app:layout_constraintStart_toStartOf="@+id/editTxtAddress"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtAddress" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Save Profile"
+        android:textAllCaps="false"
+        android:textColor="#F1EEEE"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="@+id/editTxtPhoneNumber"
+        app:layout_constraintStart_toStartOf="@+id/editTxtPhoneNumber"
+        app:layout_constraintTop_toBottomOf="@+id/editTxtPhoneNumber" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="180dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="237dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
