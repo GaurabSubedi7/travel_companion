@@ -61,11 +61,11 @@ public class DashboardActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-
     }
 
-
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 }
 
-//TODO: add fragments for each menu items and design those fragments

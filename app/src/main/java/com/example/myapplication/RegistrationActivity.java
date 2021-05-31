@@ -21,13 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
-public class RegistrationActivity extends AppCompatActivity {
+import static com.example.myapplication.MainActivity.MY_DATABASE;
 
+public class RegistrationActivity extends AppCompatActivity {
     ActivityRegistrationBinding binding;
 
     //Firebase Classes
     private FirebaseAuth auth;
-    private static final String MY_DATABASE = "https://travel-companion-9af58-default-rtdb.asia-southeast1.firebasedatabase.app/";
     private FirebaseDatabase database;
     private DatabaseReference databaseReference;
 
@@ -83,13 +83,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 }
             }
         });
-
-        //Do not show signup if session already exists
-        if(auth.getCurrentUser() != null){
-            Intent intent = new Intent(RegistrationActivity.this, DashboardActivity.class);
-            startActivity(intent);
-        }
-
 
         //Back to login
         binding.backToLogin.setOnClickListener(new View.OnClickListener() {

@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MainActivity extends AppCompatActivity {
+    public static final String MY_DATABASE = "https://travel-companion-9af58-default-rtdb.asia-southeast1.firebasedatabase.app/";
     private TextView appName;
     private View  viewTop,viewBot;
     @Override
