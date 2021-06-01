@@ -24,6 +24,8 @@ import android.widget.Toast;
 import com.example.myapplication.DashboardActivity;
 import com.example.myapplication.LoginActivity;
 import com.example.myapplication.MainActivity;
+import com.example.myapplication.Models.User;
+import com.example.myapplication.Models.UserPost;
 import com.example.myapplication.R;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +37,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 
 import static com.example.myapplication.MainActivity.MY_DATABASE;
 
@@ -48,6 +51,7 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);
     private DatabaseReference databaseReference = database.getReference();
+    private ArrayList<UserPost> userPosts = new ArrayList<>();
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -68,9 +72,19 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     if(auth.getUid() != null){
-                        userName.setText(dataSnapshot.child("Users").child(auth.getUid()).child("userName").getValue(String.class));
+                        String username = dataSnapshot.child("Users").child(auth.getUid()).child("userName").getValue(String.class);
+                        userName.setText(username);
+                        //pulling user's posts from firebase
+                        getUserPosts(dataSnapshot);
                     }
                 }
+            }
+
+            private void getUserPosts(DataSnapshot dataSnapshot) {
+                if(auth.getUid() != null){
+//                    for (DataSnapshot)
+                }
+//                userPosts.add();
             }
 
             @Override

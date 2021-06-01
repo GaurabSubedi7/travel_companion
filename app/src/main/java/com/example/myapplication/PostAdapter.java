@@ -7,14 +7,14 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.Models.Post;
+import com.example.myapplication.Models.UserPost;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
-    private ArrayList<Post> posts = new ArrayList<Post>();
+    private ArrayList<UserPost> userPosts = new ArrayList<>();
 
     public PostAdapter() {
 
