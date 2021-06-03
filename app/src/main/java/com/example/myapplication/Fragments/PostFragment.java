@@ -58,6 +58,7 @@ public class PostFragment extends DialogFragment {
     private static final int GALLERY_ACCESS_REQUEST_CODE = 201;
     //image uris list
     private ArrayList<Uri> imageUris;
+    private ArrayList<String> myImageArray = new ArrayList<>();
 
     //UserPost objects
     private UserPost userPost;
@@ -77,7 +78,7 @@ public class PostFragment extends DialogFragment {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseDatabase database;
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance(MY_DATABASE).getReference();
-    private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+    private StorageReference storageReference = FirebaseStorage.getInstance().getReference("posts");
 
     @NonNull
     @NotNull
@@ -136,7 +137,7 @@ public class PostFragment extends DialogFragment {
                 //multiple images selected
                 int imgCount = data.getClipData().getItemCount(); //number of images selected
                 for (int i = 0; i < imgCount; i++){
-                    //get imageUri at dat fakin index
+                    //get imageUri at dat faking index
                     Uri imageUri = data.getClipData().getItemAt(i).getUri();
                     imageUris.add(imageUri); //adding to da list
                 }
@@ -154,6 +155,8 @@ public class PostFragment extends DialogFragment {
     private void addToFirebase(String writePost, ArrayList<Uri> imageUris) {
         //add images to Storage
         StorageReference fileRef = null;
+
+        //add user caption and upload date to firebase
         addData();
         for (Uri imageUri : imageUris) {
             fileRef = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
@@ -187,6 +190,7 @@ public class PostFragment extends DialogFragment {
 
     private void addData(){
         String postId = databaseReference.push().getKey();
+        //add caption and currentTime to userPost object
         addToUser();
         if (auth.getUid() != null && postId != null){
             databaseReference.child("Users").child(auth.getUid()).child("Posts").child(postId).setValue(userPost);
@@ -194,14 +198,18 @@ public class PostFragment extends DialogFragment {
         }else{
             Toast.makeText(getActivity(),"Something not happen as it should be, gibb try again",Toast.LENGTH_SHORT).show();
         }
+        //set userPostId
         userPost.setPostId(postId);
     }
 
 //    This will return the file extension to  store in Fire Storage
     private String getFileExtension(Uri uri){
-        ContentResolver cr = getActivity().getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cr.getType(uri));
+        if (getActivity() != null){
+            ContentResolver cr = getActivity().getContentResolver();
+            MimeTypeMap mime = MimeTypeMap.getSingleton();
+            return mime.getExtensionFromMimeType(cr.getType(uri));
+        }
+        return "null";
     }
     private void initView(View view){
         post = view.findViewById(R.id.post);

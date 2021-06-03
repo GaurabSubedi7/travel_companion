@@ -5,7 +5,7 @@ import android.net.Uri;
 import java.util.ArrayList;
 
 public class UserPost {
-    private String postId, caption, uploadDate;
+    private String postId, caption, uploadDate, location;
     private ArrayList<String> imageURL = new ArrayList<>();
 
     public UserPost(){}
@@ -20,6 +20,14 @@ public class UserPost {
     public UserPost(String caption, String uploadDate) {
         this.caption = caption;
         this.uploadDate = uploadDate;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public ArrayList<String> getImageURL() {

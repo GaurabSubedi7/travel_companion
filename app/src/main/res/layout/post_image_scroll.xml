@@ -3,14 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/userPostSmall"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
-        tools:layout_editor_absoluteX="93dp"
-        tools:layout_editor_absoluteY="73dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/userPostSmall"
+            android:layout_width="137dp"
+            android:layout_height="130dp"
+            app:cardCornerRadius="7dp"
+            android:elevation="2dp"
+            android:backgroundTint="#3C3C3B"
+            android:layout_margin="1dp">
+
+                <ImageView
+                    android:id="@+id/userPostSmallImage"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    tools:layout_editor_absoluteX="93dp"
+                    tools:layout_editor_absoluteY="73dp"
+                    tools:srcCompat="@tools:sample/avatars"
+                    android:layout_margin="1dp"/>
+
+        </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
