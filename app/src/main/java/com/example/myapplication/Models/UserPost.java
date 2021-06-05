@@ -10,10 +10,16 @@ public class UserPost {
 
     public UserPost(){}
 
+    //constructor to get all the post data
     public UserPost(String postId, String caption, String uploadDate, ArrayList<String> imageURL) {
         this.postId = postId;
         this.caption = caption;
         this.uploadDate = uploadDate;
+        this.imageURL = imageURL;
+    }
+
+    //constructor to get only images from user gallery or camera
+    public UserPost(ArrayList<String> imageURL) {
         this.imageURL = imageURL;
     }
 

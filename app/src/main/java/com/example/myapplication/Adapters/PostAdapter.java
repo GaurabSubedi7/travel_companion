@@ -1,9 +1,11 @@
-package com.example.myapplication;
+package com.example.myapplication.Adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.Models.UserPost;
+import com.example.myapplication.R;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -19,9 +22,11 @@ import java.util.ArrayList;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private ArrayList<UserPost> userPosts = new ArrayList<>();
     private Context context;
+    private String parentActivity;
 
-    public PostAdapter(Context context) {
+    public PostAdapter(Context context, String parentActivity) {
         this.context = context;
+        this.parentActivity = parentActivity;
     }
 
     @NonNull
@@ -34,10 +39,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull PostAdapter.ViewHolder holder, int position) {
-        //load image into the imageView
-        Glide.with(context).asBitmap()
-                .load(userPosts.get(position).getImageURL().get(0)).into(holder.userPostSmallImage);
-        System.out.println("SECOND IMAGE : " + userPosts.get(position).getImageURL().get(0));
+        if(parentActivity.equalsIgnoreCase("profile")) {
+            //load image into profile imageView
+            if(userPosts.get(position).getImageURL().get(0) != null) {
+                holder.btnClose.setVisibility(View.GONE);
+                Glide.with(context).asBitmap()
+                        .load(userPosts.get(position).getImageURL().get(0)).into(holder.userPostSmallImage);
+            }
+        }
+
     }
 
     @Override
@@ -54,10 +64,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         private ImageView userPostSmallImage;
+        private ImageButton btnClose;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             userPostSmallImage = itemView.findViewById(R.id.userPostSmallImage);
+            btnClose = itemView.findViewById(R.id.btnClose);
         }
     }
 }

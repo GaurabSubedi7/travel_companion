@@ -4,17 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
-import android.provider.MediaStore;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,31 +18,29 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.Models.User;
+import com.example.myapplication.Adapters.ImageAdapter;
+import com.example.myapplication.Models.Image;
 import com.example.myapplication.Models.UserPost;
 import com.example.myapplication.R;
-import com.example.myapplication.RegistrationActivity;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static com.example.myapplication.MainActivity.MY_DATABASE;
@@ -58,26 +51,24 @@ public class PostFragment extends DialogFragment {
     private static final int GALLERY_ACCESS_REQUEST_CODE = 201;
     //image uris list
     private ArrayList<Uri> imageUris;
-    private ArrayList<String> myImageArray = new ArrayList<>();
 
     //UserPost objects
     private UserPost userPost;
 
     private Button post, addImage;
     private EditText postEditText;
+    private RecyclerView newPhotoRecView;
 
     //Calendar
     private Calendar calendar = Calendar.getInstance();
-
-    private ArrayList<String> stringUris = new ArrayList<>();
 
     //Loading prompt class
     private ProgressDialog progressDialog;
 
     //Firebase Classes
-    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private final FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference = FirebaseDatabase.getInstance(MY_DATABASE).getReference();
+    private final DatabaseReference databaseReference = FirebaseDatabase.getInstance(MY_DATABASE).getReference();
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference("posts");
 
     @NonNull
@@ -105,8 +96,12 @@ public class PostFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 String writePost = postEditText.getText().toString();
-                addToFirebase(writePost, imageUris);
-                dismiss();
+                if(Image.getInstance().getImageUris() != null) {
+                    addToFirebase(writePost, Image.getInstance().getImageUris());
+                    dismiss();
+                }else{
+                    Toast.makeText(getActivity(), "You Must Add An Image(s) First", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return builder.create();
@@ -141,23 +136,29 @@ public class PostFragment extends DialogFragment {
                     Uri imageUri = data.getClipData().getItemAt(i).getUri();
                     imageUris.add(imageUri); //adding to da list
                 }
-                Toast.makeText(getActivity(), "multiple image selected", Toast.LENGTH_SHORT).show();
             }else{
                 //selected just one image (coz you suck and don't have many photos)
                 Uri imageUri = data.getData();
                 imageUris.add(imageUri);
-                Toast.makeText(getActivity(), "single image selected", Toast.LENGTH_SHORT).show();
             }
+
+            Image.getInstance().setImageUris(imageUris);
+
+            //load image on the post dialog
+            ImageAdapter adapter = new ImageAdapter(getContext());
+            newPhotoRecView.setAdapter(adapter);
+            newPhotoRecView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            adapter.setImageUris(Image.getInstance().getImageUris());
         }
     }
 
     //addToFirebase function
     private void addToFirebase(String writePost, ArrayList<Uri> imageUris) {
-        //add images to Storage
         StorageReference fileRef = null;
 
         //add user caption and upload date to firebase
         addData();
+        //add images to storage
         for (Uri imageUri : imageUris) {
             fileRef = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
             StorageReference finalFileRef = fileRef;
@@ -215,6 +216,8 @@ public class PostFragment extends DialogFragment {
         post = view.findViewById(R.id.post);
         addImage = view.findViewById(R.id.addImage);
         postEditText = view.findViewById(R.id.postEditText);
+
+        newPhotoRecView = view.findViewById(R.id.newPhotoRecView);
 
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setTitle("Keep Kalmm... we posting ur memories");

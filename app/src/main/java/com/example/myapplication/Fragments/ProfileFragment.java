@@ -14,23 +14,17 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.myapplication.DashboardActivity;
 import com.example.myapplication.LoginActivity;
-import com.example.myapplication.MainActivity;
-import com.example.myapplication.Models.User;
 import com.example.myapplication.Models.UserPost;
-import com.example.myapplication.PostAdapter;
+import com.example.myapplication.Adapters.PostAdapter;
 import com.example.myapplication.R;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,11 +35,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Collections;
+import java.util.Objects;
 
 import static com.example.myapplication.MainActivity.MY_DATABASE;
 
@@ -95,7 +87,7 @@ public class ProfileFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+                AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getContext()))
                         .setTitle("Are You Sure You Want To Logout?")
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             @Override
@@ -118,11 +110,13 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentManager fm= getFragmentManager();
-                FragmentTransaction ft= fm.beginTransaction();
+                if(fm != null) {
+                    FragmentTransaction ft = fm.beginTransaction();
 //                FrameLayout p = (FrameLayout) view.findViewById(R.id.profileFragment);
 //                p.removeAllViews();
-                ft.replace( R.id.FrameContainer, new EditProfileFragment());
-                ft.commit();
+                    ft.replace(R.id.FrameContainer, new EditProfileFragment());
+                    ft.commit();
+                }
             }
         });
 
@@ -157,13 +151,14 @@ public class ProfileFragment extends Fragment {
                             System.out.println("MY FUCKING IMAGES 1: " + userPosts.get(0).getImageURL().get(0));
                         }
                         //inflate recyclerView with images
-                        adapter = new PostAdapter(getContext());
+                        adapter = new PostAdapter(getContext(), "profile");
                         smallImageRecView.setAdapter(adapter);
                         System.out.println("I just created the grid layout");
                         smallImageRecView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
                         System.out.println("MY FUCKING IMAGES : " + userPosts.get(0).getImageURL().get(0));
                         //get user's post from firebase and populate the adapter
+                        Collections.reverse(userPosts);
                         adapter.setUserPosts(userPosts);
                     }
                 }
