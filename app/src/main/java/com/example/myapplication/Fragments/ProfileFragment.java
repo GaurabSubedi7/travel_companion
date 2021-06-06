@@ -112,8 +112,6 @@ public class ProfileFragment extends Fragment {
                 FragmentManager fm= getFragmentManager();
                 if(fm != null) {
                     FragmentTransaction ft = fm.beginTransaction();
-//                FrameLayout p = (FrameLayout) view.findViewById(R.id.profileFragment);
-//                p.removeAllViews();
                     ft.replace(R.id.FrameContainer, new EditProfileFragment());
                     ft.commit();
                 }

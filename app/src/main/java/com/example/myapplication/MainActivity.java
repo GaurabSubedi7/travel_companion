@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
     public static final String MY_DATABASE = "https://travel-companion-9af58-default-rtdb.asia-southeast1.firebasedatabase.app/";
     private TextView appName;
-    private View  viewTop,viewBot;
+    private View  viewTop,viewBot,viewLogo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,10 +23,12 @@ public class MainActivity extends AppCompatActivity {
         appName= findViewById(R.id.appName);
         viewTop = findViewById(R.id.viewTop);
         viewBot = findViewById(R.id.viewBot);
+        viewLogo = findViewById(R.id.viewLogo);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        appName.animate().translationX(3000).setDuration(500).setStartDelay(1500);
+        appName.animate().translationY(300).setDuration(500).setStartDelay(1500);
         viewTop.animate().translationY(-1600).setDuration(500).setStartDelay(1500);
         viewBot.animate().translationY(1600).setDuration(500).setStartDelay(1500);
+        viewLogo.animate().translationX(3000).setDuration(500).setStartDelay(1500);
 
         new Handler().postDelayed(new Runnable() {
             @Override

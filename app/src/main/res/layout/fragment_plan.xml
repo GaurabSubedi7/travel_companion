@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.PlanFragment">
+
+
+    <EditText
+        android:id="@+id/tripName"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="93dp"
+        android:layout_marginTop="66dp"
+        android:layout_marginEnd="118dp"
+        android:hint="Trip Name" />
+
+    <EditText
+        android:id="@+id/totalAmount"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tripName"
+        android:layout_alignStart="@+id/tripName"
+        android:layout_alignEnd="@+id/tripName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="-8dp"
+        android:hint="Total Budget " />
+
+    <EditText
+        android:id="@+id/startDate"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/totalAmount"
+        android:layout_alignStart="@+id/totalAmount"
+
+        android:layout_alignEnd="@+id/totalAmount"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="-8dp"
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="214dp"
+        android:hint=" Start Date"
+        android:inputType="date" />
+
+    <EditText
+        android:id="@+id/endDate"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/startDate"
+        android:layout_alignEnd="@+id/startDate"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="115dp"
+        android:hint="End Date "
+        android:inputType="date" />
+
+    <Button
+        android:id="@+id/setTrip"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/endDate"
+        android:layout_alignEnd="@+id/endDate"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="33dp"
+        android:text=" OK"
+        android:textAllCaps="false"
+        android:textColor="#F1EEEE"
+        android:textSize="16sp"
+        app:backgroundTint="@color/colorPrimary" />
+
+
+</RelativeLayout>
