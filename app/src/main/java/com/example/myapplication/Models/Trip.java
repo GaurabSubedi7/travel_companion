@@ -1,12 +1,12 @@
 package com.example.myapplication.Models;
 
+import java.util.ArrayList;
+
 public class Trip {
     private String tripId ,tripName,amount,startDate,endDate;
-
     public Trip (){};
 
-    public Trip(String tripId,String tripName, String amount,String startDate, String endDate){
-        this.tripId = tripId;
+    public Trip(String tripName, String amount,String startDate, String endDate){
         this.tripName =tripName;
         this.amount = amount;
         this. startDate = startDate;
