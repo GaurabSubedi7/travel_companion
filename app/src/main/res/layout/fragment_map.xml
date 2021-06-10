@@ -39,7 +39,8 @@
             android:textSize="15sp"
             android:textColor="@color/black"
             android:id="@+id/inputSearch"
-            android:hint="Next Trip"
-            android:textColorHint="@color/grey"/>
+            android:hint="Search for New Expedition ? "
+            android:imeOptions="actionSearch"
+            android:textColorHint="@color/colorPrimary"/>
     </RelativeLayout>
 </RelativeLayout>
