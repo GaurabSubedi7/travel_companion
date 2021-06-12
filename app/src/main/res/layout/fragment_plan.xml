@@ -29,7 +29,7 @@
         android:layout_alignEnd="@+id/tripName"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:hint="Total Amount"
+        android:hint="Total Budget"
         android:inputType="numberSigned"
         app:layout_constraintEnd_toEndOf="@+id/tripName"
         app:layout_constraintHorizontal_bias="0.0"

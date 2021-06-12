@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -39,7 +40,7 @@ import static com.example.myapplication.MainActivity.MY_DATABASE;
 
 
 public class BudgetFragment extends Fragment {
-
+//Todo make the cards scrollable and  add expenses on card click
 
     public BudgetFragment() {
 
@@ -52,6 +53,7 @@ public class BudgetFragment extends Fragment {
     public ArrayList<Trip> trips = new ArrayList<>();
     private Button addPlan;
     private RecyclerView smallPlanRecView;
+//    private CardView userTripSmall;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +62,7 @@ public class BudgetFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_budget, container, false);
         addPlan = view.findViewById(R.id.btnAddPlan);
         smallPlanRecView = view.findViewById(R.id.smallPlanRecView);
+//        userTripSmall = view.findViewById(R.id.userTripSmall);
 
         addPlan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +75,18 @@ public class BudgetFragment extends Fragment {
                 }
             }
         });
+
+//        userTripSmall.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FragmentManager FM = getFragmentManager();
+//                if(FM != null){
+//                    FragmentTransaction FT = FM.beginTransaction();
+//                    FT.replace(R.id.FrameContainer,new ExpenseFragment());
+//                    FT.commit();
+//                }
+//            }
+//        });
         getDataFromFireBase();
 
 
@@ -109,4 +124,5 @@ public class BudgetFragment extends Fragment {
 
 
     }
+
 }
