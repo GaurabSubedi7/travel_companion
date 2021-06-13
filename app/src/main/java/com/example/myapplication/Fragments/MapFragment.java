@@ -12,8 +12,10 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +54,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     //UI elements
     private EditText mSearchText;
+    private ImageView mGps;
 
     //  Variables
     private Boolean mLocationPermissionGranted = false;
@@ -74,6 +77,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
         mSearchText = view.findViewById(R.id.inputSearch);
+        mGps = view.findViewById(R.id.gps);
         if (isServicesOK()) {
 //           get Location Permission
             getLocationPermission();
@@ -95,7 +99,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
             //This function places a marker in my current location
             mMap.setMyLocationEnabled(true);
-            //For now disabling the reset location to current location button (we will add dis later)
+            //For now disabling the reset location to current location button (we will make our custom version later)
             //if gibb try to other UI materials we can go is in mMap.getUiSettings() explore (All of them are booleans)
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
@@ -135,9 +139,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private void moveCamera(LatLng latLng, String title) {
         Log.d(TAG, "moveCamera: Moving camera to given Location coordinates : " + latLng.latitude + "::" + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
-
-        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(title);
-        mMap.addMarker(markerOptions);
+        if (!title.equals("My Location")) {
+            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(title);
+            mMap.addMarker(markerOptions);
+        }
+        hideSoftKeyboard();
     }
 
     //    Check for the connection with Google Services API and app compatibility
@@ -205,22 +211,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
     }
 
-//    Searching within the map
-    private void geoLocate(){
+    //    Searching within the map
+    private void geoLocate() {
         Log.d(TAG, "geoLocate: Response to search function has been called");
         String searchString = mSearchText.getText().toString();
 
         //  Geocoder transforms street or other forms of address to longitude and latitude
         Geocoder geocoder = new Geocoder(getActivity());
         List<Address> list = new ArrayList<>();
-        
-        try{
+
+        try {
             list = geocoder.getFromLocationName(searchString, 1);
-        }catch(IOException e){
+        } catch (IOException e) {
             Log.e(TAG, "geoLocate: IOException :  " + e.getMessage());
         }
 
-        if(list.size()>0){
+        if (list.size() > 0) {
             Address address = list.get(0);
             Log.d(TAG, "geoLocate: found addresses : " + address.toString());
 //          Toast.makeText(getActivity(),address.toString(), Toast.LENGTH_SHORT).show();
@@ -234,18 +240,28 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent keyEvent) {
-                if(actionId == EditorInfo.IME_ACTION_SEARCH
-                    || actionId == EditorInfo.IME_ACTION_DONE
-                    || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                    || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
-                        geoLocate();
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    geoLocate();
                 }
                 return false;
             }
         });
+        mGps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Moving Camera to Device Current Location");
+                getDeviceLocation();
+            }
+        });
+    }
+
+    private void hideSoftKeyboard(){
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 }
-
 //LOOKS CUTE MIGHT REMOVE LATER
 /*
 googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
