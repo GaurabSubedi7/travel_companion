@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.MapFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -12,45 +13,56 @@
         android:id="@+id/google_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchBarCardView"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:elevation="10dp"
-        android:background="#fff"
-        android:id="@+id/relLayout1">
+        app:cardCornerRadius="10dp"
+        android:elevation="5dp">
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/search"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_search"/>
-
-        <EditText
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@id/search"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:id="@+id/inputSearch"
-            android:hint="Search for New Expedition ? "
-            android:imeOptions="actionSearch"
-            android:textColorHint="@color/colorPrimary"/>
-    </RelativeLayout>
+            android:layout_height="50dp"
+            android:elevation="10dp"
+            android:background="#fff"
+            android:id="@+id/relLayout1">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/search"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_search"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@id/search"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:id="@+id/inputSearch"
+                android:hint="Search for New Expedition ? "
+                android:imeOptions="actionSearch"
+                android:textColorHint="@color/colorPrimary"/>
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
     <ImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_below="@id/relLayout1"
+        android:layout_below="@id/searchBarCardView"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_gps"
         android:id="@+id/gps"/>
+
 </RelativeLayout>
