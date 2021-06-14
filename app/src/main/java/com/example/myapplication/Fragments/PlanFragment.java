@@ -3,6 +3,7 @@ package com.example.myapplication.Fragments;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.myapplication.LoginActivity;
 import com.example.myapplication.Models.Image;
 import com.example.myapplication.Models.Trip;
 import com.example.myapplication.R;
@@ -120,7 +122,6 @@ public class PlanFragment extends Fragment {
                 String amount = Amount.getText().toString();
                 String startdate = startDate.getText().toString();
                 String enddate = endDate.getText().toString();
-
                 trip = new Trip( tripname, amount, startdate, enddate);
                 if (tripName != null && Amount != null && startDate != null && endDate != null) {
                     addToFirebase( tripname, amount, startdate, enddate);
