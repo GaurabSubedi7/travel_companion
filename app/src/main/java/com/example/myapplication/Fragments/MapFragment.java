@@ -38,11 +38,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -75,8 +70,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static final float DEFAULT_ZOOM = 15f;
 
     // Google Places
-    String placeApi = "AIzaSyAVEdq2SD3eBUKTZlFGZ4bWmAjYHsfAGjg";
-    PlacesClient placesClient;
 
     public MapFragment() {}
 
