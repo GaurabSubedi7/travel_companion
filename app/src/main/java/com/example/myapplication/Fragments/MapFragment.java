@@ -146,7 +146,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(title);
             mMap.addMarker(markerOptions);
         }
-        hideSoftKeyboard();
+//        hideSoftKeyboard();
     }
 
     //    Check for the connection with Google Services API and app compatibility

@@ -1,6 +1,8 @@
 package com.example.myapplication.Adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.ReceiverCallNotAllowedException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +12,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.Fragments.ExpenseFragment;
+import com.example.myapplication.Fragments.PlanFragment;
 import com.example.myapplication.Models.Trip;
 import com.example.myapplication.Models.UserPost;
 import com.example.myapplication.R;
@@ -23,9 +29,11 @@ import java.util.ArrayList;
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
     private ArrayList<Trip> trips = new ArrayList<>();
     private Context context;
+    private FragmentManager fm;
 
-    public TripAdapter(Context context) {
+    public TripAdapter(Context context, FragmentManager fm) {
         this.context = context;
+        this.fm = fm;
     }
 
     @NonNull
@@ -43,8 +51,9 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
             holder.userTripSmall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Trip card view clicked", Toast.LENGTH_SHORT).show();
-                    //TODO : Redirect to add expenses
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(R.id.FrameContainer, new ExpenseFragment());
+                    ft.commit();
                 }
             });
         }else{

@@ -44,8 +44,8 @@ public class PlanFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private Calendar startCalendar = Calendar.getInstance();
-    private Calendar endCalendar = Calendar.getInstance();
+    private final Calendar startCalendar = Calendar.getInstance();
+    private final Calendar endCalendar = Calendar.getInstance();
     private DatePickerDialog startDialog ,endDialog;
     private EditText tripName;
     private EditText Amount;
@@ -84,6 +84,8 @@ public class PlanFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_plan, container, false);
 
         initView(view);
+
+        // TODO: 6/14/21 make date selection for present day and further
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,8 +97,6 @@ public class PlanFragment extends Fragment {
                         startCalendar.get(Calendar.DAY_OF_MONTH)
                 );
                 startDialog.show();
-
-
             }
         });
         endDate.setOnClickListener(new View.OnClickListener() {
@@ -113,8 +113,6 @@ public class PlanFragment extends Fragment {
             }
         });
 
-
-
         setTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,10 +124,8 @@ public class PlanFragment extends Fragment {
                 if (tripName != null && Amount != null && startDate != null && endDate != null) {
                     addToFirebase( tripname, amount, startdate, enddate);
                 }
-
             }
         });
-
         return view;
     }
 
@@ -139,8 +135,6 @@ public class PlanFragment extends Fragment {
             databaseReference.child("Users").child(auth.getUid()).child("Trips").child(tripId).setValue(trip);
             trip.setTripId(tripId);
         }
-
-
     }
 
     private void initView(View view) {
@@ -150,5 +144,4 @@ public class PlanFragment extends Fragment {
         endDate = view.findViewById(R.id.endDate);
         setTrip = view.findViewById(R.id.setTrip);
     }
-
 }
