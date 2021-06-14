@@ -40,6 +40,13 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull @NotNull TripAdapter.ViewHolder holder, int position) {
         if(trips.get(position).getTripName()!=null){
             holder.tripName.setText(trips.get(position).getTripName());
+            holder.userTripSmall.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "Trip card view clicked", Toast.LENGTH_SHORT).show();
+                    //TODO : Redirect to add expenses
+                }
+            });
         }else{
             Toast.makeText(context, "SOMETHING WENT WRONG", Toast.LENGTH_SHORT).show();
         }
