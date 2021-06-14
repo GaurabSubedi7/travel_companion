@@ -19,9 +19,16 @@
             android:lines="2"
             android:textAlignment="center" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/newPhotoRecView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/postEditText"/>
+
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/postBtnRelLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

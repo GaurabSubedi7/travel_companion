@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.LoginActivity;
+import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +33,8 @@ public class HomeFragment extends Fragment {
     private ImageView createPost;
     private TextView txtUsername;
     private String userName;
+
+    private User user;
 
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);

@@ -13,19 +13,23 @@ import com.example.myapplication.Fragments.BudgetFragment;
 import com.example.myapplication.Fragments.HomeFragment;
 import com.example.myapplication.Fragments.MapFragment;
 import com.example.myapplication.Fragments.ProfileFragment;
+import com.example.myapplication.Models.User;
 import com.example.myapplication.databinding.ActivityDashboardBinding;
 import com.example.myapplication.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import static com.example.myapplication.MainActivity.MY_DATABASE;
+
 public class DashboardActivity extends AppCompatActivity {
-
-
     BottomNavigationView bnv;
-
-
     ActivityDashboardBinding binding;
 
     @Override
@@ -34,7 +38,6 @@ public class DashboardActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-//
         //fragments work
         getSupportFragmentManager().beginTransaction().replace(R.id.FrameContainer,new HomeFragment()).commit();
         bnv = (BottomNavigationView)findViewById(R.id.bottomNavigation);
