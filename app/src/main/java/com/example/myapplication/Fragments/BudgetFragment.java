@@ -75,18 +75,6 @@ public class BudgetFragment extends Fragment {
                 }
             }
         });
-
-//        userTripSmall.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FragmentManager FM = getFragmentManager();
-//                if(FM != null){
-//                    FragmentTransaction FT = FM.beginTransaction();
-//                    FT.replace(R.id.FrameContainer,new ExpenseFragment());
-//                    FT.commit();
-//                }
-//            }
-//        });
         getDataFromFireBase();
 
 
@@ -105,7 +93,8 @@ public class BudgetFragment extends Fragment {
                             trips.add(trip);
                         }
 
-                            tripAdapter = new TripAdapter(getContext());
+                        FragmentManager fm = getFragmentManager();
+                        tripAdapter = new TripAdapter(getContext(), fm);
                         smallPlanRecView.setLayoutManager(new LinearLayoutManager(getContext()));
                         smallPlanRecView.setAdapter(tripAdapter);
                         tripAdapter.setTrip(trips);

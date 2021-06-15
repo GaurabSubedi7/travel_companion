@@ -4,8 +4,8 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.app.ProgressDialog;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -46,8 +46,8 @@ PlanFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private Calendar startCalendar = Calendar.getInstance();
-    private Calendar endCalendar = Calendar.getInstance();
+    private final Calendar startCalendar = Calendar.getInstance();
+    private final Calendar endCalendar = Calendar.getInstance();
     private DatePickerDialog startDialog ,endDialog;
     private EditText tripName;
     private EditText Amount;
@@ -86,6 +86,8 @@ PlanFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_plan, container, false);
 
         initView(view);
+
+        // TODO: 6/14/21 make date selection for present day and further
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,8 +99,6 @@ PlanFragment extends Fragment {
                         startCalendar.get(Calendar.DAY_OF_MONTH)
                 );
                 startDialog.show();
-
-
             }
         });
         endDate.setOnClickListener(new View.OnClickListener() {
@@ -115,8 +115,6 @@ PlanFragment extends Fragment {
             }
         });
 
-
-
         setTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,15 +122,12 @@ PlanFragment extends Fragment {
                 String amount = Amount.getText().toString();
                 String startdate = startDate.getText().toString();
                 String enddate = endDate.getText().toString();
-
                 trip = new Trip( tripname, amount, startdate, enddate);
                 if (tripName != null && Amount != null && startDate != null && endDate != null) {
                     addToFirebase( tripname, amount, startdate, enddate);
                 }
-
             }
         });
-
         return view;
     }
 
@@ -146,9 +141,10 @@ PlanFragment extends Fragment {
         }else{
             Toast.makeText(getActivity(),"Failed To add you trip)",Toast.LENGTH_SHORT).show();
         }
-        
 
-    }
+        }
+
+
 
     private void initView(View view) {
         tripName = view.findViewById(R.id.tripName);
@@ -157,5 +153,4 @@ PlanFragment extends Fragment {
         endDate = view.findViewById(R.id.endDate);
         setTrip = view.findViewById(R.id.setTrip);
     }
-
 }
