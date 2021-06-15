@@ -3,6 +3,7 @@ package com.example.myapplication.Fragments;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -19,6 +20,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.myapplication.DashboardActivity;
+import com.example.myapplication.LoginActivity;
 import com.example.myapplication.Models.Image;
 import com.example.myapplication.Models.Trip;
 import com.example.myapplication.R;
@@ -36,7 +39,8 @@ import java.util.Calendar;
 
 import static com.example.myapplication.MainActivity.MY_DATABASE;
 
-public class PlanFragment extends Fragment {
+public class
+PlanFragment extends Fragment {
 
     public PlanFragment() {
         // Required empty public constructor
@@ -137,8 +141,12 @@ public class PlanFragment extends Fragment {
         if (auth.getUid() != null && tripId != null) {
             databaseReference.child("Users").child(auth.getUid()).child("Trips").child(tripId).setValue(trip);
             trip.setTripId(tripId);
-        }
+            Toast.makeText(getActivity(),"New trip added successfully)",Toast.LENGTH_SHORT).show();
 
+        }else{
+            Toast.makeText(getActivity(),"Failed To add you trip)",Toast.LENGTH_SHORT).show();
+        }
+        
 
     }
 
