@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.widget.NestedScrollView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -18,12 +19,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.myapplication.Adapters.TripAdapter;
 import com.example.myapplication.Models.Trip;
 import com.example.myapplication.Models.UserPost;
 import com.example.myapplication.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +39,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static com.example.myapplication.MainActivity.MY_DATABASE;
 
@@ -52,33 +57,43 @@ public class BudgetFragment extends Fragment {
     private DatabaseReference databaseReference = database.getReference();
     public ArrayList<Trip> trips = new ArrayList<>();
     private Button addPlan;
+    private FloatingActionButton addPlanFloating;
+    private RelativeLayout noPlanRelLayout;
     private RecyclerView smallPlanRecView;
-//    private CardView userTripSmall;
+    private NestedScrollView tripNestedScrollView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_budget, container, false);
-        addPlan = view.findViewById(R.id.btnAddPlan);
-        smallPlanRecView = view.findViewById(R.id.smallPlanRecView);
-//        userTripSmall = view.findViewById(R.id.userTripSmall);
+
+        initView(view);
 
         addPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = getFragmentManager();
-                if (fm != null) {
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.FrameContainer, new PlanFragment());
-                    ft.commit();
-                }
+                goToPlanFragment();
+            }
+        });
+
+        addPlanFloating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToPlanFragment();
             }
         });
         getDataFromFireBase();
-
-
         return view;
+    }
+
+    private void goToPlanFragment(){
+        FragmentManager fm = getFragmentManager();
+        if (fm != null) {
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.FrameContainer, new PlanFragment());
+            ft.commit();
+        }
     }
 
     private void getDataFromFireBase() {
@@ -91,14 +106,29 @@ public class BudgetFragment extends Fragment {
                         for(DataSnapshot data : snapshot.child("Users").child(auth.getUid()).child("Trips").getChildren()){
                             String myKey = data.getKey();
                             trip = data.getValue(Trip.class);
-                            trip.setTripId(myKey);
+                            if(myKey != null && trip != null){
+                                trip.setTripId(myKey);
+                            }else{
+                                Toast.makeText(getActivity(), "TripId became null", Toast.LENGTH_SHORT).show();
+                            }
                             trips.add(trip);
+                            Collections.reverse(trips);
                         }
-                        FragmentManager fm = getFragmentManager();
-                        tripAdapter = new TripAdapter(getContext(), fm);
-                        smallPlanRecView.setLayoutManager(new LinearLayoutManager(getContext()));
-                        smallPlanRecView.setAdapter(tripAdapter);
-                        tripAdapter.setTrip(trips);
+
+                        if(!trips.isEmpty()){
+                            tripNestedScrollView.setVisibility(View.VISIBLE);
+                            addPlanFloating.setVisibility(View.VISIBLE);
+                            noPlanRelLayout.setVisibility(View.GONE);
+                            FragmentManager fm = getFragmentManager();
+                            tripAdapter = new TripAdapter(getContext(), fm);
+                            smallPlanRecView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            smallPlanRecView.setAdapter(tripAdapter);
+                            tripAdapter.setTrip(trips);
+                        }else{
+                            tripNestedScrollView.setVisibility(View.GONE);
+                            addPlanFloating.setVisibility(View.GONE);
+                            noPlanRelLayout.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
             }
@@ -108,11 +138,13 @@ public class BudgetFragment extends Fragment {
 
             }
         });
-
-
-
-
-
     }
 
+    private void initView(View view) {
+        addPlan = view.findViewById(R.id.btnAddPlan);
+        addPlanFloating = view.findViewById(R.id.btnAddPlanFloating);
+        smallPlanRecView = view.findViewById(R.id.smallPlanRecView);
+        noPlanRelLayout = view.findViewById(R.id.noPlanRelLayout);
+        tripNestedScrollView = view.findViewById(R.id.tripNestedScrollView);
+    }
 }

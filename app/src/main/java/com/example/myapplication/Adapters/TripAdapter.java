@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +50,9 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull @NotNull TripAdapter.ViewHolder holder, int position) {
         if(trips.get(position).getTripName()!=null){
             holder.tripName.setText(trips.get(position).getTripName());
-
+            holder.tripAmount.setText("NRs. " + trips.get(position).getAmount());
+            holder.startDate.setText(trips.get(position).getStartDate());
+            holder.endDate.setText(trips.get(position).getEndDate());
             holder.userTripSmall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -78,14 +81,18 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView tripName;
+        TextView tripName, tripAmount, startDate, endDate;
         CardView userTripSmall;
+        ImageView deleteTrip;
         public ViewHolder(@NonNull @NotNull View itemView) {
 
             super(itemView);
             tripName = itemView.findViewById(R.id.tripName);
             userTripSmall = itemView.findViewById(R.id.userTripSmall);
-
+            tripAmount = itemView.findViewById(R.id.tripAmount);
+            startDate = itemView.findViewById(R.id.startDate);
+            endDate = itemView.findViewById(R.id.endDate);
+            deleteTrip = itemView.findViewById(R.id.deleteTrip);
         }
     }
 }

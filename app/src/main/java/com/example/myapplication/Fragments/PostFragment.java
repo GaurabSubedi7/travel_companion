@@ -49,6 +49,8 @@ public class PostFragment extends DialogFragment {
 
     // request code to pick image
     private static final int GALLERY_ACCESS_REQUEST_CODE = 201;
+    // request code to capture image
+    private static final int CAMERA_ACCESS_REQUEST_CODE = 101;
     //image uris list
     private ArrayList<Uri> imageUris;
 

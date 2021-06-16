@@ -30,7 +30,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:hint="Total Budget"
-        android:inputType="numberSigned"
+        android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="@+id/tripName"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/tripName"

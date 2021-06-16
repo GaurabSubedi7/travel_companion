@@ -35,21 +35,23 @@
                 android:layout_height="30dp"
                 android:id="@+id/search"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:src="@drawable/ic_search"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toRightOf="@id/search"
+                android:layout_toEndOf="@id/search"
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:textSize="15sp"
+                android:inputType="text"
                 android:textColor="@color/black"
                 android:id="@+id/inputSearch"
                 android:hint="Search for New Expedition ? "
                 android:imeOptions="actionSearch"
-                android:textColorHint="@color/colorPrimary"/>
+                android:textColorHint="@color/colorPrimary"
+                />
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
@@ -58,8 +60,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_below="@id/searchBarCardView"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
         android:layout_marginTop="10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_gps"
