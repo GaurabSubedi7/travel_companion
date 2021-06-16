@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ReceiverCallNotAllowedException;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,11 +49,16 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull @NotNull TripAdapter.ViewHolder holder, int position) {
         if(trips.get(position).getTripName()!=null){
             holder.tripName.setText(trips.get(position).getTripName());
+
             holder.userTripSmall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.FrameContainer, new ExpenseFragment());
+                    ExpenseFragment ef = new ExpenseFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("myTripID", trips.get(position).getTripId());
+                    ef.setArguments(bundle);
+                    ft.replace(R.id.FrameContainer, ef);
                     ft.commit();
                 }
             });
