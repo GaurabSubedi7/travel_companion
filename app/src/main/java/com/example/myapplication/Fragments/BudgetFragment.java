@@ -89,10 +89,11 @@ public class BudgetFragment extends Fragment {
                     if(auth.getUid()!=null){
 
                         for(DataSnapshot data : snapshot.child("Users").child(auth.getUid()).child("Trips").getChildren()){
+                            String myKey = data.getKey();
                             trip = data.getValue(Trip.class);
+                            trip.setTripId(myKey);
                             trips.add(trip);
                         }
-
                         FragmentManager fm = getFragmentManager();
                         tripAdapter = new TripAdapter(getContext(), fm);
                         smallPlanRecView.setLayoutManager(new LinearLayoutManager(getContext()));
