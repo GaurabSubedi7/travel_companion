@@ -6,39 +6,93 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/userTripSmall"
-        android:layout_width="match_parent"
-        android:layout_height="117dp"
+        android:layout_width="290dp"
+        android:layout_height="160dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="5dp"
+        app:cardCornerRadius="7dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginBottom="5dp"
         android:backgroundTint="#3C3C3B"
-        android:elevation="2dp"
-        >
+        android:elevation="2dp">
 
         <RelativeLayout
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/ic_card_wave">
+
+            <ImageView
+                android:id="@+id/deleteTrip"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_close"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"/>
 
             <TextView
                 android:id="@+id/tripName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="131dp"
-                android:layout_marginTop="26dp"
-                android:text="PLAN NAME"
-                android:fontFamily="@font/amarante"
+                android:fontFamily="@font/architects_daughter"
+                android:text="TRIP NAME"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
                 android:textColor="@color/white"
                 android:textSize="25sp" />
 
+            <TextView
+                android:id="@+id/tripAmount"
+                android:layout_below="@+id/tripName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/architects_daughter"
+                android:text="AMOUNT"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/white"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/startDate"
+                android:layout_below="@+id/tripAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/architects_daughter"
+                android:text="DATE"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/white"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/dash"
+                android:layout_below="@+id/tripAmount"
+                android:layout_toEndOf="@id/startDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/architects_daughter"
+                android:text="-"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/white"
+                android:textSize="29sp" />
+
+            <TextView
+                android:id="@+id/endDate"
+                android:layout_below="@+id/tripAmount"
+                android:layout_toEndOf="@+id/dash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/architects_daughter"
+                android:text="DATE"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/white"
+                android:textSize="25sp" />
 
         </RelativeLayout>
-
-
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

@@ -3,9 +3,9 @@ package com.example.myapplication.Fragments;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -20,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.myapplication.DashboardActivity;
 import com.example.myapplication.LoginActivity;
 import com.example.myapplication.Models.Image;
 import com.example.myapplication.Models.Trip;
@@ -38,14 +39,15 @@ import java.util.Calendar;
 
 import static com.example.myapplication.MainActivity.MY_DATABASE;
 
-public class PlanFragment extends Fragment {
+public class
+PlanFragment extends Fragment {
 
     public PlanFragment() {
         // Required empty public constructor
     }
 
-    private Calendar startCalendar = Calendar.getInstance();
-    private Calendar endCalendar = Calendar.getInstance();
+    private final Calendar startCalendar = Calendar.getInstance();
+    private final Calendar endCalendar = Calendar.getInstance();
     private DatePickerDialog startDialog ,endDialog;
     private EditText tripName;
     private EditText Amount;
@@ -84,6 +86,8 @@ public class PlanFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_plan, container, false);
 
         initView(view);
+
+        // TODO: 6/14/21 make date selection for present day and further
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,8 +99,6 @@ public class PlanFragment extends Fragment {
                         startCalendar.get(Calendar.DAY_OF_MONTH)
                 );
                 startDialog.show();
-
-
             }
         });
         endDate.setOnClickListener(new View.OnClickListener() {
@@ -113,8 +115,6 @@ public class PlanFragment extends Fragment {
             }
         });
 
-
-
         setTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,10 +126,8 @@ public class PlanFragment extends Fragment {
                 if (tripName != null && Amount != null && startDate != null && endDate != null) {
                     addToFirebase( tripname, amount, startdate, enddate);
                 }
-
             }
         });
-
         return view;
     }
 
@@ -138,10 +136,15 @@ public class PlanFragment extends Fragment {
         if (auth.getUid() != null && tripId != null) {
             databaseReference.child("Users").child(auth.getUid()).child("Trips").child(tripId).setValue(trip);
             trip.setTripId(tripId);
+            Toast.makeText(getActivity(),"New trip added successfully)",Toast.LENGTH_SHORT).show();
+
+        }else{
+            Toast.makeText(getActivity(),"Failed To add you trip)",Toast.LENGTH_SHORT).show();
+        }
+
         }
 
 
-    }
 
     private void initView(View view) {
         tripName = view.findViewById(R.id.tripName);
@@ -150,5 +153,4 @@ public class PlanFragment extends Fragment {
         endDate = view.findViewById(R.id.endDate);
         setTrip = view.findViewById(R.id.setTrip);
     }
-
 }
