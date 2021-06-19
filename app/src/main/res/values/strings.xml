@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">Travel Companion</string>
-    <string name="google_maps_API_key">AIzaSyAVEdq2SD3eBUKTZlFGZ4bWmAjYHsfAGjg</string>
+    <string name="google_maps_API_key">AIzaSyDyLJ3olCawF5RQ2oetP-tu-38dgguisqs</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="Places">
+        <item>Kathmandu Valley</item>
+        <item>Pokhara</item>
+    </string-array>
+
+    <string-array name="Categories">
+        <item>Food</item>
+        <item>Transport</item>
+        <item>Hotel</item>
+        <item>Miscellaneous</item>
+    </string-array>
 </resources>

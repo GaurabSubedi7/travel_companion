@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/userTripRelLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <!--        trip details-->
+            <RelativeLayout
+                android:id="@+id/tripDetailsRelLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:elevation="7dp"
+                    app:cardCornerRadius="7dp"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="225dp"
+                        android:background="@drawable/ic_card_wave">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/locationImage"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/ic_launcher_background"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="35dp"
+                            android:layout_marginEnd="20dp"/>
+
+                        <RelativeLayout
+                            android:id="@+id/tripNameRelLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp">
+
+                            <TextView
+                                android:id="@+id/tripName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:fontFamily="@font/architects_daughter"
+                                android:text="Trip Name"
+                                android:textSize="22sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/tripAmountRelLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tripNameRelLayout"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp">
+
+                            <TextView
+                                android:id="@+id/txtTripAmount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/architects_daughter"
+                                android:text="NRs."
+                                android:textSize="22sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tripAmount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="10dp"
+                                android:layout_toEndOf="@+id/txtTripAmount"
+                                android:fontFamily="@font/architects_daughter"
+                                android:text="amount"
+                                android:textStyle="bold"
+                                android:textSize="22sp" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/tripLocationRelLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tripAmountRelLayout"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp">
+
+                            <TextView
+                                android:id="@+id/tripLocation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/architects_daughter"
+                                android:text="Location"
+                                android:textSize="22sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/startDateRelLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tripLocationRelLayout"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp">
+
+                            <TextView
+                                android:id="@+id/startDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/architects_daughter"
+                                android:text="2020-07-11"
+                                android:textSize="22sp"
+                                android:textStyle="bold"
+                                android:letterSpacing="0.2"/>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/endDateRelLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/startDateRelLayout"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp">
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+            <!--        expenses details-->
+            <RelativeLayout
+                android:id="@+id/expenseRelLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tripDetailsRelLayout"
+                android:layout_marginBottom="120dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:elevation="7dp"
+                    app:cardCornerRadius="7dp">
+
+<!--                    no expenses-->
+                    <RelativeLayout
+                        android:id="@+id/noExpensesRelLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/grey"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/txtNoExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="No Expenses Added"
+                            android:fontFamily="@font/architects_daughter"
+                            android:textSize="18sp"
+                            android:layout_marginTop="40dp"
+                            android:layout_centerHorizontal="true"/>
+
+                        <Button
+                            android:id="@+id/btnAddExpenses"
+                            android:layout_below="@id/txtNoExpenses"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="40dp"
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:text="Add Expenses"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:textAllCaps="false"/>
+
+                    </RelativeLayout>
+
+<!--                    expense-->
+                    <RelativeLayout
+                        android:id="@+id/pieChartRelLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/grey"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/txtYourExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Your Expenses %"
+                            android:fontFamily="@font/architects_daughter"
+                            android:textSize="23sp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"/>
+
+                        <Button
+                            android:id="@+id/btnAddExpenses2"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add Expenses"
+                            android:backgroundTint="@color/colorPrimary"
+                            android:textAllCaps="false"/>
+
+                        <com.github.mikephil.charting.charts.PieChart
+                            android:id="@+id/pieChart"
+                            android:layout_below="@+id/txtYourExpenses"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_centerInParent="true"/>
+
+                        <TextView
+                            android:id="@+id/foodExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/pieChart"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="Food"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/architects_daughter"/>
+
+                        <TextView
+                            android:id="@+id/transportExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/foodExpenses"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="Transport"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/architects_daughter"/>
+
+                        <TextView
+                            android:id="@+id/hotelExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/transportExpenses"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="Hotel"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/architects_daughter"/>
+
+                        <TextView
+                            android:id="@+id/miscExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/hotelExpenses"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="Miscellaneous"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/architects_daughter"/>
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

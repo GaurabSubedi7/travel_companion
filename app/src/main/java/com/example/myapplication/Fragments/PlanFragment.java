@@ -1,40 +1,30 @@
 package com.example.myapplication.Fragments;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.Intent;
-import android.app.ProgressDialog;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.myapplication.DashboardActivity;
-import com.example.myapplication.LoginActivity;
-import com.example.myapplication.Models.Image;
 import com.example.myapplication.Models.Trip;
 import com.example.myapplication.R;
-import com.example.myapplication.RegistrationActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import static com.example.myapplication.MainActivity.MY_DATABASE;
@@ -49,17 +39,17 @@ PlanFragment extends Fragment {
     private final Calendar startCalendar = Calendar.getInstance();
     private final Calendar endCalendar = Calendar.getInstance();
     private DatePickerDialog startDialog ,endDialog;
-    private EditText tripName;
-    private EditText Amount;
-    private EditText startDate;
-    private EditText endDate;
+    private Spinner locationSpinner;
+    private EditText Amount, startDate, endDate, tripName;
     private Button setTrip;
-    Trip trip;
+    private Trip trip;
     //Firebase Classes
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseDatabase database;
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance(MY_DATABASE).getReference();
     private StorageReference storageReference = FirebaseStorage.getInstance().getReference("trips");
+
+    private static final String TAG = "PlanFragment";
 
     private DatePickerDialog.OnDateSetListener startListener = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -118,13 +108,16 @@ PlanFragment extends Fragment {
         setTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String tripname = tripName.getText().toString();
-                String amount = Amount.getText().toString();
-                String startdate = startDate.getText().toString();
-                String enddate = endDate.getText().toString();
-                trip = new Trip( tripname, amount, startdate, enddate);
-                if (tripName != null && Amount != null && startDate != null && endDate != null) {
-                    addToFirebase( tripname, amount, startdate, enddate);
+                if (locationSpinner != null && Amount != null && startDate != null && endDate != null) {
+                    String tripname = tripName.getText().toString();
+                    String location = locationSpinner.getSelectedItem().toString();
+                    String amount = Amount.getText().toString();
+                    String startdate = startDate.getText().toString();
+                    String enddate = endDate.getText().toString();
+                    trip = new Trip(tripname, amount, startdate, enddate, location);
+                    addToFirebase(tripname, amount, startdate, enddate);
+                }else{
+                    Toast.makeText(getActivity(), "Fields Cannot Be Empty", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -138,19 +131,25 @@ PlanFragment extends Fragment {
             trip.setTripId(tripId);
             Toast.makeText(getActivity(),"New trip added successfully)",Toast.LENGTH_SHORT).show();
 
+            //Redirect to budget fragment
+            FragmentManager fm = getFragmentManager();
+            if (fm != null) {
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.replace(R.id.FrameContainer, new BudgetFragment());
+                SystemClock.sleep(1000);
+                ft.commit();
+            }
         }else{
             Toast.makeText(getActivity(),"Failed To add you trip)",Toast.LENGTH_SHORT).show();
         }
-
-        }
-
-
+    }
 
     private void initView(View view) {
-        tripName = view.findViewById(R.id.tripName);
+        locationSpinner = view.findViewById(R.id.locationSpinner);
         Amount = view.findViewById(R.id.amount);
         startDate = view.findViewById(R.id.startDate);
         endDate = view.findViewById(R.id.endDate);
         setTrip = view.findViewById(R.id.setTrip);
+        tripName = view.findViewById(R.id.tripName);
     }
 }

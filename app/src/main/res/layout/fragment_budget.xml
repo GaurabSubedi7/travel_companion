@@ -8,8 +8,9 @@
     tools:context=".Fragments.BudgetFragment">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="58dp"
         android:backgroundTint="@color/grey"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,12 +23,13 @@
                 android:id="@+id/txtTripDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/architects_daughter"
                 android:text="Trip Details"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
 
         </RelativeLayout>
 
@@ -37,9 +39,9 @@
         android:id="@+id/noPlanRelLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline5">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/txtNoPlan"
@@ -81,7 +83,7 @@
                 android:id="@+id/smallPlanRecView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="120dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -95,7 +97,7 @@
         android:id="@+id/btnAddPlanFloating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="12dp"
         android:layout_marginBottom="70dp"
         android:background="@color/white"
         android:backgroundTint="@color/colorPrimary"
@@ -106,7 +108,6 @@
         app:borderWidth="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline8"
         app:tint="@color/white" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -114,14 +115,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="46dp" />
+        app:layout_constraintGuide_begin="60dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="500dp" />
+        app:layout_constraintGuide_begin="957dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

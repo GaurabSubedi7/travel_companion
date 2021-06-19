@@ -7,32 +7,41 @@
     tools:context=".Fragments.PlanFragment">
 
 
+    <Spinner
+        android:id="@+id/locationSpinner"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="60dp"
+        android:backgroundTint="@color/white"
+        android:entries="@array/Places"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/tripName"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:hint="Trip Name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/locationSpinner"
+        app:layout_constraintStart_toStartOf="@+id/locationSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/locationSpinner" />
 
     <EditText
         android:id="@+id/amount"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tripName"
-        android:layout_alignStart="@+id/tripName"
-        android:layout_alignEnd="@+id/tripName"
+        android:layout_below="@+id/locationSpinner"
+        android:layout_alignStart="@+id/locationSpinner"
+        android:layout_alignEnd="@+id/locationSpinner"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:hint="Total Budget"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="@+id/tripName"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/tripName"
         app:layout_constraintTop_toBottomOf="@+id/tripName" />
 
@@ -70,7 +79,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:text=" OK"
+        android:text="Add Trip"
         android:textAllCaps="false"
         android:textColor="#F1EEEE"
         android:textSize="16sp"
