@@ -38,6 +38,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -57,6 +62,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     //UI elements
     private EditText mSearchText;
     private ImageView mGps;
+    private EditText inputSearch;
+
 
     //  Variables
     private Boolean mLocationPermissionGranted = false;
@@ -85,6 +92,44 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 //           get Location Permission
             getLocationPermission();
         }
+
+//        Gibb try to places
+        if(!Places.isInitialized()){
+            String apiKey = getResources().getString(R.string.google_maps_API_key);
+            // Initialize the SDK
+            Places.initialize(getContext(),apiKey);
+        }
+
+        // Create a new PlacesClient instance
+        PlacesClient placesClient = Places.createClient(getContext());
+        mSearchText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Initialize the AutocompleteSupportFragment.
+                AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                        getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+                // Specify the types of place data to return.
+                autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+
+                // Set up a PlaceSelectionListener to handle the response.
+                autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                    @Override
+                    public void onPlaceSelected(@NonNull Place place) {
+                        // TODO: Get info about the selected place.
+                        Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                    }
+
+
+                    @Override
+                    public void onError(@NonNull Status status) {
+                        // TODO: Handle the error.
+                        Log.i(TAG, "An error occurred BOII: " + status);
+                    }
+                });
+            }
+        });
         return view;
     }
 
