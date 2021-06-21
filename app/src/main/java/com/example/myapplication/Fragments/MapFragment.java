@@ -7,6 +7,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -45,6 +46,9 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
 import org.jetbrains.annotations.NotNull;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.views.MapView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,16 +57,11 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment {
 
     //  Permissions
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-
-    //UI elements
-    private EditText mSearchText;
-    private ImageView mGps;
-    private EditText inputSearch;
 
 
     //  Variables
@@ -76,7 +75,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static final int LOCATION_PERMISSION_REQUEST = 9002;
     private static final float DEFAULT_ZOOM = 15f;
 
-    // Google Places
+    //Map
+    private MapView map;
 
     public MapFragment() {}
 
@@ -86,134 +86,34 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        mSearchText = view.findViewById(R.id.inputSearch);
-        mGps = view.findViewById(R.id.gps);
-        if (isServicesOK()) {
-//           get Location Permission
+        initView(view);
+        getLocationPermission();
+        if(mLocationPermissionGranted){
+            Log.d(TAG, "onCreateView: Location Permission Granted");
+            Toast.makeText(getActivity(), "Location Permission Granted", Toast.LENGTH_SHORT).show();
+
+//            Osmdroid configuration
+            Configuration.getInstance().load(getContext(), PreferenceManager.getDefaultSharedPreferences(getContext()));
+
+//          Map View Configurations
+            map.setTileSource(TileSourceFactory.MAPNIK);
+            map.setBuiltInZoomControls(true);
+            map.setMultiTouchControls(true);
+        }else{
             getLocationPermission();
         }
-
-//        Gibb try to places
-        if(!Places.isInitialized()){
-            String apiKey = getResources().getString(R.string.google_maps_API_key);
-            // Initialize the SDK
-            Places.initialize(getContext(),apiKey);
-        }
-
-        // Create a new PlacesClient instance
-        PlacesClient placesClient = Places.createClient(getContext());
-        mSearchText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // Initialize the AutocompleteSupportFragment.
-                AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                        getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-
-                // Specify the types of place data to return.
-                autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-
-                // Set up a PlaceSelectionListener to handle the response.
-                autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-                    @Override
-                    public void onPlaceSelected(@NonNull Place place) {
-                        // TODO: Get info about the selected place.
-                        Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-                    }
-
-
-                    @Override
-                    public void onError(@NonNull Status status) {
-                        // TODO: Handle the error.
-                        Log.i(TAG, "An error occurred BOII: " + status);
-                    }
-                });
-            }
-        });
         return view;
     }
 
-    //    On Map Ready
-    public void onMapReady(@NotNull GoogleMap googleMap) {
-        Log.d(TAG, "onMapReady: LOG 1 Map is Ready");
-        Toast.makeText(getActivity(), "Maps is ready ;) ", Toast.LENGTH_SHORT).show();
-        mMap = googleMap;
-
-        if (mLocationPermissionGranted) {
-            getDeviceLocation();
-            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            //This function places a marker in my current location
-            mMap.setMyLocationEnabled(true);
-            //For now disabling the reset location to current location button (we will make our custom version later)
-            //if gibb try to other UI materials we can go is in mMap.getUiSettings() explore (All of them are booleans)
-            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
-            init();
-        }
+    private void initView(View view){
+        map = view.findViewById(R.id.map);
     }
 
-    //    get Device Location
-    private void getDeviceLocation() {
-        Log.d(TAG, "getDeviceLocation: getting device's current location");
-        FusedLocationProviderClient mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
-        try {
-            if (mLocationPermissionGranted) {
-                Task location = mFusedLocationProviderClient.getLastLocation();
-                location.addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull @NotNull Task task) {
-                        if (task.isSuccessful()) {
-                            Location currentLocation = (Location) task.getResult();
-                            if (currentLocation != null) {
-                                Log.d(TAG, "Longitude Latitude: " + currentLocation);
-                                moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), "My Location");
-                            } else {
-                                Toast.makeText(getActivity(), "u not Turn on location on device... Turn it on and gibb try again :|", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                });
-            }
-        } catch (SecurityException e) {
-            Log.d(TAG, "getDeviceLocation: Security Exception : " + e.getMessage());
-        }
 
-    }
 
-    //    Move Camera from the map
-    private void moveCamera(LatLng latLng, String title) {
-        Log.d(TAG, "moveCamera: Moving camera to given Location coordinates : " + latLng.latitude + "::" + latLng.longitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
-        if (!title.equals("My Location")) {
-            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(title);
-            mMap.addMarker(markerOptions);
-        }
-//        hideSoftKeyboard();
-    }
 
-    //    Check for the connection with Google Services API and app compatibility
-    public boolean isServicesOK() {
-        Log.d(TAG, "isServicesOK: LOG 2 Checking Google Services Version");
 
-        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(Objects.requireNonNull(getContext()));
 
-        //        If connection to google API succeeded
-        if (available == ConnectionResult.SUCCESS) {
-            Log.d(TAG, "isServicesOK: LOG 3 Google API service is working smooth");
-            return true;
-        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
-            //            Problem with connectivity but can be resolved from user's end (version issue most of the time)
-            Log.d(TAG, "isServicesOK: LOG 4 Error occurred but can be fixed");
-            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(Objects.requireNonNull(getActivity()), available, ERROR_DIALOG_REQUEST);
-            dialog.show();
-        } else {
-            Toast.makeText(getActivity(), "Some failure of application end... cannot make map request", Toast.LENGTH_SHORT).show();
-        }
-        return false;
-    }
 
     //    get location permissions
     public void getLocationPermission() {
@@ -222,7 +122,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (ContextCompat.checkSelfPermission(getActivity(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(getActivity(), COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
-            initMap();
+//            Initialize Map here
+
         } else {
             requestPermissions(permissions, LOCATION_PERMISSION_REQUEST);
         }
@@ -245,84 +146,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                         Log.d(TAG, "onRequestPermissionsResult: LOG 7 Permission granted");
                         mLocationPermissionGranted = true;
 //                      Initialize our map here
-                        initMap();
+
                     }
                 }
             }
         }
-    }
-
-    //    Initialize Map
-    private void initMap() {
-        Log.d(TAG, "initMap: LOG 8 Map initialization complete");
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
-        mapFragment.getMapAsync(this);
-    }
-
-    //    Searching within the map
-    private void geoLocate() {
-        Log.d(TAG, "geoLocate: Response to search function has been called");
-        String searchString = mSearchText.getText().toString();
-
-        //  Geocoder transforms street or other forms of address to longitude and latitude
-        Geocoder geocoder = new Geocoder(getActivity());
-        List<Address> list = new ArrayList<>();
-
-        try {
-            list = geocoder.getFromLocationName(searchString, 1);
-        } catch (IOException e) {
-            Log.e(TAG, "geoLocate: IOException :  " + e.getMessage());
-        }
-
-        if (list.size() > 0) {
-            Address address = list.get(0);
-            Log.d(TAG, "geoLocate: found addresses : " + address.toString());
-//          Toast.makeText(getActivity(),address.toString(), Toast.LENGTH_SHORT).show();
-            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), address.getAddressLine(0));
-        }
-    }
-
-    //Master Initialization
-    private void init() {
-        Log.d(TAG, "init: Initializing UI elements");
-        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-                    geoLocate();
-                }
-                return false;
-            }
-        });
-        mGps.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: Moving Camera to Device Current Location");
-                getDeviceLocation();
-            }
-        });
-    }
-
-    private void hideSoftKeyboard(){
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 }
-//LOOKS CUTE MIGHT REMOVE LATER
-/*
-googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(@NonNull @NotNull LatLng latLng) {
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions.position(latLng);
-                        markerOptions.title(latLng.latitude + ":" + latLng.longitude);
-                        googleMap.clear();
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                                latLng, 10
-                        ));
-                        googleMap.addMarker(markerOptions);
-                    }
-                });
- */
