@@ -9,17 +9,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="3dp"
         app:cardCornerRadius="7dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="3dp"
-        android:backgroundTint="@color/grey"
+        android:backgroundTint="@color/white"
         android:elevation="2dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@mipmap/card_image">
+            android:background="@mipmap/card_image"
+            android:layout_margin="5dp">
 
             <ImageView
                 android:id="@+id/deleteExpense"
@@ -39,7 +40,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"
                 android:textColor="@color/white"
-                android:textSize="25sp"/>
+                android:textSize="18sp"/>
 
             <TextView
                 android:id="@+id/totalBudgetAmount"
@@ -51,7 +52,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"
                 android:textColor="@color/white"
-                android:textSize="23sp"/>
+                android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/expenseDesc"
@@ -62,7 +63,7 @@
                 android:layout_marginStart="20dp"
                 android:text="Description"
                 android:textColor="@color/white"
-                android:textSize="23sp"
+                android:textSize="15sp"
                 android:fontFamily="@font/architects_daughter"/>
 
             <TextView
@@ -72,7 +73,7 @@
                 android:layout_below="@+id/expenseDesc"
                 android:text="2000-01-11"
                 android:fontFamily="@font/architects_daughter"
-                android:textSize="23sp"
+                android:textSize="15sp"
                 android:textColor="@color/white"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"

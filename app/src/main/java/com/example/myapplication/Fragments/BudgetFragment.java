@@ -83,7 +83,7 @@ public class BudgetFragment extends Fragment {
         FragmentManager fm = getFragmentManager();
         if (fm != null) {
             FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.FrameContainer, new PlanFragment());
+            ft.replace(R.id.FrameContainer, new PlanFragment()).addToBackStack(null);
             ft.commit();
         }
     }
@@ -94,7 +94,7 @@ public class BudgetFragment extends Fragment {
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     if(auth.getUid()!=null){
-
+                        trips.clear();
                         for(DataSnapshot data : snapshot.child("Users").child(auth.getUid()).child("Trips").getChildren()){
                             String myKey = data.getKey();
                             trip = data.getValue(Trip.class);

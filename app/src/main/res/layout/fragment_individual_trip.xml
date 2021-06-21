@@ -58,7 +58,7 @@
                                 android:layout_centerVertical="true"
                                 android:fontFamily="@font/architects_daughter"
                                 android:text="Trip Name"
-                                android:textSize="22sp"
+                                android:textSize="20sp"
                                 android:textStyle="bold" />
 
                         </RelativeLayout>
@@ -77,7 +77,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/architects_daughter"
                                 android:text="NRs."
-                                android:textSize="22sp"
+                                android:textSize="18sp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -90,7 +90,7 @@
                                 android:fontFamily="@font/architects_daughter"
                                 android:text="amount"
                                 android:textStyle="bold"
-                                android:textSize="22sp" />
+                                android:textSize="20sp" />
 
                         </RelativeLayout>
 
@@ -108,7 +108,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/architects_daughter"
                                 android:text="Location"
-                                android:textSize="22sp"
+                                android:textSize="18sp"
                                 android:textStyle="bold" />
 
                         </RelativeLayout>
@@ -127,7 +127,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/architects_daughter"
                                 android:text="2020-07-11"
-                                android:textSize="22sp"
+                                android:textSize="18sp"
                                 android:textStyle="bold"
                                 android:letterSpacing="0.2"/>
 
@@ -212,18 +212,21 @@
                             android:layout_height="wrap_content"
                             android:text="Your Expenses %"
                             android:fontFamily="@font/architects_daughter"
-                            android:textSize="23sp"
+                            android:textSize="16sp"
                             android:layout_marginStart="20dp"
+                            android:layout_marginEnd="3dp"
                             android:layout_marginTop="10dp"/>
 
                         <Button
                             android:id="@+id/btnAddExpenses2"
                             android:layout_alignParentEnd="true"
                             android:layout_marginTop="3dp"
+                            android:layout_marginStart="3dp"
                             android:layout_marginEnd="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Add Expenses"
+                            android:textSize="11sp"
                             android:backgroundTint="@color/colorPrimary"
                             android:textAllCaps="false"/>
 

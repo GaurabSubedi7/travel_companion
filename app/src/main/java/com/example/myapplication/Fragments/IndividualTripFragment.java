@@ -131,7 +131,7 @@ public class IndividualTripFragment extends Fragment {
         bundle.putString("selectedTripName", myTripName);
         bundle.putString("selectedTripAmount", myTripAmount);
         expenseFragment.setArguments(bundle);
-        ft.replace(R.id.FrameContainer, expenseFragment);
+        ft.replace(R.id.FrameContainer, expenseFragment).addToBackStack(null);
         ft.commit();
     }
 

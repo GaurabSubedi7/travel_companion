@@ -1,8 +1,11 @@
 package com.example.myapplication;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -28,11 +31,15 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 import static com.example.myapplication.MainActivity.MY_DATABASE;
 
 public class DashboardActivity extends AppCompatActivity {
-    BottomNavigationView bnv;
-    ActivityDashboardBinding binding;
+    private BottomNavigationView bnv;
+    private ActivityDashboardBinding binding;
+
+    private static final String TAG = "DashboardActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +74,4 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
     }
-
-    @Override
-    public void onBackPressed() {
-        moveTaskToBack(true);
-    }
 }
-

@@ -109,12 +109,12 @@ public class ExpenseFragment extends Fragment {
                         if (!expenses.isEmpty()) {
                             expensesNestedScrollView.setVisibility(View.VISIBLE);
                             noExpenseRelLayout.setVisibility(View.GONE);
-                            ExpenseAdapter expenseAdapter = new ExpenseAdapter(getContext());
+                            ExpenseAdapter expenseAdapter = new ExpenseAdapter(getContext(), myTripId);
                             expensesRecView.setLayoutManager(new LinearLayoutManager(getContext()));
                             expensesRecView.setAdapter(expenseAdapter);
                             expenseAdapter.setExpenses(expenses);
                         } else {
-                            expensesRecView.setVisibility(View.GONE);
+                            expensesNestedScrollView.setVisibility(View.GONE);
                             noExpenseRelLayout.setVisibility(View.VISIBLE);
                         }
                     }
