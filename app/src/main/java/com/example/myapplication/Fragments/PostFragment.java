@@ -64,7 +64,7 @@ public class PostFragment extends DialogFragment {
     //Calendar
     private Calendar calendar = Calendar.getInstance();
 
-    //Loading prompt class
+    //Progress Dialog box
     private ProgressDialog progressDialog;
 
     //Firebase Classes
@@ -98,8 +98,13 @@ public class PostFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 String writePost = postEditText.getText().toString();
-                if(Image.getInstance().getImageUris() != null) {
-                    addToFirebase(writePost, Image.getInstance().getImageUris());
+                if(Image.getInstance().getImageUris() != null && !Image.getInstance().getImageUris().isEmpty()) {
+                    //start progressDialog box
+//                    progressDialog = new ProgressDialog(getContext());
+//                    progressDialog.setMessage("Have Patience, Your Post Is Being Uploaded");
+//                    progressDialog.show();
+                    //add to firebase
+                    addToFirebase(Image.getInstance().getImageUris());
                     dismiss();
                 }else{
                     Toast.makeText(getActivity(), "You Must Add An Image(s) First", Toast.LENGTH_SHORT).show();
@@ -155,13 +160,13 @@ public class PostFragment extends DialogFragment {
     }
 
     //addToFirebase function
-    private void addToFirebase(String writePost, ArrayList<Uri> imageUris) {
+    private void addToFirebase(ArrayList<Uri> imgUris) {
         StorageReference fileRef = null;
 
         //add user caption and upload date to firebase
         addData();
         //add images to storage
-        for (Uri imageUri : imageUris) {
+        for (Uri imageUri : imgUris) {
             fileRef = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
             StorageReference finalFileRef = fileRef;
             fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -177,8 +182,10 @@ public class PostFragment extends DialogFragment {
                 }
             });
         }
+        Image.getInstance().getImageUris().clear();
     }
 
+    //add image of the post
     private void addImageToFirebase(String url){
         HashMap<String, String> images = new HashMap<>();
         images.put("img", url);
@@ -191,15 +198,15 @@ public class PostFragment extends DialogFragment {
         }
     }
 
+    //add other data except image
     private void addData(){
         String postId = databaseReference.push().getKey();
         //add caption and currentTime to userPost object
         addToUser();
         if (auth.getUid() != null && postId != null){
             databaseReference.child("Users").child(auth.getUid()).child("Posts").child(postId).setValue(userPost);
-            Toast.makeText(getActivity(),"Phew That was close, but ur post has been uploaded successfully)",Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(getActivity(),"Something not happen as it should be, gibb try again",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),"Something went wrong, Try Again",Toast.LENGTH_SHORT).show();
         }
         //set userPostId
         userPost.setPostId(postId);

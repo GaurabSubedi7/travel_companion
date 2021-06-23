@@ -142,6 +142,7 @@ public class IndividualTripFragment extends Fragment {
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     if (auth.getUid() != null) {
+                        expenses.clear();
                         for (DataSnapshot data : snapshot.child("Users").child(auth.getUid()).child("Trips").child(myTripId).child("expenses").getChildren()) {
                             String myKey = data.getKey();
                             expense = data.getValue(Expense.class);

@@ -53,23 +53,22 @@
         style="@style/Widget.AppCompat.EditText"
         android:layout_width="250dp"
         android:layout_height="49dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="16dp"
         android:drawableLeft="@drawable/ic_email"
         android:ems="10"
         android:hint="  Enter your Email"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="false"
         android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/waveView" />
+        app:layout_constraintEnd_toEndOf="@+id/usernameReg"
+        app:layout_constraintStart_toStartOf="@+id/usernameReg"
+        app:layout_constraintTop_toBottomOf="@+id/usernameReg" />
 
     <EditText
         android:id="@+id/passwordReg"
         android:layout_width="250dp"
         android:layout_height="49dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:drawableLeft="@drawable/ic_lock"
         android:ems="10"
         android:hint=" Choose a Password"
@@ -100,22 +99,29 @@
         app:layout_constraintTop_toBottomOf="@+id/passwordReg"
         app:rippleColor="#FF5722" />
 
-
+    <TextView
+        android:id="@+id/txtAccountType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AccountType"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/waveView" />
 
     <EditText
         android:id="@+id/usernameReg"
         android:layout_width="250dp"
         android:layout_height="49dp"
+        android:layout_marginTop="24dp"
         android:drawableLeft="@drawable/ic_luser"
         android:ems="10"
         android:hint=" UserName"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/emailReg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/waveView"
-        app:layout_constraintVertical_bias="0.333" />
+        app:layout_constraintTop_toBottomOf="@+id/txtAccountType" />
 
     <TextView
         android:id="@+id/backToLogin"

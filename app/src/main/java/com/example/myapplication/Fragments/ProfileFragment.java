@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.myapplication.LoginActivity;
@@ -52,6 +53,9 @@ public class ProfileFragment extends Fragment {
     private ImageView createPost, userImage, logout;
     private Button editProfile;
     private ConstraintLayout profileFragment;
+    private RelativeLayout noSmallPostRelLayout;
+
+    //firebase
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);
     private DatabaseReference databaseReference = database.getReference();
@@ -126,6 +130,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
+                    userPosts.clear();
                     if(auth.getUid() != null){
                         String username = dataSnapshot.child("Users").child(auth.getUid()).child("userName").getValue(String.class);
                         userName.setText(username);
@@ -144,20 +149,29 @@ public class ProfileFragment extends Fragment {
                                 myImages.add((String) imageId.child("img").getValue());
                             }
 
-                            //all the data added to userPosts arraylist
-                            userPosts.add(new UserPost(myId, myCaption, myDate, myImages));
-                            System.out.println("MY FUCKING IMAGES 1: " + userPosts.get(0).getImageURL().get(0));
+                            if(!myImages.isEmpty()) {
+                                //all the data added to userPosts arraylist
+                                userPosts.add(new UserPost(myId, myCaption, myDate, myImages));
+                                System.out.println("MY FUCKING IMAGES 1: " + userPosts.get(0).getImageURL().get(0));
+                            }
                         }
-                        //inflate recyclerView with images
-                        adapter = new PostAdapter(getContext(), "profile");
-                        smallImageRecView.setAdapter(adapter);
-                        System.out.println("I just created the grid layout");
-                        smallImageRecView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+                        if(!userPosts.isEmpty()){
+                            smallImageRecView.setVisibility(View.VISIBLE);
+                            noSmallPostRelLayout.setVisibility(View.GONE);
+                            //inflate recyclerView with images
+                            adapter = new PostAdapter(getContext(), "profile");
+                            smallImageRecView.setAdapter(adapter);
+                            System.out.println("I just created the grid layout");
+                            smallImageRecView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
-                        System.out.println("MY FUCKING IMAGES : " + userPosts.get(0).getImageURL().get(0));
-                        //get user's post from firebase and populate the adapter
-                        Collections.reverse(userPosts);
-                        adapter.setUserPosts(userPosts);
+                            System.out.println("MY FUCKING IMAGES : " + userPosts.get(0).getImageURL().get(0));
+                            //get user's post from firebase and populate the adapter
+                            Collections.reverse(userPosts);
+                            adapter.setUserPosts(userPosts);
+                        }else{
+                            smallImageRecView.setVisibility(View.GONE);
+                            noSmallPostRelLayout.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
            }
@@ -178,5 +192,6 @@ public class ProfileFragment extends Fragment {
         createPost = view.findViewById(R.id.createPost);
 
         smallImageRecView = view.findViewById(R.id.smallImageRecView);
+        noSmallPostRelLayout = view.findViewById(R.id.noSmallPostRelLayout);
     }
 }

@@ -95,21 +95,34 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Forgot Password?"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/login"
+        app:layout_constraintStart_toStartOf="@+id/login"
         app:layout_constraintTop_toBottomOf="@+id/login" />
 
-    <TextView
-        android:id="@+id/signUp"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Don't have an account sign up now"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgetPassword" />
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/forgetPassword">
 
+        <TextView
+            android:id="@+id/txtNoHaveAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account?"/>
 
+        <TextView
+            android:id="@+id/signUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/txtNoHaveAccount"
+            android:text="Sign Up Now"
+            android:textColor="@color/teal_700"/>
+
+    </RelativeLayout>
 
 <!--    Stuffs are added from this section-->
 

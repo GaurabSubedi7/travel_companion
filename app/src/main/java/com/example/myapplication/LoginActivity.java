@@ -12,6 +12,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.Fragments.CategoryFragment;
+import com.example.myapplication.Fragments.FragmentSelectAccount;
 import com.example.myapplication.databinding.ActivityLoginBinding;
 import com.example.myapplication.databinding.ActivityRegistrationBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -91,8 +93,10 @@ public class LoginActivity extends AppCompatActivity {
         binding.signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
-                startActivity(intent);
+                FragmentSelectAccount fragmentSelectAccount = new FragmentSelectAccount();
+                if (getFragmentManager() != null) {
+                    fragmentSelectAccount.show(getSupportFragmentManager(), "selectAccount");
+                }
             }
         });
     }

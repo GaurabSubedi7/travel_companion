@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.example.myapplication.Models.ThirdPartyService;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.databinding.ActivityRegistrationBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,18 +41,23 @@ public class RegistrationActivity extends AppCompatActivity {
         binding = ActivityRegistrationBinding.inflate(getLayoutInflater());
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-
         setContentView(binding.getRoot());
 
         database = FirebaseDatabase.getInstance(MY_DATABASE);
         auth = FirebaseAuth.getInstance();
-
 
         databaseReference = database.getReference();
         progressDialog = new ProgressDialog(RegistrationActivity.this);
         progressDialog.setTitle("Account Creation");
         progressDialog.setMessage("Creating your account");
 
+        Intent intent = getIntent();
+        String accountType = intent.getStringExtra("accountType");
+        if(accountType.equals("businessAccount")){
+            binding.txtAccountType.setText("Signing Up as Business");
+        }else{
+            binding.txtAccountType.setText("Signing Up as User");
+        }
 
         binding.signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,13 +74,26 @@ public class RegistrationActivity extends AppCompatActivity {
                         public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                             progressDialog.dismiss();
                             if (task.isSuccessful()) {
-                                User users = new User(usernameReg, emailReg);
-
                                 //gets userID from the Auth Task we need this to store users in database
                                 String id = task.getResult().getUser().getUid();
+                                if(accountType.equals("businessAccount")){
+                                    ThirdPartyService tpService = new ThirdPartyService(usernameReg, emailReg);
+                                    databaseReference.child("Services").child(id).setValue(tpService);
+                                }else {
+                                    User users = new User(usernameReg, emailReg);
+                                    databaseReference.child("Users").child(id).setValue(users);
+                                }
 
-                                databaseReference.child("Users").child(id).setValue(users);
                                 Toast.makeText(RegistrationActivity.this, "User Created Successfully", Toast.LENGTH_SHORT).show();
+
+                                if (auth.getCurrentUser() != null) {
+                                    Intent intent = new Intent(RegistrationActivity.this, DashboardActivity.class);
+                                    startActivity(intent);
+                                }else {
+                                    Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                                finish();
                             } else {
                                 Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -92,6 +111,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     Toast.makeText(RegistrationActivity.this, "Session already exist, Redirecting to dashboard", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RegistrationActivity.this, DashboardActivity.class);
                     startActivity(intent);
+                    finish();
                 }else {
                     Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                     startActivity(intent);
@@ -100,12 +120,3 @@ public class RegistrationActivity extends AppCompatActivity {
         });
     }
 }
-/*
-TODO:
-<<<<<<< HEAD
- Add Input validation and form validation in userName, Email and Password section...
- Click Effect on various redirection points
-=======
-
->>>>>>> realTimeDatabase
-*/

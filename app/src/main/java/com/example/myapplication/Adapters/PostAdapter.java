@@ -1,5 +1,6 @@
 package com.example.myapplication.Adapters;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -40,14 +41,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull @NotNull PostAdapter.ViewHolder holder, int position) {
         if(parentActivity.equalsIgnoreCase("profile")) {
-            //load image into profile imageView
-            if(userPosts.get(position).getImageURL().get(0) != null) {
-                holder.btnClose.setVisibility(View.GONE);
-                Glide.with(context).asBitmap()
-                        .load(userPosts.get(position).getImageURL().get(0)).into(holder.userPostSmallImage);
+            try{
+                //load image into profile imageView
+                if(!userPosts.get(position).getImageURL().get(0).isEmpty()) {
+                    holder.btnClose.setVisibility(View.GONE);
+                    Glide.with(context).asBitmap()
+                            .load(userPosts.get(position).getImageURL().get(0)).into(holder.userPostSmallImage);
+                }
+            }catch (IndexOutOfBoundsException e){
+                System.out.println("Image not loaded in firebase yet");
             }
         }
-
     }
 
     @Override
