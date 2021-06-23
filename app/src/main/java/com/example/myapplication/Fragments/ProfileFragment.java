@@ -112,7 +112,7 @@ public class ProfileFragment extends Fragment {
                 FragmentManager fm= getFragmentManager();
                 if(fm != null) {
                     FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.FrameContainer, new EditProfileFragment());
+                    ft.replace(R.id.FrameContainer, new EditProfileFragment()).addToBackStack(null);
                     ft.commit();
                 }
             }

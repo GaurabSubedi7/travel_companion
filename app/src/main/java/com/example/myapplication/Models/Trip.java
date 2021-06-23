@@ -3,15 +3,23 @@ package com.example.myapplication.Models;
 import java.util.ArrayList;
 
 public class Trip {
-    private String tripId ,tripName,amount,startDate,endDate;
+    private String tripId ,tripName,amount,startDate,endDate, location;
     public Trip (){};
 
-    public Trip(String tripName, String amount,String startDate, String endDate){
+    public Trip(String tripName, String amount,String startDate, String endDate, String location){
         this.tripName =tripName;
         this.amount = amount;
-        this. startDate = startDate;
+        this.startDate = startDate;
         this.endDate = endDate;
+        this.location = location;
+    }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getTripId() {

@@ -69,8 +69,8 @@ public class LoginActivity extends AppCompatActivity {
                             progressDialog.dismiss();
                             if (task.isSuccessful()) {
                                 Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
+                                finish();//when pressed back login won't be shown
                             } else {
                                 Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -80,10 +80,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //No login/Signup page if user is already logged in
+        // check if user is already logged in
         if(auth.getCurrentUser() != null){
             Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
             startActivity(intent);
+            finish();//when pressed back login won't be shown
         }
 
         //Redirection to signup page on click

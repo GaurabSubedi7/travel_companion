@@ -2,6 +2,7 @@ package com.example.myapplication.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,44 +10,40 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.view.LayoutInflater;
+import android.os.SystemClock;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.myapplication.Adapters.TripAdapter;
-import com.example.myapplication.Models.Expenses;
-import com.example.myapplication.Models.Trip;
+import com.example.myapplication.Models.Expense;
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import static com.example.myapplication.MainActivity.MY_DATABASE;
 
 
 public class CategoryFragment extends DialogFragment {
 
-    private EditText category, amount;
+    private EditText expenseDescription, amount;
     private Button addCategory;
+    private Spinner categorySpinner;
 
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseDatabase database;
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance(MY_DATABASE).getReference();
-
-
-    Expenses expense;
-
+    private Expense expense;
 
     @NonNull
     @NotNull
@@ -55,43 +52,46 @@ public class CategoryFragment extends DialogFragment {
 
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_category, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setView(view).setTitle("Note down how much you spent on what...");
+                .setView(view).setTitle("Add Your Expense");
         initView(view);
         addCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String categoryName = category.getText().toString();
-                String expenditure = amount.getText().toString();
-                String tripID = getArguments().getString("selectedTripId");
-                expense = new Expenses(categoryName, expenditure);
-                if (categoryName != null && expenditure != null) {
-                    addToFireBase(tripID);
-
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                Date date = calendar.getTime();
+                String currentTime = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                String categoryName = categorySpinner.getSelectedItem().toString();
+                String description = "";
+                if(expenseDescription != null){
+                    description = expenseDescription.getText().toString();
                 }
-
+                String expenditure = amount.getText().toString();
+                String tripID = getArguments().getString("finallyTripId");
+                if (categorySpinner.getSelectedItem() != null && !expenditure.equals("") && tripID != null) {
+                    expense = new Expense(categoryName, description, expenditure, currentTime);
+                    addToFireBase(tripID);
+                }
             }
         });
-
-
         return builder.create();
     }
 
-
     private void addToFireBase(String tripID) {
-        if (auth.getUid() != null && tripID != null) {
-            String expensesID = databaseReference.push().getKey();
+        String expensesID = databaseReference.push().getKey();
+        if (auth.getUid() != null && tripID != null && expensesID != null) {
             databaseReference.child("Users").child(auth.getUid()).child("Trips").child(tripID).child("expenses").child(expensesID).setValue(expense);
-
-            Toast.makeText(getActivity(), "New Expenditure added successfully)", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(getActivity(), "Expenditure Added Successfully", Toast.LENGTH_SHORT).show();
+            dismiss();
         } else {
-            Toast.makeText(getActivity(), "Failed To add your Expenditure)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Something Went Wrong, Try Again", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void initView(View view) {
-        category = view.findViewById(R.id.category);
+        expenseDescription = view.findViewById(R.id.expenseDescription);
         amount = view.findViewById(R.id.amount);
         addCategory = view.findViewById(R.id.addCategory);
+        categorySpinner = view.findViewById(R.id.categoryName);
     }
 }
