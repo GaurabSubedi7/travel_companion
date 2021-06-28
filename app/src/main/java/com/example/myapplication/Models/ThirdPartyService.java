@@ -1,11 +1,20 @@
 package com.example.myapplication.Models;
 
 public class ThirdPartyService {
-    private String thirdPartyServiceName, email, location;
+    private String thirdPartyServiceName, email, location, accountType;
 
-    public ThirdPartyService(String thirdPartyServiceName, String email) {
+    public ThirdPartyService(String thirdPartyServiceName, String email, String accountType) {
         this.thirdPartyServiceName = thirdPartyServiceName;
         this.email = email;
+        this.accountType = accountType;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
 
     public String getThirdPartyServiceName() {

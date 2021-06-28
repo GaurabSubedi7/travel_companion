@@ -5,7 +5,7 @@ import android.net.Uri;
 import java.util.ArrayList;
 
 public class UserPost {
-    private String postId, caption, uploadDate, location;
+    private String postId, caption, uploadDate, location, likeCount;
     private ArrayList<String> imageURL = new ArrayList<>();
 
     public UserPost(){}

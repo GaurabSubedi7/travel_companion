@@ -1,7 +1,7 @@
 package com.example.myapplication.Models;
 
 public class User {
-    String profilePic, userName, email, fullName;
+    String profilePic, userName, email, fullName, accountType;
 
     public User(String profilePic, String userName, String email, String fullName) {
         this.fullName = fullName;
@@ -13,9 +13,26 @@ public class User {
     public User(){}
 
     //SignUp Constructor
-    public User(String userName, String email) {
+    public User(String userName, String email, String accountType) {
         this.userName = userName;
         this.email = email;
+        this.accountType = accountType;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getProfilePic() {

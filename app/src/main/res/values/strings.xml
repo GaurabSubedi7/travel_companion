@@ -9,6 +9,12 @@
         <item>Pokhara</item>
     </string-array>
 
+    <string-array name="place_filter">
+        <item>All</item>
+        <item>Kathmandu Valley</item>
+        <item>Pokhara</item>
+    </string-array>
+
     <string-array name="Categories">
         <item>Food</item>
         <item>Transport</item>

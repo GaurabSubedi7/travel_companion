@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="12dp"
+            android:elevation="7dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!--normal post-->
+                <RelativeLayout
+                    android:id="@+id/postViewRelLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp">
+
+                    <RelativeLayout
+                        android:id="@+id/uploaderDetailRelLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/uploaderImage"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_launcher_background"
+                            android:layout_centerVertical="true"/>
+
+                        <TextView
+                            android:id="@+id/uploaderUserName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/uploaderImage"
+                            android:layout_marginStart="8dp"
+                            android:text="UserName"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:fontFamily="@font/architects_daughter"
+                            android:layout_centerVertical="true"/>
+
+                        <ImageButton
+                            android:id="@+id/userPopUpMenu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="2dp"
+                            android:src="@drawable/ic_menu"
+                            android:background="@null"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/userPostImageRelLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/uploaderDetailRelLayout">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/userPostImageRecView"
+                            android:layout_width="match_parent"
+                            android:layout_centerHorizontal="true"
+                            android:layout_height="wrap_content" />
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:backgroundTint="@color/alternate_grey"
+                            android:elevation="5dp"
+                            app:cardCornerRadius="5dp"
+                            android:layout_marginEnd="15dp"
+                            android:layout_marginTop="8dp">
+
+                            <TextView
+                                android:id="@+id/imageCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1/2"
+                                android:textSize="13sp"
+                                android:layout_margin="5dp"
+                                android:layout_alignParentEnd="true"/>
+
+                        </androidx.cardview.widget.CardView>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/lightRelLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/userPostImageRelLayout"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginBottom="5dp">
+
+                        <ImageView
+                            android:id="@+id/likeUnchecked"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/ic_fire_unchecked"
+                            android:layout_centerVertical="true"/>
+
+                        <ImageView
+                            android:id="@+id/likeChecked"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/ic_fire_checked"
+                            android:layout_centerVertical="true"
+                            android:visibility="gone"/>
+
+                        <TextView
+                            android:id="@+id/likeCount"
+                            android:layout_width="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="16sp"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@id/likeUnchecked"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/captionRelLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_below="@+id/lightRelLayout"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginBottom="5dp">
+
+                        <TextView
+                            android:id="@+id/caption"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Caption Goes Here"
+                            android:fontFamily="@font/architects_daughter"
+                            android:textSize="16sp"
+                            android:layout_centerVertical="true"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/postLocationRelLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_below="@id/userPostImageRelLayout"
+                        android:layout_marginEnd="10dp">
+
+                        <ImageView
+                            android:id="@+id/locationSymbol"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_location"/>
+
+                        <TextView
+                            android:id="@+id/postLocation"
+                            android:layout_toEndOf="@+id/locationSymbol"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="3dp"
+                            android:layout_centerVertical="true"
+                            android:text="Location"
+                            android:fontFamily="@font/architects_daughter"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/postUploadDate"
+                        android:layout_below="@+id/postLocationRelLayout"
+                        android:layout_alignParentEnd="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2020-1-11"
+                        android:layout_marginEnd="7dp"/>
+
+                </RelativeLayout>
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </RelativeLayout>
+
+</RelativeLayout>

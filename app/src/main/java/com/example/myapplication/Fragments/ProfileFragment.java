@@ -152,7 +152,6 @@ public class ProfileFragment extends Fragment {
                             if(!myImages.isEmpty()) {
                                 //all the data added to userPosts arraylist
                                 userPosts.add(new UserPost(myId, myCaption, myDate, myImages));
-                                System.out.println("MY FUCKING IMAGES 1: " + userPosts.get(0).getImageURL().get(0));
                             }
                         }
                         if(!userPosts.isEmpty()){
@@ -164,7 +163,6 @@ public class ProfileFragment extends Fragment {
                             System.out.println("I just created the grid layout");
                             smallImageRecView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
-                            System.out.println("MY FUCKING IMAGES : " + userPosts.get(0).getImageURL().get(0));
                             //get user's post from firebase and populate the adapter
                             Collections.reverse(userPosts);
                             adapter.setUserPosts(userPosts);

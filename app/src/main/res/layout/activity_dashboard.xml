@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".DashboardActivity">
 
-
     <FrameLayout
         android:id="@+id/FrameContainer"
         android:layout_width="match_parent"
@@ -22,7 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="675dp"
         android:background="@color/colorPrimary"
         android:backgroundTint="#FFFFFF"
         app:itemIconTint="@color/icons_color"
@@ -35,5 +33,23 @@
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationService"
+        android:layout_width="match_parent"
+        app:itemHorizontalTranslationEnabled="false"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:backgroundTint="#FFFFFF"
+        app:itemIconTint="@color/icons_color"
+        app:itemRippleColor="#BCADA0"
+        app:itemTextColor="#040404"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/navigation_item_service"
+        android:visibility="gone">
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

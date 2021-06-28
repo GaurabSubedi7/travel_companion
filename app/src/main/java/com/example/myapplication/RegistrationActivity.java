@@ -76,11 +76,14 @@ public class RegistrationActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 //gets userID from the Auth Task we need this to store users in database
                                 String id = task.getResult().getUser().getUid();
+
+                                //ThirdPartyService and Users both are treated as USERS
+                                //and are differentiated by accountType
                                 if(accountType.equals("businessAccount")){
-                                    ThirdPartyService tpService = new ThirdPartyService(usernameReg, emailReg);
-                                    databaseReference.child("Services").child(id).setValue(tpService);
+                                    ThirdPartyService tpService = new ThirdPartyService(usernameReg, emailReg, accountType);
+                                    databaseReference.child("Users").child(id).setValue(tpService);
                                 }else {
-                                    User users = new User(usernameReg, emailReg);
+                                    User users = new User(usernameReg, emailReg, accountType);
                                     databaseReference.child("Users").child(id).setValue(users);
                                 }
 
@@ -88,12 +91,13 @@ public class RegistrationActivity extends AppCompatActivity {
 
                                 if (auth.getCurrentUser() != null) {
                                     Intent intent = new Intent(RegistrationActivity.this, DashboardActivity.class);
+                                    intent.putExtra("accountType", accountType);
                                     startActivity(intent);
+                                    finish();
                                 }else {
                                     Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                                     startActivity(intent);
                                 }
-                                finish();
                             } else {
                                 Toast.makeText(RegistrationActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }

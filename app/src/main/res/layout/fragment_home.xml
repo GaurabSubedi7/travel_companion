@@ -6,33 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.HomeFragment">
 
-    <com.google.android.material.circularreveal.cardview.CircularRevealCardView
-        android:id="@+id/userProfileCircularCard"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="10dp"
-        app:cardCornerRadius="20dp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userProfileImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_launcher_background"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/userProfileImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_launcher_background"
-            tools:layout_editor_absoluteX="-11dp"
-            tools:layout_editor_absoluteY="-6dp" />
-
-    </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="10dp" />
+        app:layout_constraintGuide_begin="8dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
@@ -44,10 +32,10 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="5dp"
         android:fontFamily="@font/architects_daughter"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
-        app:layout_constraintStart_toEndOf="@+id/userProfileCircularCard"
+        app:layout_constraintStart_toEndOf="@+id/userProfileImage"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.58">
 
@@ -57,17 +45,17 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/architects_daughter"
             android:text="Hello, "
-            android:textSize="22sp" />
+            android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/txtUsername"
+            android:id="@+id/txtServiceName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/txtUserGreet"
+            android:layout_toEndOf="@+id/txtUserGreet"
             android:fontFamily="@font/architects_daughter"
             android:text="User"
             android:textColor="@color/colorPrimary"
-            android:textSize="22sp" />
+            android:textSize="18sp" />
 
     </RelativeLayout>
 
@@ -94,5 +82,155 @@
         app:layout_constraintBottom_toBottomOf="@+id/createPost"
         app:layout_constraintEnd_toStartOf="@+id/createPost"
         app:layout_constraintTop_toTopOf="@+id/createPost" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        tools:layout_editor_absoluteX="-29dp">
+
+       <RelativeLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content">
+
+           <!-- home top -->
+           <RelativeLayout
+               android:id="@+id/homeTopRelLayout"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+
+               <RelativeLayout
+                   android:id="@+id/exploreRelLayout"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginStart="8dp"
+                   android:layout_marginTop="10dp">
+
+                   <androidx.cardview.widget.CardView
+                       android:layout_width="160dp"
+                       android:layout_height="100dp"
+                       app:cardCornerRadius="20dp"
+                       android:layout_marginEnd="10dp"
+                       android:elevation="7dp">
+
+                       <RelativeLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="match_parent"
+                           android:background="@mipmap/explore"
+                           android:gravity="center">
+
+                           <ImageView
+                               android:id="@+id/exploreImage"
+                               android:layout_width="40dp"
+                               android:layout_height="40dp"
+                               android:src="@drawable/ic_compass"
+                               android:layout_centerHorizontal="true"
+                               android:layout_marginTop="10dp"/>
+
+                           <TextView
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_below="@id/exploreImage"
+                               android:layout_centerHorizontal="true"
+                               android:text="Explore"
+                               android:textColor="@color/white"
+                               android:textStyle="bold"
+                               android:fontFamily="@font/architects_daughter"
+                               android:textSize="16dp"/>
+
+                       </RelativeLayout>
+
+                   </androidx.cardview.widget.CardView>
+
+               </RelativeLayout>
+
+               <RelativeLayout
+                   android:id="@+id/findServiceRelLayout"
+                   android:layout_alignParentEnd="true"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginEnd="8dp"
+                   android:layout_marginTop="10dp">
+
+                   <androidx.cardview.widget.CardView
+                       android:layout_width="160dp"
+                       android:layout_height="100dp"
+                       app:cardCornerRadius="20dp"
+                       android:layout_marginStart="10dp"
+                       android:elevation="7dp">
+
+                       <RelativeLayout
+                           android:layout_width="match_parent"
+                           android:layout_height="match_parent"
+                           android:gravity="center"
+                           android:background="@mipmap/find_service">
+
+                           <ImageView
+                               android:id="@+id/findServiceImage"
+                               android:layout_width="40dp"
+                               android:layout_height="40dp"
+                               android:src="@drawable/ic_hotel_service"
+                               android:layout_centerHorizontal="true"
+                               android:layout_marginTop="10dp"/>
+
+                           <TextView
+                               android:layout_width="wrap_content"
+                               android:layout_height="wrap_content"
+                               android:layout_below="@id/findServiceImage"
+                               android:layout_centerHorizontal="true"
+                               android:text="Services"
+                               android:textColor="@color/white"
+                               android:textStyle="bold"
+                               android:fontFamily="@font/architects_daughter"
+                               android:textSize="16dp"/>
+
+                       </RelativeLayout>
+
+                   </androidx.cardview.widget.CardView>
+
+               </RelativeLayout>
+
+               <TextView
+                   android:id="@+id/txtMemories"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="Stories"
+                   android:fontFamily="@font/architects_daughter"
+                   android:textSize="20sp"
+                   android:textStyle="bold"
+                   android:layout_below="@id/exploreRelLayout"
+                   android:layout_marginTop="30dp"
+                   android:layout_marginStart="30dp" />
+
+           </RelativeLayout>
+
+           <RelativeLayout
+               android:id="@+id/newsFeedRelLayout"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_below="@+id/homeTopRelLayout">
+
+               <androidx.recyclerview.widget.RecyclerView
+                   android:id="@+id/newsFeedRecView"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerHorizontal="true"/>
+
+               <TextView
+                   android:id="@+id/txtEnd"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@id/newsFeedRecView"
+                   android:layout_centerHorizontal="true"
+                   android:text="You've Reached The End"
+                   android:fontFamily="@font/architects_daughter"
+                   android:layout_marginTop="40dp"
+                   android:layout_marginBottom="140dp"/>
+
+           </RelativeLayout>
+
+       </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
