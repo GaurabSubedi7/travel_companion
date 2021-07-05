@@ -1,5 +1,7 @@
 package com.example.myapplication.Fragments;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,8 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.example.myapplication.Adapters.PostAdapter;
 import com.example.myapplication.Adapters.UserPostAdapter;
 import com.example.myapplication.Models.UserPost;
@@ -53,7 +58,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
-
         initView(view);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -77,9 +81,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 PostFragment postFragment = new PostFragment();
-                if(getFragmentManager() != null) {
-                    postFragment.show(getFragmentManager(), "show my post");
-                }
+                postFragment.show(getFragmentManager(), "show my post");
             }
         });
 

@@ -84,16 +84,18 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:backgroundTint="@color/alternate_grey"
-                            android:elevation="5dp"
                             app:cardCornerRadius="5dp"
                             android:layout_marginEnd="15dp"
-                            android:layout_marginTop="8dp">
+                            android:layout_marginTop="8dp"
+                            android:background="@null">
 
                             <TextView
                                 android:id="@+id/imageCount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:text="1/2"
+                                android:backgroundTint="@color/alternate_grey"
+                                android:background="@color/alternate_grey"
                                 android:textSize="13sp"
                                 android:layout_margin="5dp"
                                 android:layout_alignParentEnd="true"/>
