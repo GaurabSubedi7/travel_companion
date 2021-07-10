@@ -10,7 +10,7 @@
         android:id="@+id/userProfileImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/ic_user"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="parent"/>
