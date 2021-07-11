@@ -64,9 +64,11 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull @NotNull UserPostAdapter.ViewHolder holder, int position) {
         try{
+            String uid = userPosts.get(position).getUserId();
             for(User user: users){
-                if(user.getUserId().equals(userPosts.get(position).getUserId())){
+                if(user.getUserId().equals(uid)){
                     holder.uploaderUserName.setText(user.getUserName());
+                    break;
                 }
             }
 

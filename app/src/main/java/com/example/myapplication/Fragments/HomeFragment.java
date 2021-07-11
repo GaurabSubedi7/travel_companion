@@ -91,6 +91,7 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     userPosts.clear();
+                    users.clear();
                     if(auth.getUid() != null){
 
                         //variables to temporarily store data from firebase before adding to object.
@@ -116,10 +117,10 @@ public class HomeFragment extends Fragment {
                             }
 
                             for(DataSnapshot likeCount: data.child("likeCount").getChildren()){
-                                userId = (String) likeCount.getValue();
-                                if(userId != null) {
-                                    String userName = dataSnapshot.child("Users").child(userId).child("userName").getValue(String.class);
-                                    liker.add(new User(userId, userName));
+                                String uid = (String) likeCount.getValue();
+                                if(uid != null) {
+                                    String userName = dataSnapshot.child("Users").child(uid).child("userName").getValue(String.class);
+                                    liker.add(new User(uid, userName));
                                 }
                             }
 
