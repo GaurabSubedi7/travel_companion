@@ -99,8 +99,6 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
                 public void onClick(View v) {
                     holder.likeUnchecked.setVisibility(View.VISIBLE);
                     holder.likeChecked.setVisibility(View.GONE);
-
-//                    databaseReference = database.getReference();
                     //unlike
                     databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -109,7 +107,6 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
                                 for(DataSnapshot data : snapshot.child("Posts").child(userPosts.get(position).getPostId())
                                         .child("likeCount").getChildren()){
                                     String myKey = (String) data.getValue();
-                                    System.out.println("=========== " + data.getValue());
                                     if(myKey != null && myKey.equals(currentUserId)){
                                         data.getRef().removeValue();
                                     }
