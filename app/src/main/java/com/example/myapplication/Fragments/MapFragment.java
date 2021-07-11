@@ -16,10 +16,12 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -60,9 +62,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
 
     //UI elements
-    private EditText mSearchText;
     private ImageView mGps;
     private EditText inputSearch;
+    private CardView searchCardView;
 
 
     //  Variables
@@ -86,8 +88,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        mSearchText = view.findViewById(R.id.inputSearch);
-        mGps = view.findViewById(R.id.gps);
+        initView(view);
+
         if (isServicesOK()) {
 //           get Location Permission
             getLocationPermission();
@@ -101,36 +103,39 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
 
         // Create a new PlacesClient instance
-        PlacesClient placesClient = Places.createClient(getContext());
-        mSearchText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // Initialize the AutocompleteSupportFragment.
-                AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                        getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-
-                // Specify the types of place data to return.
-                autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-
-                // Set up a PlaceSelectionListener to handle the response.
-                autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-                    @Override
-                    public void onPlaceSelected(@NonNull Place place) {
-                        // TODO: Get info about the selected place.
-                        Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-                    }
-
-
-                    @Override
-                    public void onError(@NonNull Status status) {
-                        // TODO: Handle the error.
-                        Log.i(TAG, "An error occurred BOII: " + status);
-                    }
-                });
-            }
-        });
+        placeAutoComplete();
         return view;
+    }
+
+    public void placeAutoComplete(){
+        if(getFragmentManager()!=null){
+            AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                    getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+            // Specify the types of place data to return.
+            autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+
+            // Set up a PlaceSelectionListener to handle the response.
+            autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                @Override
+                public void onPlaceSelected(@NonNull Place place) {
+                    // TODO: Get info about the selected place.
+                    Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                    if(place.getLatLng()!= null && place.getName()!= null)
+                    {
+                        moveCamera(place.getLatLng(), place.getName());
+                    }else{
+                        Toast.makeText(getContext(), "Something went doodooo", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+
+                @Override
+                public void onError(@NonNull Status status) {
+                    // TODO: Handle the error.
+                    Log.i(TAG, "An error occurred BOII: " + status);
+                }
+            });
+        }
     }
 
     //    On Map Ready
@@ -150,6 +155,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             //For now disabling the reset location to current location button (we will make our custom version later)
             //if gibb try to other UI materials we can go is in mMap.getUiSettings() explore (All of them are booleans)
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            mMap.getUiSettings().setCompassEnabled(true);
 
             init();
         }
@@ -259,44 +265,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
     }
 
-    //    Searching within the map
-    private void geoLocate() {
-        Log.d(TAG, "geoLocate: Response to search function has been called");
-        String searchString = mSearchText.getText().toString();
-
-        //  Geocoder transforms street or other forms of address to longitude and latitude
-        Geocoder geocoder = new Geocoder(getActivity());
-        List<Address> list = new ArrayList<>();
-
-        try {
-            list = geocoder.getFromLocationName(searchString, 1);
-        } catch (IOException e) {
-            Log.e(TAG, "geoLocate: IOException :  " + e.getMessage());
-        }
-
-        if (list.size() > 0) {
-            Address address = list.get(0);
-            Log.d(TAG, "geoLocate: found addresses : " + address.toString());
-//          Toast.makeText(getActivity(),address.toString(), Toast.LENGTH_SHORT).show();
-            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), address.getAddressLine(0));
-        }
-    }
 
     //Master Initialization
     private void init() {
         Log.d(TAG, "init: Initializing UI elements");
-        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-                    geoLocate();
-                }
-                return false;
-            }
-        });
+
         mGps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -306,9 +279,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
-    private void hideSoftKeyboard(){
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    private void initView(View view){
+        mGps = view.findViewById(R.id.gps);
+        searchCardView = view.findViewById(R.id.searchBarCardView);
+
     }
+
+
 }
 //LOOKS CUTE MIGHT REMOVE LATER
 /*
