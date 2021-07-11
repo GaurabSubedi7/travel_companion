@@ -1,9 +1,10 @@
 package com.example.myapplication.Adapters;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -13,15 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.example.myapplication.Models.User;
 import com.example.myapplication.Models.UserPost;
 import com.example.myapplication.R;
 
@@ -33,10 +29,13 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
 
     private Context context;
     private ArrayList<UserPost> userPosts = new ArrayList<>();
+    private ArrayList<User> users = new ArrayList<>();
     private PostImageAdapter adapter;
+    private String currentUserId;
 
-    public UserPostAdapter(Context context) {
+    public UserPostAdapter(Context context, String currentUserId) {
         this.context = context;
+        this.currentUserId = currentUserId;
     }
 
     @NonNull
@@ -50,6 +49,22 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull @NotNull UserPostAdapter.ViewHolder holder, int position) {
         try{
+            for(User user: users){
+                if(user.getUserId().equals(userPosts.get(position).getUserId())){
+                    holder.uploaderUserName.setText(user.getUserName());
+                }
+            }
+
+            holder.userPopUpMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(currentUserId.equals(userPosts.get(position).getUserId())){
+                        showUserSelfPostMenu(holder.userPopUpMenu, position);
+                    } else {
+                        showUserPostMenu(holder.userPopUpMenu, position);
+                    }
+                }
+            });
             //load image into imageView
             adapter = new PostImageAdapter(context);
             if(!userPosts.get(position).getImageURL().isEmpty()) {
@@ -83,6 +98,46 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
         }
     }
 
+    private void showUserSelfPostMenu(View view, int position) {
+        PopupMenu popup = new PopupMenu(view.getContext(),view );
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.user_self_post_popup_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch(item.getItemId()){
+                    case R.id.menuEdit:
+                        Toast.makeText(context, "Edit Button Clicked", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.menuDelete:
+                        Toast.makeText(context, "Delete Button Clicked", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
+        popup.show();
+    }
+
+    private void showUserPostMenu(View view, int position) {
+        PopupMenu popup = new PopupMenu(view.getContext(),view );
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.user_post_popup_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.menuViewLocation){
+                    Toast.makeText(context, "View Location Clicked", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
+        popup.show();
+    }
+
     @Override
     public int getItemCount() {
         return userPosts.size();
@@ -92,10 +147,14 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
         this.userPosts = userPosts;
     }
 
+    public void setUsers(ArrayList<User> users) {
+        this.users = users;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
-        private ImageView likeChecked, likeUnchecked;
+        private ImageView likeChecked, likeUnchecked, uploaderImage;
         private RecyclerView userPostImageRecView;
-        private TextView likeCount, caption, postLocation, postUploadDate, imageCount;
+        private TextView likeCount, caption, postLocation, postUploadDate, imageCount, uploaderUserName;
         private ImageButton userPopUpMenu;
         private ProgressBar userPostImageProgressBar;
 
@@ -106,13 +165,20 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
 
         private void initView(View view){
             userPostImageRecView = view.findViewById(R.id.userPostImageRecView);
+
             likeChecked = view.findViewById(R.id.likeChecked);
             likeUnchecked = view.findViewById(R.id.likeUnchecked);
             likeCount = view.findViewById(R.id.likeCount);
+
             userPopUpMenu = view.findViewById(R.id.userPopUpMenu);
+
             caption = view.findViewById(R.id.caption);
+            uploaderImage = view.findViewById(R.id.uploaderImage);
+            uploaderUserName = view.findViewById(R.id.uploaderUserName);
+
             postLocation = view.findViewById(R.id.postLocation);
             postUploadDate = view.findViewById(R.id.postUploadDate);
+
             userPostImageProgressBar = view.findViewById(R.id.userPostImageProgressBar);
             imageCount = view.findViewById(R.id.imageCount);
         }

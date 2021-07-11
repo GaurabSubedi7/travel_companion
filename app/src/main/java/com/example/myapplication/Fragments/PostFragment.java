@@ -118,11 +118,11 @@ public class PostFragment extends DialogFragment {
         Date date = calendar.getTime();
         @SuppressLint("SimpleDateFormat") //just a line to remove yellow thingy (erasable)
         String currentTime = new SimpleDateFormat("yyyy-MM-dd").format(date);
-        userPost = new UserPost(postEditText.getText().toString(), currentTime);
+        userPost = new UserPost((String) auth.getUid(), postEditText.getText().toString(), currentTime);
     }
 
     //get image from gallery
-    @SuppressLint("IntentReset") //just to remove that annoying yellow thingy (erasable)
+    @SuppressLint("IntentReset")
     private void pickImageIntent(){
         Intent galleryIntent = new Intent();
         galleryIntent.setType("image/*");
@@ -192,7 +192,7 @@ public class PostFragment extends DialogFragment {
         if(auth.getUid() != null) {
             String imgId = databaseReference.push().getKey();
             if(imgId != null) {
-                databaseReference.child("Users").child(auth.getUid()).child("Posts").child(userPost.getPostId()).child("Images")
+                databaseReference.child("Posts").child(userPost.getPostId()).child("Images")
                         .child(imgId).setValue(images);
             }
         }
@@ -201,10 +201,10 @@ public class PostFragment extends DialogFragment {
     //add other data except image
     private void addData(){
         String postId = databaseReference.push().getKey();
-        //add caption and currentTime to userPost object
-        addToUser();
         if (auth.getUid() != null && postId != null){
-            databaseReference.child("Users").child(auth.getUid()).child("Posts").child(postId).setValue(userPost);
+            //add caption and currentTime to userPost object
+            addToUser();
+            databaseReference.child("Posts").child(postId).setValue(userPost);
         }else{
             Toast.makeText(getActivity(),"Something went wrong, Try Again",Toast.LENGTH_SHORT).show();
         }

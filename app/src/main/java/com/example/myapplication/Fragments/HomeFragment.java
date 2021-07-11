@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 import com.example.myapplication.Adapters.PostAdapter;
 import com.example.myapplication.Adapters.UserPostAdapter;
+import com.example.myapplication.Models.User;
 import com.example.myapplication.Models.UserPost;
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,6 +53,7 @@ public class HomeFragment extends Fragment {
     private FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);
     private DatabaseReference databaseReference = database.getReference();
     public ArrayList<UserPost> userPosts = new ArrayList<>();
+    public ArrayList<User> users = new ArrayList<>();
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,28 +102,33 @@ public class HomeFragment extends Fragment {
 
                         //variables to temporarily store data from firebase before adding to object.
                         ArrayList<String> myImages;
-                        String myId, myCaption, myDate;
+                        String myId, myCaption, myDate, userId;
 
+                        // TODO: 7/10/21 get UserImage from database, add into an arrayList and send it to adapter
                         //get user's post from firebase
-                        for(DataSnapshot users : dataSnapshot.child("Users").getChildren()) {
-                            for(DataSnapshot data: users.child("Posts").getChildren()){
-                                myId = (String) data.getKey();
-                                myImages = new ArrayList<>();
-                                myCaption = (String) data.child("caption").getValue();
-                                myDate = (String) data.child("uploadDate").getValue();
-                                for(DataSnapshot imageId: data.child("Images").getChildren()){
-                                    myImages.add((String) imageId.child("img").getValue());
-                                }
+                        for(DataSnapshot data: dataSnapshot.child("Posts").getChildren()){
+                            myId = (String) data.getKey();
+                            userId = (String) data.child("userId").getValue();
+                            if(userId != null) {
+                                String userName = dataSnapshot.child("Users").child(userId).child("userName").getValue(String.class);
+                                users.add(new User(userId, userName));
+                            }
+                            myImages = new ArrayList<>();
+                            myCaption = (String) data.child("caption").getValue();
+                            myDate = (String) data.child("uploadDate").getValue();
+                            for(DataSnapshot imageId: data.child("Images").getChildren()){
+                                myImages.add((String) imageId.child("img").getValue());
+                            }
 
-                                if(!myImages.isEmpty()) {
-                                    //all the data added to userPosts arraylist
-                                    userPosts.add(new UserPost(myId, myCaption, myDate, myImages));
-                                }
+                            if(!myImages.isEmpty()) {
+                                //all the data added to userPosts arraylist
+                                userPosts.add(new UserPost(myId, userId, myCaption, myDate, myImages));
                             }
                         }
+
                         if(!userPosts.isEmpty()){
                             //inflate recyclerView with images
-                            adapter = new UserPostAdapter(getContext());
+                            adapter = new UserPostAdapter(getContext(), auth.getUid());
                             newsFeedRecView.setAdapter(adapter);
                             System.out.println("I just created the grid layout");
                             newsFeedRecView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -129,6 +136,7 @@ public class HomeFragment extends Fragment {
                             //get user's post from firebase and populate the adapter
                             Collections.reverse(userPosts);
                             adapter.setUserPosts(userPosts);
+                            adapter.setUsers(users);
                         }
                     }
                 }
