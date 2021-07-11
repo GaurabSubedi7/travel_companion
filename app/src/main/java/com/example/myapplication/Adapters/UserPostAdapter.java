@@ -2,6 +2,7 @@ package com.example.myapplication.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,18 +21,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.Models.UserPost;
 import com.example.myapplication.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import static com.example.myapplication.MainActivity.MY_DATABASE;
+
 public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHolder>{
+    private static final String TAG = "UserPostAdapter";
 
     private Context context;
     private ArrayList<UserPost> userPosts = new ArrayList<>();
     private ArrayList<User> users = new ArrayList<>();
     private PostImageAdapter adapter;
     private String currentUserId;
+
+    //firebase
+    private FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);
+    private DatabaseReference databaseReference = database.getReference();
 
     public UserPostAdapter(Context context, String currentUserId) {
         this.context = context;
@@ -46,6 +60,7 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull @NotNull UserPostAdapter.ViewHolder holder, int position) {
         try{
@@ -65,6 +80,59 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
                     }
                 }
             });
+
+            holder.likeUnchecked.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.likeUnchecked.setVisibility(View.GONE);
+                    holder.likeChecked.setVisibility(View.VISIBLE);
+                    String likeCountKey = databaseReference.push().getKey();
+                    if (likeCountKey != null) {
+                        databaseReference.child("Posts").child(userPosts.get(position).getPostId())
+                                .child("likeCount").child(likeCountKey).setValue(currentUserId);
+                    }
+                }
+            });
+
+            holder.likeChecked.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.likeUnchecked.setVisibility(View.VISIBLE);
+                    holder.likeChecked.setVisibility(View.GONE);
+                    //unlike
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                            if(currentUserId != null){
+                                for(DataSnapshot data : snapshot.child("Posts").child(userPosts.get(position).getPostId())
+                                        .child("likeCount").getChildren()){
+                                    String myKey = (String) data.getValue();
+                                    if(myKey != null && myKey.equals(currentUserId)){
+                                        data.getRef().removeValue();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                            Log.e(TAG, "onCancelled", error.toException());
+                        }
+                    });
+                }
+            });
+
+            if(!userPosts.get(position).getLikeCount().isEmpty()) {
+                ArrayList<User> liker = new ArrayList<>(userPosts.get(position).getLikeCount());
+                holder.likeCount.setText(String.valueOf(liker.size()));
+                for(User u: liker) {
+                    if (currentUserId.equals(u.getUserId())) {
+                        holder.likeUnchecked.setVisibility(View.GONE);
+                        holder.likeChecked.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
             //load image into imageView
             adapter = new PostImageAdapter(context);
             if(!userPosts.get(position).getImageURL().isEmpty()) {

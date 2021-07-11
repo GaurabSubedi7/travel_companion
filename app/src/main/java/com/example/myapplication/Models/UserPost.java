@@ -5,8 +5,9 @@ import android.net.Uri;
 import java.util.ArrayList;
 
 public class UserPost {
-    private String postId, caption, uploadDate, location, likeCount, userId;
+    private String postId, caption, uploadDate, location, userId;
     private ArrayList<String> imageURL = new ArrayList<>();
+    private ArrayList<User> likeCount = new ArrayList<>();
 
     public UserPost(){}
 
@@ -28,6 +29,14 @@ public class UserPost {
         this.userId = userId;
         this.caption = caption;
         this.uploadDate = uploadDate;
+    }
+
+    public ArrayList<User> getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(ArrayList<User> likeCount) {
+        this.likeCount = likeCount;
     }
 
     public String getUserId() {

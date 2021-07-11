@@ -1,12 +1,9 @@
 package com.example.myapplication.Fragments;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,12 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.Target;
-import com.example.myapplication.Adapters.PostAdapter;
 import com.example.myapplication.Adapters.UserPostAdapter;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.Models.UserPost;
@@ -37,7 +30,6 @@ import java.util.Collections;
 
 import static com.example.myapplication.MainActivity.MY_DATABASE;
 
-
 public class HomeFragment extends Fragment {
 
     private ImageView createPost;
@@ -52,6 +44,7 @@ public class HomeFragment extends Fragment {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);
     private DatabaseReference databaseReference = database.getReference();
+
     public ArrayList<UserPost> userPosts = new ArrayList<>();
     public ArrayList<User> users = new ArrayList<>();
     
@@ -102,6 +95,7 @@ public class HomeFragment extends Fragment {
 
                         //variables to temporarily store data from firebase before adding to object.
                         ArrayList<String> myImages;
+                        ArrayList<User> liker;
                         String myId, myCaption, myDate, userId;
 
                         // TODO: 7/10/21 get UserImage from database, add into an arrayList and send it to adapter
@@ -114,15 +108,28 @@ public class HomeFragment extends Fragment {
                                 users.add(new User(userId, userName));
                             }
                             myImages = new ArrayList<>();
+                            liker = new ArrayList<>();
                             myCaption = (String) data.child("caption").getValue();
                             myDate = (String) data.child("uploadDate").getValue();
                             for(DataSnapshot imageId: data.child("Images").getChildren()){
                                 myImages.add((String) imageId.child("img").getValue());
                             }
 
+                            for(DataSnapshot likeCount: data.child("likeCount").getChildren()){
+                                userId = (String) likeCount.getValue();
+                                if(userId != null) {
+                                    String userName = dataSnapshot.child("Users").child(userId).child("userName").getValue(String.class);
+                                    liker.add(new User(userId, userName));
+                                }
+                            }
+
                             if(!myImages.isEmpty()) {
+                                UserPost userPost = new UserPost(myId, userId, myCaption, myDate, myImages);
                                 //all the data added to userPosts arraylist
-                                userPosts.add(new UserPost(myId, userId, myCaption, myDate, myImages));
+                                if(!liker.isEmpty()){
+                                    userPost.setLikeCount(liker);
+                                }
+                                userPosts.add(userPost);
                             }
                         }
 
