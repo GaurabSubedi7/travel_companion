@@ -37,6 +37,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -120,8 +121,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 public void onPlaceSelected(@NonNull Place place) {
                     // TODO: Get info about the selected place.
                     Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-                    if(place.getLatLng()!= null && place.getName()!= null)
-                    {
+                    if(place.getLatLng()!= null && place.getName()!= null){
                         moveCamera(place.getLatLng(), place.getName());
                     }else{
                         Toast.makeText(getContext(), "Something went doodooo", Toast.LENGTH_SHORT).show();
@@ -196,6 +196,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (!title.equals("My Location")) {
             MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(title);
             mMap.addMarker(markerOptions);
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(@NonNull @NotNull Marker marker) {
+                    Toast.makeText(getContext(), "Markerr is Clicked", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
         }
 //        hideSoftKeyboard();
     }
