@@ -15,10 +15,9 @@ buildscript {
 allprojects {
     repositories {
         google()
-        maven { url 'https://jitpack.io' }
         mavenCentral()
-        mavenLocal()
-    }
+        maven { url 'https://jitpack.io' }
+        }
 }
 
 task clean(type: Delete) {

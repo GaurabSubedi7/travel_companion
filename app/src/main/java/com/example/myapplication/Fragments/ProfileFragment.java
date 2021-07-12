@@ -137,21 +137,25 @@ public class ProfileFragment extends Fragment {
 
                         //variables to temporarily store data from firebase before adding to object.
                         ArrayList<String> myImages;
-                        String myId, myCaption, myDate;
+                        String myId, myCaption, myDate, userId;
 
                         //get user's post from firebase
-                        for(DataSnapshot data : dataSnapshot.child("Users").child(auth.getUid()).child("Posts").getChildren()) {
-                            myId = (String) data.getKey();
-                            myImages = new ArrayList<>();
-                            myCaption = (String) data.child("caption").getValue();
-                            myDate = (String) data.child("uploadDate").getValue();
-                            for(DataSnapshot imageId: data.child("Images").getChildren()){
-                                myImages.add((String) imageId.child("img").getValue());
-                            }
+                        for(DataSnapshot data : dataSnapshot.child("Posts").getChildren()) {
+                            userId = (String) data.child("userId").getValue();
+                            if(userId.equals(auth.getUid())) {
+                                myId = (String) data.getKey();
 
-                            if(!myImages.isEmpty()) {
-                                //all the data added to userPosts arraylist
-                                userPosts.add(new UserPost(myId, myCaption, myDate, myImages));
+                                myImages = new ArrayList<>();
+                                myCaption = (String) data.child("caption").getValue();
+                                myDate = (String) data.child("uploadDate").getValue();
+                                for (DataSnapshot imageId : data.child("Images").getChildren()) {
+                                    myImages.add((String) imageId.child("img").getValue());
+                                }
+
+                                if (!myImages.isEmpty()) {
+                                    //all the data added to userPosts arraylist
+                                    userPosts.add(new UserPost(myId, userId, myCaption, myDate, myImages));
+                                }
                             }
                         }
                         if(!userPosts.isEmpty()){

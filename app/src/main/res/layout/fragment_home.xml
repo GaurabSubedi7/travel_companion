@@ -10,7 +10,7 @@
         android:id="@+id/userProfileImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/ic_user"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -91,32 +91,36 @@
 
        <RelativeLayout
            android:layout_width="wrap_content"
-           android:layout_height="wrap_content">
+           android:layout_height="wrap_content"
+           android:nestedScrollingEnabled="false">
 
            <!-- home top -->
            <RelativeLayout
                android:id="@+id/homeTopRelLayout"
                android:layout_width="match_parent"
+               android:nestedScrollingEnabled="false"
                android:layout_height="wrap_content">
 
                <RelativeLayout
                    android:id="@+id/exploreRelLayout"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
+                   android:nestedScrollingEnabled="false"
                    android:layout_marginStart="8dp"
                    android:layout_marginTop="10dp">
 
                    <androidx.cardview.widget.CardView
                        android:layout_width="160dp"
                        android:layout_height="100dp"
-                       app:cardCornerRadius="20dp"
+                       android:nestedScrollingEnabled="false"
                        android:layout_marginEnd="10dp"
+                       app:cardCornerRadius="20dp"
                        android:elevation="7dp">
 
                        <RelativeLayout
+                           android:id="@+id/exploreBackground"
                            android:layout_width="match_parent"
                            android:layout_height="match_parent"
-                           android:background="@mipmap/explore"
                            android:gravity="center">
 
                            <ImageView
@@ -149,21 +153,23 @@
                    android:layout_alignParentEnd="true"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
+                   android:nestedScrollingEnabled="false"
                    android:layout_marginEnd="8dp"
                    android:layout_marginTop="10dp">
 
                    <androidx.cardview.widget.CardView
                        android:layout_width="160dp"
                        android:layout_height="100dp"
+                       android:nestedScrollingEnabled="false"
                        app:cardCornerRadius="20dp"
                        android:layout_marginStart="10dp"
                        android:elevation="7dp">
 
                        <RelativeLayout
+                           android:id="@+id/findServiceBackground"
                            android:layout_width="match_parent"
                            android:layout_height="match_parent"
-                           android:gravity="center"
-                           android:background="@mipmap/find_service">
+                           android:gravity="center">
 
                            <ImageView
                                android:id="@+id/findServiceImage"
@@ -208,6 +214,7 @@
                android:id="@+id/newsFeedRelLayout"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
+               android:nestedScrollingEnabled="false"
                android:layout_below="@+id/homeTopRelLayout">
 
                <androidx.recyclerview.widget.RecyclerView

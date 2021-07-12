@@ -101,7 +101,7 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void getAccountType(){
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
