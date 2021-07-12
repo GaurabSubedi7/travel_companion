@@ -199,7 +199,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(@NonNull @NotNull Marker marker) {
-                    Toast.makeText(getContext(), "Markerr is Clicked", Toast.LENGTH_SHORT).show();
+                    AddPlaceToListFragment addPlaceToListFragment = new AddPlaceToListFragment();
+                    addPlaceToListFragment.show(getFragmentManager(),"Add Places to List");
+//                    Toast.makeText(getContext(), "Markerr is Clicked and the LatLng is : " + latLng + " " + "Place is : " + title   , Toast.LENGTH_SHORT).show();
                     return false;
                 }
             });

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:id="@+id/addPlacesRelLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:id="@+id/AddToListRelLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/placeName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Place Name"
+            android:lines="2"
+            android:layout_marginTop="30dp"
+            android:textAlignment="center" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/AddToListButtonRelLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/AddToListRelLayout">
+
+        <Button
+            android:id="@+id/addToListButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Add to my wishlist"
+            android:textAllCaps="false"
+            android:textColor="#F1EEEE"
+            android:textSize="16sp"
+            app:backgroundTint="@color/colorPrimary" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>
