@@ -200,7 +200,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 @Override
                 public boolean onMarkerClick(@NonNull @NotNull Marker marker) {
                     AddPlaceToListFragment addPlaceToListFragment = new AddPlaceToListFragment();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title", title);
+                    bundle.putDouble("latitude", latLng.latitude);
+                    bundle.putDouble("longitude", latLng.longitude);
+                    addPlaceToListFragment.setArguments(bundle);
+
                     addPlaceToListFragment.show(getFragmentManager(),"Add Places to List");
+
 //                    Toast.makeText(getContext(), "Markerr is Clicked and the LatLng is : " + latLng + " " + "Place is : " + title   , Toast.LENGTH_SHORT).show();
                     return false;
                 }

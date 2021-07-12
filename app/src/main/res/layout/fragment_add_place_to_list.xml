@@ -24,18 +24,32 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/AddToListButtonRelLayout"
+        android:id="@+id/addToListButtonRelLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
         android:layout_below="@+id/AddToListRelLayout">
 
         <Button
             android:id="@+id/addToListButton"
-            android:layout_width="wrap_content"
+            android:layout_width="206dp"
             android:layout_height="wrap_content"
-            android:text=" Add to my wishlist"
+            android:text=" Add to my checklist"
+            android:textAllCaps="false"
+            android:textColor="#F1EEEE"
+            android:textSize="16sp"
+            app:backgroundTint="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/showDirectionButton"
+            android:layout_width="206dp"
+            android:layout_height="wrap_content"
+            android:text=" Show Direction"
+            android:layout_below="@+id/addToListButton"
             android:textAllCaps="false"
             android:textColor="#F1EEEE"
             android:textSize="16sp"
