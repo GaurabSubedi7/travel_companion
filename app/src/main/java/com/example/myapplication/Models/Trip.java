@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Trip {
     private String tripId ,tripName,amount,startDate,endDate, location;
+    private ArrayList<Checklist> myChecklist = new ArrayList<>();
+
     public Trip (){};
 
     public Trip(String tripName, String amount,String startDate, String endDate, String location){
@@ -12,6 +14,14 @@ public class Trip {
         this.startDate = startDate;
         this.endDate = endDate;
         this.location = location;
+    }
+
+    public ArrayList<Checklist> getMyChecklist() {
+        return myChecklist;
+    }
+
+    public void setMyChecklist(ArrayList<Checklist> myChecklist) {
+        this.myChecklist = myChecklist;
     }
 
     public String getLocation() {

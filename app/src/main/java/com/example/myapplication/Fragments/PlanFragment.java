@@ -47,7 +47,6 @@ PlanFragment extends Fragment {
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseDatabase database;
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance(MY_DATABASE).getReference();
-    private StorageReference storageReference = FirebaseStorage.getInstance().getReference("trips");
 
     private static final String TAG = "PlanFragment";
 

@@ -36,6 +36,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -65,7 +66,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     //UI elements
     private ImageView mGps;
     private EditText inputSearch;
-    private CardView searchCardView;
 
 
     //  Variables
@@ -79,7 +79,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private static final int LOCATION_PERMISSION_REQUEST = 9002;
     private static final float DEFAULT_ZOOM = 15f;
 
-    // Google Places
+
 
     public MapFragment() {}
 
@@ -88,6 +88,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
+
+        String apiKey = getResources().getString(R.string.google_maps_API_key);
 
         initView(view);
 
@@ -98,15 +100,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 //        Gibb try to places
         if(!Places.isInitialized()){
-            String apiKey = getResources().getString(R.string.google_maps_API_key);
             // Initialize the SDK
             Places.initialize(getContext(),apiKey);
         }
 
         // Create a new PlacesClient instance
         placeAutoComplete();
+
+
+
+
         return view;
     }
+
 
     public void placeAutoComplete(){
         if(getFragmentManager()!=null){
@@ -157,6 +163,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
             mMap.getUiSettings().setCompassEnabled(true);
 
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(@NonNull @NotNull LatLng latLng) {
+                    MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Clicked Here");
+                    mMap.clear();
+                    mMap.addMarker(markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                    mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(@NonNull @NotNull Marker marker) {
+                            addPlaceToList(latLng, "Some Title here");
+                            return false;
+                        }
+                    });
+                }
+            });
+
             init();
         }
     }
@@ -192,29 +214,32 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     //    Move Camera from the map
     private void moveCamera(LatLng latLng, String title) {
         Log.d(TAG, "moveCamera: Moving camera to given Location coordinates : " + latLng.latitude + "::" + latLng.longitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
         if (!title.equals("My Location")) {
             MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(title);
+            mMap.clear();
             mMap.addMarker(markerOptions);
             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(@NonNull @NotNull Marker marker) {
-                    AddPlaceToListFragment addPlaceToListFragment = new AddPlaceToListFragment();
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString("title", title);
-                    bundle.putDouble("latitude", latLng.latitude);
-                    bundle.putDouble("longitude", latLng.longitude);
-                    addPlaceToListFragment.setArguments(bundle);
-
-                    addPlaceToListFragment.show(getFragmentManager(),"Add Places to List");
-
-//                    Toast.makeText(getContext(), "Markerr is Clicked and the LatLng is : " + latLng + " " + "Place is : " + title   , Toast.LENGTH_SHORT).show();
+                    addPlaceToList(latLng, title);
                     return false;
                 }
             });
         }
-//        hideSoftKeyboard();
+    }
+
+    public void addPlaceToList(LatLng latLng, String title){
+        AddPlaceToListFragment addPlaceToListFragment = new AddPlaceToListFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("title", title);
+        bundle.putDouble("latitude", latLng.latitude);
+        bundle.putDouble("longitude", latLng.longitude);
+        addPlaceToListFragment.setArguments(bundle);
+
+        addPlaceToListFragment.show(getFragmentManager(),"Add Places to List");
+        //Toast.makeText(getContext(), "Markerr is Clicked and the LatLng is : " + latLng + " " + "Place is : " + title   , Toast.LENGTH_SHORT).show();
     }
 
     //    Check for the connection with Google Services API and app compatibility
@@ -298,8 +323,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private void initView(View view){
         mGps = view.findViewById(R.id.gps);
-        searchCardView = view.findViewById(R.id.searchBarCardView);
-
     }
 
 
