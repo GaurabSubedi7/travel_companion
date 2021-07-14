@@ -71,6 +71,7 @@ public class AddPlaceToListFragment extends DialogFragment {
             }
         });
 
+
         return builder.create();
     }
 
