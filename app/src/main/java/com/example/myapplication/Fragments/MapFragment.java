@@ -54,6 +54,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 
@@ -163,22 +164,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
             mMap.getUiSettings().setCompassEnabled(true);
 
+
             mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(@NonNull @NotNull LatLng latLng) {
-                    MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("Clicked Here");
-                    mMap.clear();
-                    mMap.addMarker(markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-                    mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                        @Override
-                        public boolean onMarkerClick(@NonNull @NotNull Marker marker) {
-                            addPlaceToList(latLng, "Some Title here");
-                            return false;
+                    Geocoder gcd = new Geocoder(getContext(), Locale.getDefault());
+                    try {
+                        List<Address> addresses = gcd.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                        if (addresses.size() > 0) {
+                            String title = addresses.get(0).getLocality();
+                            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title(title);
+                            mMap.clear();
+                            mMap.addMarker(markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                @Override
+                                public boolean onMarkerClick(@NonNull @NotNull Marker marker) {
+                                    addPlaceToList(latLng, title);
+                                    return false;
+                                }
+                            });
                         }
-                    });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
-
             init();
         }
     }
