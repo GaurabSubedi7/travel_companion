@@ -8,28 +8,25 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.directions.route.AbstractRouting;
+import com.directions.route.Route;
+import com.directions.route.RouteException;
 import com.directions.route.Routing;
 import com.directions.route.RoutingListener;
+import com.example.myapplication.DIrectionHelpers.FetchURL;
+import com.example.myapplication.DIrectionHelpers.TaskLoadedCallback;
 import com.example.myapplication.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -45,11 +42,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
@@ -63,7 +60,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoadedCallback {
 
     //  Permissions
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -75,7 +72,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     //Direction
     private ImageView direction;
-    private List<Polyline> polylines;
+    private Polyline polyline;
 
     //  Variables
     private Boolean mLocationPermissionGranted = false;
@@ -177,23 +174,44 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    public void findRoutes(LatLng start, LatLng end)
-    {
-        LatLng startPosition ;
-        if(start==null || end==null) {
-            Toast.makeText(getContext(),"Unable to get location",Toast.LENGTH_LONG).show();
-        }
+    // =================================== ROUTING AND DIRECTIONS GOOGLE API =================================
+    public void findRoutes(LatLng start, LatLng end, String mode){
+
+        //Standard GET Format for direction Data
+//            https://maps.googleapis.com/maps/api/directions/json?
+//            origin=
+//            &destination=
+//            &mode=d
+//            &key=API key
+
+        if(start==null || end==null) Toast.makeText(getContext(),"Unable to get location",Toast.LENGTH_LONG).show();
         else
         {
-            Routing routing = new Routing.Builder()
-                    .travelMode(AbstractRouting.TravelMode.DRIVING)
-                    .alternativeRoutes(true)
-                    .waypoints(start, end)
-                    .key(getResources().getString(R.string.google_maps_API_key))
-                    .build();
-            routing.execute();
+            String apiKey = getResources().getString(R.string.google_maps_API_key);
+
+            String apiCallUrl =
+                    "https://maps.googleapis.com/maps/api/directions/" + "json" + "?" +
+                    "origin=" + start.latitude + "," + start.longitude + "&" +
+                    "destination=" + end.latitude + "," + end.longitude + "&" +
+                    "mode=" + mode +
+                    "&key=" + apiKey;
+
+            new FetchURL(MapFragment.this).execute(apiCallUrl, mode);
         }
     }
+
+    public void onTaskDone(Object... values){
+        if (polyline != null)
+            polyline.remove();
+        polyline = mMap.addPolyline((PolylineOptions) values[0]);
+    }
+
+
+
+
+
+    // =================================== ROUTING AND DIRECTIONS GOOGLE API =================================
+
 
     //    get Device Location
     private void getDeviceLocation(MyCallback myCallback) {
@@ -254,7 +272,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         addPlaceToListFragment.setArguments(bundle);
 
         addPlaceToListFragment.show(getFragmentManager(),"Add Places to List");
-        //Toast.makeText(getContext(), "Markerr is Clicked and the LatLng is : " + latLng + " " + "Place is : " + title   , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "Marker is Clicked and the LatLng is : " + latLng + " " + "Place is : " + title   , Toast.LENGTH_SHORT).show();
     }
 
     //    Check for the connection with Google Services API and app compatibility
@@ -381,7 +399,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
                 System.out.println("CUrrent :" + myCurrentLocation[0] + "===============" + destination[0]);
                 if(myCurrentLocation[0] != null && destination[0] != null)
-                    findRoutes(myCurrentLocation[0], destination[0]);
+                    findRoutes(myCurrentLocation[0], destination[0], "Driving");
             }
         });
     }
