@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,8 +44,8 @@ public class AddPlaceToListFragment extends DialogFragment {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
 
     private TextView placeName;
-    private Button addToListButton, showDirectionButton;
-    private Spinner selectTripSpinner;
+    private Button addToListButton;
+    private RadioGroup tripsRadioGroup;
 
     private ArrayList<Trip> trips= new ArrayList<>();
     private Trip trip = new Trip();
@@ -105,12 +107,19 @@ public class AddPlaceToListFragment extends DialogFragment {
 
                             if(!trips.isEmpty()){
                                 for(Trip t: trips){
-                                    System.out.println("=============" + t.getTripName());
-                                    ArrayAdapter<Trip> spinnerAdapter = new ArrayAdapter<>(getContext(),
-                                            android.R.layout.simple_dropdown_item_1line, trips);
-                                    selectTripSpinner.setAdapter(spinnerAdapter);
-                                }
+                                    if(getContext() != null){
+                                        RadioButton rb = new RadioButton(getContext());
+                                        rb.setId(View.generateViewId());
+                                        rb.setText(t.getTripName());
+                                        rb.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                Toast.makeText(getContext(), t.getTripName() + "selected", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                        tripsRadioGroup.addView(rb);
 
+                                    }                                }
                             }else{
                                 //NO TRIPS HERE
                             }
@@ -130,7 +139,6 @@ public class AddPlaceToListFragment extends DialogFragment {
     private void initView(View view){
         placeName = view.findViewById(R.id.placeName);
         addToListButton = view.findViewById(R.id.addToListButton);
-        showDirectionButton = view.findViewById(R.id.showDirectionButton);
-        selectTripSpinner = view.findViewById(R.id.selectTripSpinner);
+        tripsRadioGroup = view.findViewById(R.id.tripsRadioGroup);
     }
 }
