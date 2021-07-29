@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:id="@+id/addPlacesRelLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:id="@+id/AddToListRelLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/placeName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Place Name"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="#F1EEEE"
+            android:lines="2"
+            android:layout_marginTop="30dp"
+            android:textAlignment="center" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/addToListButtonRelLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/AddToListRelLayout"
+        android:gravity="center">
+
+        <Spinner
+            android:id="@+id/selectTripSpinner"
+            android:layout_width="206dp"
+            android:layout_height="50dp"
+            android:textAlignment="center"
+            android:layout_marginBottom="20dp"
+            android:entries="@array/Categories"
+            />
+
+        <Button
+            android:id="@+id/addToListButton"
+            android:layout_width="206dp"
+            android:layout_height="wrap_content"
+            android:text=" Add to my checklist"
+            android:layout_below="@+id/selectTripSpinner"
+            android:textAllCaps="false"
+            android:textColor="#F1EEEE"
+            android:textSize="16sp"
+            app:backgroundTint="@color/colorPrimary"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:id="@+id/showDirectionButton"
+            android:layout_width="206dp"
+            android:layout_height="wrap_content"
+            android:text=" Show Direction"
+            android:layout_below="@+id/addToListButton"
+            android:textAllCaps="false"
+            android:textColor="#F1EEEE"
+            android:textSize="16sp"
+            app:backgroundTint="@color/colorPrimary"
+            android:layout_centerHorizontal="true"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

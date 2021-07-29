@@ -66,8 +66,17 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.android.libraries.places:places:2.4.0'
+    implementation 'com.android.volley:volley:1.2.0'
+
 
     //pie chart dependency
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation "androidx.multidex:multidex:2.0.1"
+
+    //For Routing
+    implementation 'com.github.jd-alexander:library:1.1.0'
+    implementation 'com.google.android.material:material:1.4.0'
+
+
 }
