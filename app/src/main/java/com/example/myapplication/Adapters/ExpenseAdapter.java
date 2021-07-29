@@ -1,5 +1,6 @@
 package com.example.myapplication.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -60,6 +61,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull @NotNull ExpenseAdapter.ViewHolder holder, int position) {
         if(expenses.get(position).getCategoryName() != null){
