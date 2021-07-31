@@ -1,5 +1,6 @@
 package com.example.myapplication.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -36,7 +37,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull ImageAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull ImageAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         //load image into imageView
         holder.btnClose.setVisibility(View.VISIBLE);
         if(imageUris.get(position) != null) {

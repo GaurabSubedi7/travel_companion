@@ -224,6 +224,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
                                 LatLng latlng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                                 myCallback.onCallback(latlng);
                                 moveCamera(latlng, "My Location");
+                                if(getArguments() != null){
+                                    String checklistTitle = getArguments().getString("title");
+                                    double checklistLat = getArguments().getDouble("latitude");
+                                    double checklistLon = getArguments().getDouble("longitude");
+                                    LatLng latLng = new LatLng(checklistLat, checklistLon);
+                                    moveCamera(latLng, checklistTitle);
+                                }
                             } else {
                                 Toast.makeText(getActivity(), "u not Turn on location on device... Turn it on and gibb try again :|", Toast.LENGTH_SHORT).show();
                             }
@@ -347,6 +354,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
                 destination[0] = latlng;
             }
         });
+
+        if(getArguments() != null){
+            double checklistLat = getArguments().getDouble("latitude");
+            double checklistLon = getArguments().getDouble("longitude");
+            LatLng latLng = new LatLng(checklistLat, checklistLon);
+            destination[0] = latLng;
+        }
 
         getDeviceLocation(new MyCallback() {
             @Override

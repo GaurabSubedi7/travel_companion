@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -126,6 +127,22 @@ public class IndividualTripFragment extends Fragment {
             }
         });
 
+        btnAddPlaces.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //navigate to map fragment
+                goToMapFragment();
+            }
+        });
+
+        btnAddPlaces2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //navigate to map fragment
+                goToMapFragment();
+            }
+        });
+
         return view;
     }
 
@@ -140,6 +157,13 @@ public class IndividualTripFragment extends Fragment {
         bundle.putString("selectedTripAmount", myTripAmount);
         expenseFragment.setArguments(bundle);
         ft.replace(R.id.FrameContainer, expenseFragment).addToBackStack(null);
+        ft.commit();
+    }
+
+    private void goToMapFragment(){
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        MapFragment mapFragment = new MapFragment();
+        ft.replace(R.id.FrameContainer, mapFragment).addToBackStack(null);
         ft.commit();
     }
 
@@ -168,7 +192,8 @@ public class IndividualTripFragment extends Fragment {
                             noChecklistRelLayout.setVisibility(View.GONE);
                             actualChecklistRelLayout.setVisibility(View.VISIBLE);
 
-                            ChecklistAdapter adapter = new ChecklistAdapter(getContext(), myTripId);
+                            FragmentManager fm = getFragmentManager();
+                            ChecklistAdapter adapter = new ChecklistAdapter(getContext(), fm, myTripId);
                             checklistRecView.setAdapter(adapter);
                             checklistRecView.setLayoutManager(new LinearLayoutManager(getContext()));
 

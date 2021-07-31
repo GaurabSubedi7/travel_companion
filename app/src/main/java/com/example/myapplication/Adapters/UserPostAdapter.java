@@ -62,7 +62,7 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull @NotNull UserPostAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull UserPostAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         try{
             String uid = userPosts.get(position).getUserId();
             for(User user: users){

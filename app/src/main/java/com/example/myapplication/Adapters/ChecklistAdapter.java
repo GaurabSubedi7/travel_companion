@@ -1,6 +1,9 @@
 package com.example.myapplication.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +12,13 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.Fragments.MapFragment;
 import com.example.myapplication.Models.Checklist;
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,12 +31,14 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.example.myapplication.MainActivity.MY_DATABASE;
 
 public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.ViewHolder>{
 
     private Context context;
+    private FragmentManager fm;
     private String tripId;
     private ArrayList<Checklist> checklists = new ArrayList<>();
 
@@ -37,9 +47,10 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
     private final DatabaseReference databaseReference = database.getReference();
     private FirebaseAuth auth = FirebaseAuth.getInstance();
 
-    public ChecklistAdapter(Context context, String tripId) {
+    public ChecklistAdapter(Context context, FragmentManager fm, String tripId) {
         this.context = context;
         this.tripId = tripId;
+        this.fm = fm;
     }
 
     @NonNull
@@ -51,9 +62,65 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull ChecklistAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull ChecklistAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String checklistId = checklists.get(position).getChecklistId();
         holder.placeName.setText(checklists.get(position).getTitle());
+
+        //Navigate to the location of the checklist on map
+        holder.showDestination.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = fm.beginTransaction();
+                MapFragment mapFragment = new MapFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("title", checklists.get(position).getTitle());
+                bundle.putDouble("latitude", checklists.get(position).getLatitude());
+                bundle.putDouble("longitude", checklists.get(position).getLongitude());
+                mapFragment.setArguments(bundle);
+                ft.replace(R.id.FrameContainer, mapFragment).addToBackStack(null);
+                ft.commit();
+            }
+        });
+
+        //Delete a checklist item
+        holder.deleteChecklist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder checklistTerminator = new AlertDialog.Builder(Objects.requireNonNull(context))
+                        .setTitle("Want To Delete " + checklists.get(position).getTitle() + "?")
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //should be empty
+                            }
+                        }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Delete From Firebase
+                                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                        if(auth.getUid() != null){
+                                            for(DataSnapshot data : snapshot.child("Users").child(auth.getUid()).child("Trips")
+                                                    .child(tripId).child("Checklist").getChildren()){
+                                                String myKey = data.getKey();
+                                                if(myKey != null && myKey.equals(checklists.get(position).getChecklistId())){
+                                                    data.getRef().removeValue();
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        });
+                checklistTerminator.create().show();
+            }
+        });
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -76,14 +143,16 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
         holder.placeName.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    databaseReference.child("Users").child(auth.getUid()).child("Trips").child(tripId).child("Checklist")
-                            .child(checklists.get(position).getChecklistId()).child("checked").setValue(true);
-                    holder.placeName.setChecked(true);
-                }else{
-                    databaseReference.child("Users").child(auth.getUid()).child("Trips").child(tripId).child("Checklist")
-                            .child(checklists.get(position).getChecklistId()).child("checked").setValue(false);
-                    holder.placeName.setChecked(false);
+                if(auth.getUid() != null){
+                    if(isChecked){
+                        databaseReference.child("Users").child(auth.getUid()).child("Trips").child(tripId).child("Checklist")
+                                .child(checklists.get(position).getChecklistId()).child("checked").setValue(true);
+                        holder.placeName.setChecked(true);
+                    }else{
+                        databaseReference.child("Users").child(auth.getUid()).child("Trips").child(tripId).child("Checklist")
+                                .child(checklists.get(position).getChecklistId()).child("checked").setValue(false);
+                        holder.placeName.setChecked(false);
+                    }
                 }
             }
         });

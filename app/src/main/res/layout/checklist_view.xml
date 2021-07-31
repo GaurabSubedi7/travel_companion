@@ -41,10 +41,10 @@
 
             <CheckBox
                 android:id="@+id/placeName"
-                android:fontFamily="@font/architects_daughter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dummy Text"/>
+                android:fontFamily="@font/architects_daughter"
+                android:text="Dummy Text" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
