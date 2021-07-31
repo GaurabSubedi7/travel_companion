@@ -4,7 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/checklist_view.xml" value="1.0" />
+        <entry key="app/src/main/res/layout/fragment_add_place_to_list.xml" value="0.75" />
         <entry key="app/src/main/res/layout/fragment_individual_trip.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_service_post_view.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/fragment_user_post_view.xml" value="0.5" />
       </map>
     </option>
   </component>

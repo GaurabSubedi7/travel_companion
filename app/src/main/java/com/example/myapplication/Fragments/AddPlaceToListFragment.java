@@ -45,8 +45,8 @@ public class AddPlaceToListFragment extends DialogFragment {
     private final DatabaseReference databaseReference = database.getReference();
     private FirebaseAuth auth = FirebaseAuth.getInstance();
 
-    private TextView placeName;
-    private Button addToListButton;
+    private TextView placeName, noTripsText;
+    private Button addToListButton, addNewTripButton;
     private RadioGroup tripsRadioGroup;
 
     private ArrayList<Trip> trips= new ArrayList<>();
@@ -63,11 +63,13 @@ public class AddPlaceToListFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setView(view).setTitle("Add Places to List");
 
-        double latitude = getArguments().getDouble("latitude");
-        double longitude = getArguments().getDouble("longitude");
-        String title = getArguments().getString("title");
-        placeName.setText(title);
-        getDataFromFirebase(title, latitude, longitude);
+        if(getArguments() != null){
+            double latitude = getArguments().getDouble("latitude");
+            double longitude = getArguments().getDouble("longitude");
+            String title = getArguments().getString("title");
+            placeName.setText(title);
+            getDataFromFirebase(title, latitude, longitude);
+        }
 
         return builder.create();
     }
@@ -105,6 +107,10 @@ public class AddPlaceToListFragment extends DialogFragment {
                             }
 
                             if(!trips.isEmpty()){
+                                addToListButton.setVisibility(View.VISIBLE);
+                                addNewTripButton.setVisibility(View.GONE);
+                                noTripsText.setVisibility(View.GONE);
+                                tripsRadioGroup.setVisibility(View.VISIBLE);
                                 for(Trip t: trips){
                                     if(getContext() != null){
                                         RadioButton rb = new RadioButton(getContext());
@@ -120,7 +126,6 @@ public class AddPlaceToListFragment extends DialogFragment {
                                         tripsRadioGroup.addView(rb);
                                     }
                                 }
-                                addToListButton.setVisibility(View.VISIBLE);
                                 addToListButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -149,7 +154,24 @@ public class AddPlaceToListFragment extends DialogFragment {
                                     }
                                 });
                             }else{
-                                //NO TRIPS HERE
+                                addToListButton.setVisibility(View.GONE);
+                                addNewTripButton.setVisibility(View.VISIBLE);
+                                noTripsText.setVisibility(View.VISIBLE);
+                                tripsRadioGroup.setVisibility(View.GONE);
+
+                                addNewTripButton.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        FragmentManager fm = getFragmentManager();
+                                        if(fm != null){
+                                            FragmentTransaction ft = fm.beginTransaction();
+                                            PlanFragment planFragment = new PlanFragment();
+                                            ft.replace(R.id.FrameContainer, planFragment).addToBackStack(null);
+                                            dismiss();
+                                            ft.commit();
+                                        }
+                                    }
+                                });
                             }
                         }
                     }
@@ -168,5 +190,7 @@ public class AddPlaceToListFragment extends DialogFragment {
         placeName = view.findViewById(R.id.placeName);
         addToListButton = view.findViewById(R.id.addToListButton);
         tripsRadioGroup = view.findViewById(R.id.tripsRadioGroup);
+        addNewTripButton = view.findViewById(R.id.addNewTrip);
+        noTripsText = view.findViewById(R.id.noTripsText);
     }
 }
