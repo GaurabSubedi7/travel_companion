@@ -3,6 +3,7 @@ package com.example.myapplication.Adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -18,8 +19,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.myapplication.Fragments.CategoryFragment;
+import com.example.myapplication.Fragments.EditPostFragment;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.Models.UserPost;
 import com.example.myapplication.R;
@@ -45,15 +50,17 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
     private ArrayList<User> users = new ArrayList<>();
     private PostImageAdapter adapter;
     private String currentUserId;
+    private FragmentManager fm;
 
     //firebase
     private FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);
     private DatabaseReference databaseReference = database.getReference();
     private FirebaseAuth auth = FirebaseAuth.getInstance();
 
-    public UserPostAdapter(Context context, String currentUserId) {
+    public UserPostAdapter(Context context, String currentUserId, FragmentManager fm) {
         this.context = context;
         this.currentUserId = currentUserId;
+        this.fm = fm;
     }
 
     @NonNull
@@ -143,7 +150,12 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
             adapter = new PostImageAdapter(context);
             if(!userPosts.get(position).getImageURL().isEmpty()) {
                 ArrayList<String> images = new ArrayList<>(userPosts.get(position).getImageURL());
-                holder.imageCount.setText("1/" + images.size());
+                if(images.size() == 1){
+                    holder.imageCount.setVisibility(View.GONE);
+                }else{
+                    holder.imageCount.setVisibility(View.VISIBLE);
+                    holder.imageCount.setText("1/" + images.size());
+                }
                 holder.userPostImageRecView.setAdapter(adapter);
                 LinearLayoutManager llm = new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false);
                 holder.userPostImageRecView.setLayoutManager(llm);
@@ -182,41 +194,10 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
             public boolean onMenuItemClick(MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.menuEdit:
-                        Toast.makeText(context, "Edit Button Clicked", Toast.LENGTH_SHORT).show();
+                        editUserPost(position);
                         break;
                     case R.id.menuDelete:
-                        AlertDialog.Builder postTerminator = new AlertDialog.Builder(Objects.requireNonNull(context))
-                                .setTitle("Want To Delete Post?")
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        //should be empty
-                                    }
-                                }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        //Delete From Firebase
-                                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                                                if(auth.getUid() != null){
-                                                    for(DataSnapshot data : snapshot.child("Posts").getChildren()){
-                                                        String myKey = data.getKey();
-                                                        if(myKey != null && myKey.equals(userPosts.get(position).getPostId())){
-                                                            data.getRef().removeValue();
-                                                        }
-                                                    }
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                                            }
-                                        });
-                                    }
-                                });
-                        postTerminator.create().show();
+                        deleteUserPost(position);
                         break;
                     default:
                         break;
@@ -225,6 +206,53 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
             }
         });
         popup.show();
+    }
+
+    private void editUserPost(int position){
+        EditPostFragment editPostFragment = new EditPostFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("postId", userPosts.get(position).getPostId());
+        bundle.putString("caption", userPosts.get(position).getCaption());
+        if (fm != null) {
+            editPostFragment.setArguments(bundle);
+            editPostFragment.show(fm, "edit caption");
+        }
+    }
+
+    private void deleteUserPost(int position){
+        AlertDialog.Builder postTerminator = new AlertDialog.Builder(Objects.requireNonNull(context))
+                .setTitle("Want To Delete Post?")
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //should be empty
+                    }
+                }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Delete From Firebase
+                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                if(auth.getUid() != null){
+                                    for(DataSnapshot data : snapshot.child("Posts").getChildren()){
+                                        String myKey = data.getKey();
+                                        if(myKey != null && myKey.equals(userPosts.get(position).getPostId())){
+                                            data.getRef().removeValue();
+                                            Toast.makeText(context, "Post Deleted Successfully", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                });
+        postTerminator.create().show();
     }
 
     private void showUserPostMenu(View view, int position) {

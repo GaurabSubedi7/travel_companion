@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -136,7 +137,8 @@ public class HomeFragment extends Fragment {
 
                         if(!userPosts.isEmpty()){
                             //inflate recyclerView with images
-                            adapter = new UserPostAdapter(getContext(), auth.getUid());
+                            FragmentManager fm = getFragmentManager();
+                            adapter = new UserPostAdapter(getContext(), auth.getUid(), fm);
                             newsFeedRecView.setAdapter(adapter);
                             System.out.println("I just created the grid layout");
                             newsFeedRecView.setLayoutManager(new LinearLayoutManager(getContext()));
