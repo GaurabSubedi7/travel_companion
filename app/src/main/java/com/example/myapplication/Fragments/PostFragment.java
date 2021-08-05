@@ -233,9 +233,3 @@ public class PostFragment extends DialogFragment {
         progressDialog.setMessage("mean while, how are things ?? All good ?");
     }
 }
-
-/* TODO : Limit user's post character count
-          Sanitize code (FAK DIS)
-          Check all the possible null values and fix it
-          Timeout pani rakhne (mile samma)
- */

@@ -162,7 +162,8 @@ public class ProfileFragment extends Fragment {
                             smallImageRecView.setVisibility(View.VISIBLE);
                             noSmallPostRelLayout.setVisibility(View.GONE);
                             //inflate recyclerView with images
-                            adapter = new PostAdapter(getContext(), "profile");
+                            FragmentManager fm = getFragmentManager();
+                            adapter = new PostAdapter(getContext(), "profile", fm);
                             smallImageRecView.setAdapter(adapter);
                             System.out.println("I just created the grid layout");
                             smallImageRecView.setLayoutManager(new GridLayoutManager(getContext(), 3));

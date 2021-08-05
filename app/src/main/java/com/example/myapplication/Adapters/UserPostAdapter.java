@@ -1,6 +1,7 @@
 package com.example.myapplication.Adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.Fragments.CategoryFragment;
 import com.example.myapplication.Fragments.EditPostFragment;
+import com.example.myapplication.Fragments.OwnPostFragment;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.Models.UserPost;
 import com.example.myapplication.R;
@@ -51,6 +53,7 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
     private PostImageAdapter adapter;
     private String currentUserId;
     private FragmentManager fm;
+    private Dialog ownPostDialog;
 
     //firebase
     private FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);
@@ -179,6 +182,7 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
             }
 
             holder.caption.setText(userPosts.get(position).getCaption());
+            holder.postUploadDate.setText(userPosts.get(position).getUploadDate());
         }catch (IndexOutOfBoundsException e){
             Toast.makeText(context, "Image Failed To Load", Toast.LENGTH_SHORT).show();
         }
@@ -240,6 +244,9 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
                                         if(myKey != null && myKey.equals(userPosts.get(position).getPostId())){
                                             data.getRef().removeValue();
                                             Toast.makeText(context, "Post Deleted Successfully", Toast.LENGTH_SHORT).show();
+                                            if(ownPostDialog != null){
+                                                ownPostDialog.dismiss();
+                                            }
                                         }
                                     }
                                 }
@@ -282,6 +289,10 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
 
     public void setUsers(ArrayList<User> users) {
         this.users = users;
+    }
+
+    public void setDialog(Dialog dialog){
+        this.ownPostDialog = dialog;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

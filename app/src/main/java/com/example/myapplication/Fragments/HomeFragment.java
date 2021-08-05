@@ -100,7 +100,6 @@ public class HomeFragment extends Fragment {
                         ArrayList<User> liker;
                         String myId, myCaption, myDate, userId;
 
-                        // TODO: 7/10/21 get UserImage from database, add into an arrayList and send it to adapter
                         //get user's post from firebase
                         for(DataSnapshot data: dataSnapshot.child("Posts").getChildren()){
                             myId = (String) data.getKey();
@@ -140,7 +139,6 @@ public class HomeFragment extends Fragment {
                             FragmentManager fm = getFragmentManager();
                             adapter = new UserPostAdapter(getContext(), auth.getUid(), fm);
                             newsFeedRecView.setAdapter(adapter);
-                            System.out.println("I just created the grid layout");
                             newsFeedRecView.setLayoutManager(new LinearLayoutManager(getContext()));
 
                             //get user's post from firebase and populate the adapter
