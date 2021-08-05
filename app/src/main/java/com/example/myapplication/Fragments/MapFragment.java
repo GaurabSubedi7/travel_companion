@@ -19,6 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.myapplication.DIrectionHelpers.FetchURL;
 import com.example.myapplication.DIrectionHelpers.TaskLoadedCallback;
@@ -44,6 +46,7 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -79,7 +82,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
     private static final int LOCATION_PERMISSION_REQUEST = 9002;
     private static final float DEFAULT_ZOOM = 15f;
 
-
+    private String newPost = null;
+    private BottomNavigationView bottomNavigationView;
 
     public MapFragment() {}
 
@@ -98,14 +102,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
             getLocationPermission();
         }
 
+        if(getActivity() != null){
+            bottomNavigationView = getActivity().findViewById(R.id.bottomNavigation);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
+
+        if(getArguments() != null){
+            newPost = getArguments().getString("identifier");
+        }
+
+        if(newPost != null){
+            mGps.setVisibility(View.GONE);
+            direction.setVisibility(View.GONE);
+        }else{
+            mGps.setVisibility(View.VISIBLE);
+            direction.setVisibility(View.VISIBLE);
+        }
+
 //        Gibb try to places
         if(!Places.isInitialized()){
             // Initialize the SDK
-            Places.initialize(getContext(),apiKey);
+            if(getContext() != null){
+                Places.initialize(getContext(),apiKey);
+            }
         }
 
-        // Create a new PlacesClient instance
-//        placeAutoComplete();
         return view;
     }
 
@@ -142,8 +163,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
     //    On Map Ready
     public void onMapReady(@NotNull GoogleMap googleMap) {
         Log.d(TAG, "onMapReady: LOG 1 Map is Ready");
-
-        Toast.makeText(getActivity(), "Maps is ready ;) ", Toast.LENGTH_SHORT).show();
         mMap = googleMap;
 
         if (mLocationPermissionGranted) {
@@ -199,10 +218,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
         polyline = mMap.addPolyline((PolylineOptions) values[0]);
     }
 
-
-
-
-
     // =================================== ROUTING AND DIRECTIONS GOOGLE API =================================
 
 
@@ -229,10 +244,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
                                     double checklistLat = getArguments().getDouble("latitude");
                                     double checklistLon = getArguments().getDouble("longitude");
                                     LatLng latLng = new LatLng(checklistLat, checklistLon);
-                                    moveCamera(latLng, checklistTitle);
+                                    if(checklistTitle != null){
+                                        moveCamera(latLng, checklistTitle);
+                                    }
                                 }
                             } else {
-                                Toast.makeText(getActivity(), "u not Turn on location on device... Turn it on and gibb try again :|", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Turn on device location", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -255,10 +272,29 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(@NonNull @NotNull Marker marker) {
-                    addPlaceToList(latLng, title);
+                    if(newPost != null && newPost.equals("new post")){
+                        getVisitedPlace(latLng, title);
+                    }else{
+                        addPlaceToList(latLng, title);
+                    }
                     return false;
                 }
             });
+        }
+    }
+
+    public void getVisitedPlace(LatLng latLng, String title){
+        PostUploadFragment postUploadFragment = new PostUploadFragment();
+        FragmentManager fm = getFragmentManager();
+        if(fm != null){
+            FragmentTransaction ft = fm.beginTransaction();
+            Bundle bundle = new Bundle();
+            bundle.putString("title", title);
+            bundle.putDouble("latitude", latLng.latitude);
+            bundle.putDouble("longitude", latLng.longitude);
+            postUploadFragment.setArguments(bundle);
+            bottomNavigationView.setVisibility(View.GONE);
+            ft.replace(R.id.FrameContainer, postUploadFragment).commit();
         }
     }
 
@@ -272,7 +308,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
         addPlaceToListFragment.setArguments(bundle);
 
         addPlaceToListFragment.show(getFragmentManager(),"Add Places to List");
-        //Toast.makeText(getContext(), "Marker is Clicked and the LatLng is : " + latLng + " " + "Place is : " + title   , Toast.LENGTH_SHORT).show();
     }
 
     //    Check for the connection with Google Services API and app compatibility
@@ -397,7 +432,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
                         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                             @Override
                             public boolean onMarkerClick(@NonNull @NotNull Marker marker) {
-                                addPlaceToList(latLng, title);
+                                if(newPost != null && newPost.equals("new post")){
+                                    getVisitedPlace(latLng, title);
+                                }else{
+                                    addPlaceToList(latLng, title);
+                                }
                                 return false;
                             }
                         });
@@ -427,19 +466,3 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
         void onCallback(LatLng latlng);
     }
 }
-//LOOKS CUTE MIGHT REMOVE LATER
-/*
-googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(@NonNull @NotNull LatLng latLng) {
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        markerOptions.position(latLng);
-                        markerOptions.title(latLng.latitude + ":" + latLng.longitude);
-                        googleMap.clear();
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                                latLng, 10
-                        ));
-                        googleMap.addMarker(markerOptions);
-                    }
-                });
- */

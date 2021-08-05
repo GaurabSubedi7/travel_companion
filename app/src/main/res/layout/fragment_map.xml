@@ -7,12 +7,11 @@
     android:id="@+id/relativeLayout"
     tools:context=".Fragments.MapFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <fragment
         android:id="@+id/google_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/searchBarCardView"
@@ -49,7 +48,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_gps"/>
+        android:src="@drawable/ic_gps" />
 
     <ImageView
         android:id="@+id/getRoute"
@@ -60,6 +59,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_direction"/>
+        android:src="@drawable/ic_direction" />
 
 </RelativeLayout>

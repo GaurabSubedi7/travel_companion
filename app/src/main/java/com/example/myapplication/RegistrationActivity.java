@@ -68,6 +68,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 if(usernameReg.isEmpty() || passwordReg.isEmpty() || emailReg.isEmpty()){
                     Toast.makeText(RegistrationActivity.this, "Some Input Field missing.. Please try again : ", Toast.LENGTH_SHORT).show();
                 }else {
+                    progressDialog.setCancelable(false);
                     progressDialog.show();
                     auth.createUserWithEmailAndPassword(emailReg, passwordReg).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override

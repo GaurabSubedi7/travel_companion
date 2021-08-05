@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +19,7 @@ import com.example.myapplication.Adapters.UserPostAdapter;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.Models.UserPost;
 import com.example.myapplication.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,6 +38,7 @@ public class HomeFragment extends Fragment {
     private ImageView createPost;
     private TextView txtUsername;
     private RecyclerView newsFeedRecView;
+    private BottomNavigationView bottomNavigationView;
 
     private UserPostAdapter adapter;
 
@@ -55,6 +58,11 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_home, container, false);
         initView(view);
+
+        if(getActivity() != null){
+            bottomNavigationView = getActivity().findViewById(R.id.bottomNavigation);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -76,8 +84,11 @@ public class HomeFragment extends Fragment {
         createPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PostFragment postFragment = new PostFragment();
-                postFragment.show(getFragmentManager(), "show my post");
+                FragmentManager fm = getFragmentManager();
+                if(fm != null){
+                    FragmentTransaction ft = fm.beginTransaction().addToBackStack(null);
+                    ft.replace(R.id.FrameContainer,new PostUploadFragment()).commit();
+                }
             }
         });
 
@@ -98,7 +109,8 @@ public class HomeFragment extends Fragment {
                         //variables to temporarily store data from firebase before adding to object.
                         ArrayList<String> myImages;
                         ArrayList<User> liker;
-                        String myId, myCaption, myDate, userId;
+                        String myId, myCaption, myDate, userId, tripLocation, specificLocation;
+                        double latitude, longitude;
 
                         //get user's post from firebase
                         for(DataSnapshot data: dataSnapshot.child("Posts").getChildren()){
@@ -112,6 +124,10 @@ public class HomeFragment extends Fragment {
                             liker = new ArrayList<>();
                             myCaption = (String) data.child("caption").getValue();
                             myDate = (String) data.child("uploadDate").getValue();
+                            tripLocation = (String) data.child("tripLocation").getValue();
+                            specificLocation = (String) data.child("specificLocation").getValue();
+                            latitude = data.child("latitude").getValue(Double.class);
+                            longitude = data.child("longitude").getValue(Double.class);
                             for(DataSnapshot imageId: data.child("Images").getChildren()){
                                 myImages.add((String) imageId.child("img").getValue());
                             }
@@ -125,7 +141,8 @@ public class HomeFragment extends Fragment {
                             }
 
                             if(!myImages.isEmpty()) {
-                                UserPost userPost = new UserPost(myId, userId, myCaption, myDate, myImages);
+                                UserPost userPost = new UserPost(myId, userId, myCaption, myDate, myImages,
+                                        tripLocation, specificLocation, latitude, longitude);
                                 //all the data added to userPosts arraylist
                                 if(!liker.isEmpty()){
                                     userPost.setLikeCount(liker);
