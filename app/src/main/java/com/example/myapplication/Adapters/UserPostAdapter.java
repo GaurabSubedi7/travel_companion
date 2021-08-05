@@ -2,6 +2,7 @@ package com.example.myapplication.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.example.myapplication.MainActivity.MY_DATABASE;
 
@@ -46,6 +49,7 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
     //firebase
     private FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);
     private DatabaseReference databaseReference = database.getReference();
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
 
     public UserPostAdapter(Context context, String currentUserId) {
         this.context = context;
@@ -181,7 +185,38 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
                         Toast.makeText(context, "Edit Button Clicked", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuDelete:
-                        Toast.makeText(context, "Delete Button Clicked", Toast.LENGTH_SHORT).show();
+                        AlertDialog.Builder postTerminator = new AlertDialog.Builder(Objects.requireNonNull(context))
+                                .setTitle("Want To Delete Post?")
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //should be empty
+                                    }
+                                }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        //Delete From Firebase
+                                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                                if(auth.getUid() != null){
+                                                    for(DataSnapshot data : snapshot.child("Posts").getChildren()){
+                                                        String myKey = data.getKey();
+                                                        if(myKey != null && myKey.equals(userPosts.get(position).getPostId())){
+                                                            data.getRef().removeValue();
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                                            }
+                                        });
+                                    }
+                                });
+                        postTerminator.create().show();
                         break;
                     default:
                         break;

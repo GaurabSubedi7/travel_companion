@@ -91,19 +91,13 @@ public class IndividualTripFragment extends Fragment {
         tripAmount.setText(myTripAmount);
         startDate.setText(myTripStartDate);
 
-        if (myTripLocation.equalsIgnoreCase("pokhara")) {
-            if (getContext() != null) {
-                Glide.with(getContext()).asBitmap().load(R.mipmap.ic_pokhara).into(locationImage);
-            }
-        }
-
         if (getContext() != null) {
             switch (myTripLocation.toLowerCase()) {
                 case "pokhara":
-                    Glide.with(getContext()).asBitmap().load(R.mipmap.ic_pokhara).into(locationImage);
+                    Glide.with(getContext()).asBitmap().load(R.mipmap.pokhara).into(locationImage);
                     break;
                 case "kathmandu valley":
-                    Glide.with(getContext()).asBitmap().load(R.mipmap.ic_kathmandu).into(locationImage);
+                    Glide.with(getContext()).asBitmap().load(R.mipmap.kathmandu).into(locationImage);
                     break;
                 default:
                     Toast.makeText(getActivity(), "Something Went Horribly Wrong :(", Toast.LENGTH_SHORT).show();

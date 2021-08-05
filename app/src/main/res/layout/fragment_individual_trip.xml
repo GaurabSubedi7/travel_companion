@@ -38,11 +38,11 @@
                             android:id="@+id/locationImage"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            android:src="@drawable/ic_launcher_background"
-                            android:layout_alignParentEnd="true"
                             android:layout_alignParentTop="true"
+                            android:layout_alignParentEnd="true"
                             android:layout_marginTop="35dp"
-                            android:layout_marginEnd="20dp"/>
+                            android:layout_marginEnd="20dp"
+                            android:src="@drawable/ic_launcher_background" />
 
                         <RelativeLayout
                             android:id="@+id/tripNameRelLayout"
@@ -231,12 +231,12 @@
 
                         <com.github.mikephil.charting.charts.PieChart
                             android:id="@+id/pieChart"
-                            android:layout_below="@+id/txtYourExpenses"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
-                            android:layout_centerInParent="true"/>
+                            android:layout_below="@+id/txtYourExpenses"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp" />
 
                         <TextView
                             android:id="@+id/foodExpenses"

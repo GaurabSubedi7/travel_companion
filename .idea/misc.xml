@@ -3,11 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-anydpi/ic_add_circle.xml" value="0.11640625" />
+        <entry key="app/src/main/res/drawable-anydpi/ic_gps.xml" value="0.3109375" />
+        <entry key="app/src/main/res/drawable-anydpi/ic_lock.xml" value="0.2359375" />
+        <entry key="app/src/main/res/drawable/ic_user.xml" value="0.11640625" />
+        <entry key="app/src/main/res/layout/activity_registration.xml" value="0.75" />
         <entry key="app/src/main/res/layout/checklist_view.xml" value="1.0" />
         <entry key="app/src/main/res/layout/fragment_add_place_to_list.xml" value="0.75" />
         <entry key="app/src/main/res/layout/fragment_individual_trip.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_map.xml" value="0.28671875" />
+        <entry key="app/src/main/res/layout/fragment_progressbar.xml" value="0.31015625" />
         <entry key="app/src/main/res/layout/fragment_service_post_view.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_user_post_view.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/individual_user_post.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/single_post_image.xml" value="0.22" />
       </map>
     </option>
   </component>

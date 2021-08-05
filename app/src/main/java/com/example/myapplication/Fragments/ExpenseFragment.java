@@ -102,8 +102,6 @@ public class ExpenseFragment extends Fragment {
                             }
                             expenses.add(expense);
                             Collections.reverse(expenses);
-
-                            // TODO: 6/19/21 update expense data from firebase without duplication
                         }
 
                         if (!expenses.isEmpty()) {
