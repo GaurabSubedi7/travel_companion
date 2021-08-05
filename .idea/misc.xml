@@ -14,11 +14,14 @@
         <entry key="app/src/main/res/layout/fragment_individual_trip.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_map.xml" value="0.28671875" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.31015625" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.31015625" />
         <entry key="app/src/main/res/layout/fragment_progressbar.xml" value="0.31015625" />
         <entry key="app/src/main/res/layout/fragment_service_post_view.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_user_post_view.xml" value="0.5" />
         <entry key="app/src/main/res/layout/individual_user_post.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/post_image_scroll.xml" value="0.21" />
         <entry key="app/src/main/res/layout/single_post_image.xml" value="0.22" />
+        <entry key="app/src/main/res/menu/user_post_popup_menu.xml" value="0.31015625" />
       </map>
     </option>
   </component>

@@ -9,7 +9,7 @@
             android:id="@+id/userPostSmall"
             android:layout_width="137dp"
             android:layout_height="130dp"
-            app:cardCornerRadius="7dp"
+            app:cardCornerRadius="2dp"
             android:elevation="2dp"
             android:backgroundTint="#3C3C3B"
             android:layout_margin="1dp">

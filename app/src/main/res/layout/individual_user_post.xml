@@ -76,8 +76,8 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/userPostImageRecView"
                             android:layout_width="match_parent"
-                            android:layout_centerHorizontal="true"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true" />
 
                         <androidx.cardview.widget.CardView
                             android:layout_width="wrap_content"
@@ -184,24 +184,24 @@
 
                         <TextView
                             android:id="@+id/postLocation"
-                            android:layout_toEndOf="@+id/locationSymbol"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="3dp"
                             android:layout_centerVertical="true"
-                            android:text="Location"
-                            android:fontFamily="@font/architects_daughter"/>
+                            android:layout_marginStart="3dp"
+                            android:layout_toEndOf="@+id/locationSymbol"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="Location" />
 
                     </RelativeLayout>
 
                     <TextView
                         android:id="@+id/postUploadDate"
-                        android:layout_below="@+id/postLocationRelLayout"
-                        android:layout_alignParentEnd="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2020-1-11"
-                        android:layout_marginEnd="7dp"/>
+                        android:layout_below="@+id/postLocationRelLayout"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="7dp"
+                        android:text="2020-1-11" />
 
                 </RelativeLayout>
             </RelativeLayout>
