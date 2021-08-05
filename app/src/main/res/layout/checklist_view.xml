@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/checklistCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="4dp"
+        app:cardCornerRadius="7dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="3dp"
+        android:backgroundTint="@color/grey">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/grey"
+            android:layout_margin="5dp">
+
+            <ImageView
+                android:id="@+id/showDestination"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:src="@drawable/ic_location_orange"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/deleteChecklist"/>
+
+            <ImageView
+                android:id="@+id/deleteChecklist"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:src="@drawable/ic_delete"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"/>
+
+            <CheckBox
+                android:id="@+id/placeName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/architects_daughter"
+                android:text="Dummy Text" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

@@ -1,5 +1,6 @@
 package com.example.myapplication.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -62,7 +63,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull TripAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull TripAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if(trips.get(position).getTripName()!=null){
             holder.tripName.setText(trips.get(position).getTripName());
             holder.startDate.setText(trips.get(position).getStartDate());

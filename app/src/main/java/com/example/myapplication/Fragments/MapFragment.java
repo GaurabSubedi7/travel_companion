@@ -20,11 +20,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.directions.route.AbstractRouting;
-import com.directions.route.Route;
-import com.directions.route.RouteException;
-import com.directions.route.Routing;
-import com.directions.route.RoutingListener;
 import com.example.myapplication.DIrectionHelpers.FetchURL;
 import com.example.myapplication.DIrectionHelpers.TaskLoadedCallback;
 import com.example.myapplication.R;
@@ -53,7 +48,6 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -111,12 +105,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
         }
 
         // Create a new PlacesClient instance
-        placeAutoComplete();
+//        placeAutoComplete();
         return view;
     }
 
-
-    public void placeAutoComplete(){
+    public void placeAutoComplete(MyCallback onCallback){
         if(getFragmentManager()!=null){
             AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                     getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
@@ -130,12 +123,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
                     // TODO: Get info about the selected place.
                     Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
                     if(place.getLatLng()!= null && place.getName()!= null){
+                        onCallback.onCallback(place.getLatLng());
                         moveCamera(place.getLatLng(), place.getName());
                     }else{
                         Toast.makeText(getContext(), "Something went doodooo", Toast.LENGTH_SHORT).show();
                     }
                 }
-
 
                 @Override
                 public void onError(@NonNull Status status) {
@@ -231,6 +224,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
                                 LatLng latlng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                                 myCallback.onCallback(latlng);
                                 moveCamera(latlng, "My Location");
+                                if(getArguments() != null){
+                                    String checklistTitle = getArguments().getString("title");
+                                    double checklistLat = getArguments().getDouble("latitude");
+                                    double checklistLon = getArguments().getDouble("longitude");
+                                    LatLng latLng = new LatLng(checklistLat, checklistLon);
+                                    moveCamera(latLng, checklistTitle);
+                                }
                             } else {
                                 Toast.makeText(getActivity(), "u not Turn on location on device... Turn it on and gibb try again :|", Toast.LENGTH_SHORT).show();
                             }
@@ -348,6 +348,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
         final LatLng[] myCurrentLocation = new LatLng[1];
         final LatLng[] destination = new LatLng[1];
 
+        placeAutoComplete(new MyCallback() {
+            @Override
+            public void onCallback(LatLng latlng) {
+                destination[0] = latlng;
+            }
+        });
+
+        if(getArguments() != null){
+            double checklistLat = getArguments().getDouble("latitude");
+            double checklistLon = getArguments().getDouble("longitude");
+            LatLng latLng = new LatLng(checklistLat, checklistLon);
+            destination[0] = latLng;
+        }
+
         getDeviceLocation(new MyCallback() {
             @Override
             public void onCallback(LatLng latlng) {
@@ -397,7 +411,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
         direction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("CUrrent :" + myCurrentLocation[0] + "===============" + destination[0]);
+                System.out.println("Current :" + myCurrentLocation[0] + "===============" + destination[0]);
                 if(myCurrentLocation[0] != null && destination[0] != null)
                     findRoutes(myCurrentLocation[0], destination[0], "Driving");
             }
@@ -409,11 +423,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
         direction = view.findViewById(R.id.getRoute);
     }
 
-    public interface MyCallback{
+    public interface MyCallback {
         void onCallback(LatLng latlng);
     }
-
-
 }
 //LOOKS CUTE MIGHT REMOVE LATER
 /*

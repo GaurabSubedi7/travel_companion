@@ -16,11 +16,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.Adapters.ChecklistAdapter;
 import com.example.myapplication.Adapters.ExpenseAdapter;
+import com.example.myapplication.Models.Checklist;
 import com.example.myapplication.Models.Expense;
 import com.example.myapplication.R;
 import com.github.mikephil.charting.charts.PieChart;
@@ -46,18 +50,22 @@ import static com.example.myapplication.MainActivity.MY_DATABASE;
 public class IndividualTripFragment extends Fragment {
     public IndividualTripFragment() {
     }
-
-    private Expense expense;
+    //firebase
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);
     private DatabaseReference databaseReference = database.getReference();
+
+    private Expense expense;
+    private Checklist checklist;
     public ArrayList<Expense> expenses = new ArrayList<>();
+    public ArrayList<Checklist> checklists = new ArrayList<>();
 
     private TextView tripName, tripLocation, tripAmount, startDate, food, transport, hotel, misc;
     private ImageView locationImage;
-    private RelativeLayout noExpenseRelLayout, pieChartRelLayout;
+    private RelativeLayout noExpenseRelLayout, pieChartRelLayout, noChecklistRelLayout, actualChecklistRelLayout;
     private PieChart pieChart;
-    private Button btnAddExpenses, btnAddExpenses2;
+    private Button btnAddExpenses, btnAddExpenses2, btnAddPlaces, btnAddPlaces2;
+    private RecyclerView checklistRecView;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -76,25 +84,20 @@ public class IndividualTripFragment extends Fragment {
 
         //GET EXPENSES DATA FOR PIE CHART
         getExpenseFromFirebase(myTripId);
+        getChecklistFromFirebase(myTripId);
 
         tripName.setText(myTripName);
         tripLocation.setText(myTripLocation);
         tripAmount.setText(myTripAmount);
         startDate.setText(myTripStartDate);
 
-        if (myTripLocation.equalsIgnoreCase("pokhara")) {
-            if (getContext() != null) {
-                Glide.with(getContext()).asBitmap().load(R.mipmap.ic_pokhara).into(locationImage);
-            }
-        }
-
         if (getContext() != null) {
             switch (myTripLocation.toLowerCase()) {
                 case "pokhara":
-                    Glide.with(getContext()).asBitmap().load(R.mipmap.ic_pokhara).into(locationImage);
+                    Glide.with(getContext()).asBitmap().load(R.mipmap.pokhara).into(locationImage);
                     break;
                 case "kathmandu valley":
-                    Glide.with(getContext()).asBitmap().load(R.mipmap.ic_kathmandu).into(locationImage);
+                    Glide.with(getContext()).asBitmap().load(R.mipmap.kathmandu).into(locationImage);
                     break;
                 default:
                     Toast.makeText(getActivity(), "Something Went Horribly Wrong :(", Toast.LENGTH_SHORT).show();
@@ -118,6 +121,22 @@ public class IndividualTripFragment extends Fragment {
             }
         });
 
+        btnAddPlaces.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //navigate to map fragment
+                goToMapFragment();
+            }
+        });
+
+        btnAddPlaces2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //navigate to map fragment
+                goToMapFragment();
+            }
+        });
+
         return view;
     }
 
@@ -135,6 +154,59 @@ public class IndividualTripFragment extends Fragment {
         ft.commit();
     }
 
+    private void goToMapFragment(){
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        MapFragment mapFragment = new MapFragment();
+        ft.replace(R.id.FrameContainer, mapFragment).addToBackStack(null);
+        ft.commit();
+    }
+
+    //getChecklist
+    private void getChecklistFromFirebase(String myTripId){
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(snapshot != null){
+                    if(auth.getUid() != null){
+                        checklists.clear();
+                        for (DataSnapshot data : snapshot.child("Users").child(auth.getUid()).child("Trips")
+                                .child(myTripId).child("Checklist").getChildren()) {
+                            String myKey = data.getKey();
+                            checklist = data.getValue(Checklist.class);
+                            if (myKey != null && checklist != null) {
+                                checklist.setChecklistId(myKey);
+                            } else {
+                                Toast.makeText(getActivity(), "ChecklistId became null", Toast.LENGTH_SHORT).show();
+                            }
+                            checklists.add(checklist);
+                            Collections.reverse(checklists);
+                        }
+
+                        if(!checklists.isEmpty()){
+                            noChecklistRelLayout.setVisibility(View.GONE);
+                            actualChecklistRelLayout.setVisibility(View.VISIBLE);
+
+                            FragmentManager fm = getFragmentManager();
+                            ChecklistAdapter adapter = new ChecklistAdapter(getContext(), fm, myTripId);
+                            checklistRecView.setAdapter(adapter);
+                            checklistRecView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+                            adapter.setChecklists(checklists);
+                        }else{
+                            noChecklistRelLayout.setVisibility(View.VISIBLE);
+                            actualChecklistRelLayout.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
+
     //get expenses data from firebase
     private void getExpenseFromFirebase(String myTripId) {
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -143,7 +215,8 @@ public class IndividualTripFragment extends Fragment {
                 if (snapshot.exists()) {
                     if (auth.getUid() != null) {
                         expenses.clear();
-                        for (DataSnapshot data : snapshot.child("Users").child(auth.getUid()).child("Trips").child(myTripId).child("expenses").getChildren()) {
+                        for (DataSnapshot data : snapshot.child("Users").child(auth.getUid()).child("Trips")
+                                .child(myTripId).child("expenses").getChildren()) {
                             String myKey = data.getKey();
                             expense = data.getValue(Expense.class);
                             if (myKey != null && expense != null) {
@@ -275,13 +348,21 @@ public class IndividualTripFragment extends Fragment {
         pieChart = view.findViewById(R.id.pieChart);
         locationImage = view.findViewById(R.id.locationImage);
         noExpenseRelLayout = view.findViewById(R.id.noExpensesRelLayout);
+        noChecklistRelLayout = view.findViewById(R.id.noChecklistRelLayout);
+
+        actualChecklistRelLayout = view.findViewById(R.id.actualChecklistRelLayout);
         pieChartRelLayout = view.findViewById(R.id.pieChartRelLayout);
         btnAddExpenses = view.findViewById(R.id.btnAddExpenses);
         btnAddExpenses2 = view.findViewById(R.id.btnAddExpenses2);
+
+        btnAddPlaces = view.findViewById(R.id.btnAddPlaces);
+        btnAddPlaces2 = view.findViewById(R.id.btnAddPlaces2);
 
         food = view.findViewById(R.id.foodExpenses);
         hotel = view.findViewById(R.id.hotelExpenses);
         transport = view.findViewById(R.id.transportExpenses);
         misc = view.findViewById(R.id.miscExpenses);
+
+        checklistRecView = view.findViewById(R.id.checklistRecView);
     }
 }
