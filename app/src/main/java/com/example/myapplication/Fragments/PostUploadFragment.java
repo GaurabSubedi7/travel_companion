@@ -198,24 +198,25 @@ public class PostUploadFragment extends Fragment {
                     specificLocation = locationEditText.getText().toString();
                 }
 
-                //start progressDialog
-                progressDialog = new ProgressDialog(getContext());
-                progressDialog.setCancelable(false);
-                progressDialog.setMessage("Have Patience, Your Post Is Being Uploaded");
-                progressDialog.show();
                 if(Image.getInstance().getImageUris() != null && !Image.getInstance().getImageUris().isEmpty()) {
+                    //start progressDialog
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setCancelable(false);
+                    progressDialog.setMessage("Have Patience, Your Post Is Being Uploaded");
+                    progressDialog.show();
                     addToFirebase(Image.getInstance().getImageUris(), tripLocation, specificLocation, latitude, longitude,
                             new MyCallback() {
                         @Override
                         public void success() {
                             progressDialog.dismiss();
-                            if(getFragmentManager() != null){
-                                getFragmentManager().beginTransaction().replace(R.id.FrameContainer, new HomeFragment());
-                            }
                         }
                     });
                 }else{
                     Toast.makeText(getActivity(), "You Must Add An Image(s) First", Toast.LENGTH_SHORT).show();
+                }
+                if(getFragmentManager() != null){
+                    bottomNavigationView.setVisibility(View.VISIBLE);
+                    getFragmentManager().beginTransaction().replace(R.id.FrameContainer, new HomeFragment()).commit();
                 }
             }
         });
