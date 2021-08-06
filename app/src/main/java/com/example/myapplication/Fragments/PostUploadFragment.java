@@ -209,9 +209,8 @@ public class PostUploadFragment extends Fragment {
                         @Override
                         public void success() {
                             progressDialog.dismiss();
-                            if (getFragmentManager()!= null && getFragmentManager().getBackStackEntryCount() != 0) {
-                                bottomNavigationView.setVisibility(View.VISIBLE);
-                                getFragmentManager().popBackStack();
+                            if(getFragmentManager() != null){
+                                getFragmentManager().beginTransaction().replace(R.id.FrameContainer, new HomeFragment());
                             }
                         }
                     });
