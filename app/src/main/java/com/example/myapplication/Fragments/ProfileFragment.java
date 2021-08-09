@@ -28,6 +28,7 @@ import com.example.myapplication.Models.UserPost;
 import com.example.myapplication.Adapters.PostAdapter;
 import com.example.myapplication.R;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -54,6 +55,7 @@ public class ProfileFragment extends Fragment {
     private Button editProfile;
     private ConstraintLayout profileFragment;
     private RelativeLayout noSmallPostRelLayout;
+    private BottomNavigationView bottomNavigationView;
 
     //firebase
     private FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -74,6 +76,10 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         initView(view);
+        if(getActivity() != null){
+            bottomNavigationView = getActivity().findViewById(R.id.bottomNavigation);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
 
         //userPost array list
         getDataFromFirebase();
@@ -81,9 +87,10 @@ public class ProfileFragment extends Fragment {
         createPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PostFragment postFragment = new PostFragment();
-                if(getFragmentManager() != null) {
-                    postFragment.show(getFragmentManager(), "show my post");
+                FragmentManager fm = getFragmentManager();
+                if(fm != null){
+                    FragmentTransaction ft = fm.beginTransaction().addToBackStack(null);
+                    ft.replace(R.id.FrameContainer,new PostUploadFragment()).commit();
                 }
             }
         });
@@ -137,7 +144,8 @@ public class ProfileFragment extends Fragment {
 
                         //variables to temporarily store data from firebase before adding to object.
                         ArrayList<String> myImages;
-                        String myId, myCaption, myDate, userId;
+                        String myId, myCaption, myDate, userId, tripLocation, specificLocation;
+                        double latitude, longitude;;
 
                         //get user's post from firebase
                         for(DataSnapshot data : dataSnapshot.child("Posts").getChildren()) {
@@ -148,13 +156,18 @@ public class ProfileFragment extends Fragment {
                                 myImages = new ArrayList<>();
                                 myCaption = (String) data.child("caption").getValue();
                                 myDate = (String) data.child("uploadDate").getValue();
+                                tripLocation = (String) data.child("tripLocation").getValue();
+                                specificLocation = (String) data.child("specificLocation").getValue();
+                                latitude = data.child("latitude").getValue(Double.class);
+                                longitude = data.child("longitude").getValue(Double.class);
                                 for (DataSnapshot imageId : data.child("Images").getChildren()) {
                                     myImages.add((String) imageId.child("img").getValue());
                                 }
 
                                 if (!myImages.isEmpty()) {
                                     //all the data added to userPosts arraylist
-                                    userPosts.add(new UserPost(myId, userId, myCaption, myDate, myImages));
+                                    userPosts.add(new UserPost(myId, userId, myCaption, myDate, myImages,
+                                            tripLocation, specificLocation, latitude, longitude));
                                 }
                             }
                         }

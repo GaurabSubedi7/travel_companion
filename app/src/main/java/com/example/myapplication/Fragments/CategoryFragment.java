@@ -1,5 +1,6 @@
 package com.example.myapplication.Fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -55,6 +56,7 @@ public class CategoryFragment extends DialogFragment {
                 .setView(view).setTitle("Add Your Expense");
         initView(view);
         addCategory.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SimpleDateFormat")
             @Override
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();

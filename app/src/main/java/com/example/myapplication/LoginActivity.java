@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         //Progress prompt after user clicks the login button
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setTitle("Signing In");
+        progressDialog.setCancelable(false);
         progressDialog.setMessage("Logging in to your Account ;) ");
 
         binding.login.setOnClickListener(new View.OnClickListener() {

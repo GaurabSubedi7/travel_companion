@@ -21,11 +21,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.Fragments.CategoryFragment;
 import com.example.myapplication.Fragments.EditPostFragment;
+import com.example.myapplication.Fragments.MapFragment;
 import com.example.myapplication.Fragments.OwnPostFragment;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.Models.UserPost;
@@ -183,6 +185,7 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
 
             holder.caption.setText(userPosts.get(position).getCaption());
             holder.postUploadDate.setText(userPosts.get(position).getUploadDate());
+            holder.postLocation.setText(userPosts.get(position).getSpecificLocation());
         }catch (IndexOutOfBoundsException e){
             Toast.makeText(context, "Image Failed To Load", Toast.LENGTH_SHORT).show();
         }
@@ -270,7 +273,19 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId() == R.id.menuViewLocation){
-                    Toast.makeText(context, "View Location Clicked", Toast.LENGTH_SHORT).show();
+                    if(userPosts.get(position).getSpecificLocation().equals("unknown")){
+                        Toast.makeText(context, "Location is Unknown", Toast.LENGTH_SHORT).show();
+                    }else {
+                        FragmentTransaction ft = fm.beginTransaction();
+                        MapFragment mapFragment = new MapFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("title", userPosts.get(position).getSpecificLocation());
+                        bundle.putDouble("latitude", userPosts.get(position).getLatitude());
+                        bundle.putDouble("longitude", userPosts.get(position).getLongitude());
+                        mapFragment.setArguments(bundle);
+                        ft.replace(R.id.FrameContainer, mapFragment).addToBackStack(null);
+                        ft.commit();
+                    }
                 }
                 return false;
             }

@@ -81,7 +81,8 @@ public class OwnPostFragment extends DialogFragment {
                         //variables to temporarily store data from firebase before adding to object.
                         ArrayList<String> myImages;
                         ArrayList<User> liker;
-                        String myId, myCaption, myDate, userId;
+                        String myCaption, myDate, userId, tripLocation, specificLocation;
+                        double latitude, longitude;
 
                         //get user's post from firebase
                         userId = dataSnapshot.child("Posts").child(postId).child("userId").getValue(String.class);
@@ -93,6 +94,10 @@ public class OwnPostFragment extends DialogFragment {
                         liker = new ArrayList<>();
                         myCaption = (String) dataSnapshot.child("Posts").child(postId).child("caption").getValue();
                         myDate = (String) dataSnapshot.child("Posts").child(postId).child("uploadDate").getValue();
+                        tripLocation = ((String) dataSnapshot.child("Posts").child(postId).child("tripLocation").getValue());
+                        specificLocation = (String) dataSnapshot.child("Posts").child(postId).child("specificLocation").getValue();
+                        latitude = 0.01;
+                        longitude = 0.01;
                         for(DataSnapshot imageId: dataSnapshot.child("Posts").child(postId).child("Images").getChildren()){
                             myImages.add((String) imageId.child("img").getValue());
                         }
@@ -106,7 +111,8 @@ public class OwnPostFragment extends DialogFragment {
                         }
 
                         if(!myImages.isEmpty()) {
-                            UserPost userPost = new UserPost(postId, userId, myCaption, myDate, myImages);
+                            UserPost userPost = new UserPost(postId, userId, myCaption, myDate, myImages,
+                                    tripLocation, specificLocation, latitude, longitude);
                             //all the data added to userPosts arraylist
                             if(!liker.isEmpty()){
                                 userPost.setLikeCount(liker);
