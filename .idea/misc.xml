@@ -20,7 +20,7 @@
         <entry key="app/src/main/res/layout/fragment_service_post_view.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_user_post_view.xml" value="0.75" />
         <entry key="app/src/main/res/layout/individual_user_post.xml" value="0.67" />
-        <entry key="app/src/main/res/layout/own_post_view.xml" value="0.9" />
+        <entry key="app/src/main/res/layout/own_post_view.xml" value="0.5" />
         <entry key="app/src/main/res/layout/post_image_scroll.xml" value="0.21" />
         <entry key="app/src/main/res/layout/search_location_view.xml" value="0.31015625" />
         <entry key="app/src/main/res/layout/single_post_image.xml" value="0.22" />
