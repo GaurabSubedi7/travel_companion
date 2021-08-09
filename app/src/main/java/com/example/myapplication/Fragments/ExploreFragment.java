@@ -5,21 +5,19 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 
 import com.example.myapplication.Adapters.UserPostAdapter;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.Models.UserPost;
 import com.example.myapplication.R;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,81 +31,47 @@ import java.util.Collections;
 
 import static com.example.myapplication.MainActivity.MY_DATABASE;
 
-public class HomeFragment extends Fragment {
 
-    private ImageView createPost,findServiceImage,exploreImage;
-    private TextView txtUsername;
-    private RecyclerView newsFeedRecView;
-    private BottomNavigationView bottomNavigationView;
-
-    private UserPostAdapter adapter;
-
-    private String userName;
-
+public class ExploreFragment extends Fragment {
     //firebase
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);
     private DatabaseReference databaseReference = database.getReference();
 
+    private UserPostAdapter adapter;
     public ArrayList<UserPost> userPosts = new ArrayList<>();
     public ArrayList<User> users = new ArrayList<>();
-    
-    @Override
+
+    private RecyclerView newsFeedRecView;
+    private Spinner locationFilterSpinner;
+    private String selectedtripLocation;
+    public ExploreFragment() {
+        // Required empty public constructor
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_explore, container, false);
         initView(view);
-
-        if(getActivity() != null){
-            bottomNavigationView = getActivity().findViewById(R.id.bottomNavigation);
-            bottomNavigationView.setVisibility(View.VISIBLE);
-        }
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        locationFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    if(auth.getUid() != null){
-                        userName = dataSnapshot.child("Users").child(auth.getUid()).child("userName").getValue(String.class);
-                        txtUsername.setText(userName);
-                    }
-                }
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedtripLocation = locationFilterSpinner.getSelectedItem().toString();
+                System.out.println("====================="+selectedtripLocation);
+                getDataFromFirebase(selectedtripLocation);
             }
 
             @Override
-            public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError error) {
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
-
-        createPost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fm = getFragmentManager();
-                if(fm != null){
-                    FragmentTransaction ft = fm.beginTransaction().addToBackStack(null);
-                    ft.replace(R.id.FrameContainer,new PostUploadFragment()).commit();
-                }
-            }
-        });
-        exploreImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fm  = getFragmentManager();
-                if(fm != null){
-                    FragmentTransaction ft = fm.beginTransaction().addToBackStack(null);
-                    ft.replace(R.id.FrameContainer,new ExploreFragment()).commit();
-                }
-            }
-        });
-
-        getDataFromFirebase();
 
         return view;
     }
 
-    private void getDataFromFirebase(){
+    private void getDataFromFirebase(String location){
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
@@ -115,12 +79,13 @@ public class HomeFragment extends Fragment {
                     userPosts.clear();
                     users.clear();
                     if(auth.getUid() != null){
-
                         //variables to temporarily store data from firebase before adding to object.
                         ArrayList<String> myImages;
                         ArrayList<User> liker;
                         String myId, myCaption, myDate, userId, tripLocation, specificLocation;
                         double latitude, longitude;
+
+
 
                         //get user's post from firebase
                         for(DataSnapshot data: dataSnapshot.child("Posts").getChildren()){
@@ -150,17 +115,29 @@ public class HomeFragment extends Fragment {
                                 }
                             }
 
+
                             if(!myImages.isEmpty()) {
-                                UserPost userPost = new UserPost(myId, userId, myCaption, myDate, myImages,
-                                        tripLocation, specificLocation, latitude, longitude);
-                                //all the data added to userPosts arraylist
-                                if(!liker.isEmpty()){
-                                    userPost.setLikeCount(liker);
+                                if (!location.equals("All") && location.equals(tripLocation)) {
+                                    UserPost userPost = new UserPost(myId, userId, myCaption, myDate, myImages,
+                                            location, specificLocation, latitude, longitude);
+                                    //all the data added to userPosts arraylist
+                                    if (!liker.isEmpty()) {
+                                        userPost.setLikeCount(liker);
+                                    }
+
+                                    userPosts.add(userPost);
                                 }
-                                userPosts.add(userPost);
+                                if(location.equals("All")){
+                                    UserPost userPost = new UserPost(myId, userId, myCaption, myDate, myImages,
+                                            tripLocation, specificLocation, latitude, longitude);
+                                    //all the data added to userPosts arraylist
+                                    if (!liker.isEmpty()) {
+                                        userPost.setLikeCount(liker);
+                                    }
+
+                                    userPosts.add(userPost);
+                                }
                             }
-
-
                         }
 
                         if(!userPosts.isEmpty()){
@@ -187,9 +164,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void initView(View view){
-        createPost = view.findViewById(R.id.createPost);
-        txtUsername = view.findViewById(R.id.txtServiceName);
-        newsFeedRecView = view.findViewById(R.id.newsFeedRecView);
-        exploreImage = view.findViewById(R.id.exploreImage);
+        newsFeedRecView = view.findViewById(R.id.explorePostRecView);
+        locationFilterSpinner = view.findViewById(R.id.locationFilterSpinner);
+
     }
 }
