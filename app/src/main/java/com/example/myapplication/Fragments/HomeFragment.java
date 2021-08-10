@@ -101,6 +101,16 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+        findServiceImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm  = getFragmentManager();
+                if(fm != null){
+                    FragmentTransaction ft = fm.beginTransaction().addToBackStack(null);
+                    ft.replace(R.id.FrameContainer,new FindServiceFragment()).commit();
+                }
+            }
+        });
 
         getDataFromFirebase();
 
@@ -191,5 +201,6 @@ public class HomeFragment extends Fragment {
         txtUsername = view.findViewById(R.id.txtServiceName);
         newsFeedRecView = view.findViewById(R.id.newsFeedRecView);
         exploreImage = view.findViewById(R.id.exploreImage);
+        findServiceImage = view.findViewById(R.id.findServiceImage);
     }
 }
