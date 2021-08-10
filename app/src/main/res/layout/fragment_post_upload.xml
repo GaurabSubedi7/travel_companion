@@ -38,9 +38,9 @@
                 android:id="@+id/captionEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="top|left"
                 android:background="@null"
                 android:fontFamily="@font/architects_daughter"
+                android:gravity="top|left"
                 android:hint="What's Happening?" />
 
         </RelativeLayout>
@@ -201,11 +201,11 @@
 
                 <Button
                     android:id="@+id/btnPost"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:backgroundTint="@color/colorPrimary"
                     android:text="Post"
-                    style="?android:attr/borderlessButtonStyle"
                     android:textAllCaps="false" />
 
             </RelativeLayout>

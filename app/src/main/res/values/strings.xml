@@ -30,4 +30,16 @@
         <item>Hotel</item>
         <item>Miscellaneous</item>
     </string-array>
+
+    <string-array name="service_location">
+        <item>Add Location</item>
+        <item>Kathmandu Valley</item>
+        <item>Pokhara</item>
+    </string-array>
+
+    <string-array name="service_type">
+        <item>Choose Service Type</item>
+        <item>Hotel</item>
+        <item>Transport</item>
+    </string-array>
 </resources>

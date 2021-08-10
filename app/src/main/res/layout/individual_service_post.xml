@@ -185,7 +185,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
                         android:backgroundTint="@color/colorPrimary"
-                        android:text="BookNow"
+                        android:text="Contact Us"
                         android:textAllCaps="false" />
 
                     <Button

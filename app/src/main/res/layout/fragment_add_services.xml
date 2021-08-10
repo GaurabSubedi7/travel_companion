@@ -6,71 +6,82 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/txtCreatePost"
+        android:id="@+id/txtAddService"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="10dp"
+        android:text="Add Service"
+        android:textSize="18sp"
         android:fontFamily="@font/architects_daughter"
-        android:text="Create Post"
-        android:textStyle="bold"
-        android:textSize="18sp" />
+        android:layout_margin="10dp"/>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/captionCard"
+        android:id="@+id/serviceNameCard"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:elevation="5dp"
-        android:layout_below="@+id/txtCreatePost"
+        android:layout_below="@+id/txtAddService"
         app:cardCornerRadius="16dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp">
 
         <RelativeLayout
-            android:id="@+id/captionRelLayout"
+            android:id="@+id/serviceNameRelLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
+            android:padding="15dp">
 
             <EditText
-            android:id="@+id/serviceNameText"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:gravity="center"
-            android:background="@null"
-            android:fontFamily="@font/architects_daughter"
-            android:hint="Service Name" />
-            <EditText
-                android:id="@+id/servicePriceText"
+                android:id="@+id/serviceNameEditText"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:gravity="center"
+                android:layout_height="wrap_content"
                 android:background="@null"
                 android:fontFamily="@font/architects_daughter"
-                android:hint="Service Price"
-                android:layout_below="@id/serviceNameText"/>
-
-            <Spinner
-                android:id="@+id/categoryName"
-                android:layout_centerHorizontal="true"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:textAlignment="center"
-                android:entries="@array/Categories"
-                android:layout_below="@id/servicePriceText"
-                />
+                android:gravity="left"
+                android:hint="ServiceName" />
 
         </RelativeLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/spinnerCard"
+        android:id="@+id/priceCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:layout_below="@+id/serviceNameCard"
+        app:cardCornerRadius="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp">
+
+        <RelativeLayout
+            android:id="@+id/priceRelLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="15dp">
+
+            <EditText
+                android:id="@+id/priceEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:fontFamily="@font/architects_daughter"
+                android:gravity="left"
+                android:hint="Price"
+                android:inputType="numberDecimal" />
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/serviceTypeCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/captionCard"
+        android:layout_below="@id/priceCard"
         app:cardCornerRadius="16dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
@@ -84,115 +95,80 @@
             android:padding="5dp">
 
             <Spinner
-                android:id="@+id/tripLocationSpinner"
+                android:id="@+id/serviceTypeSpinner"
                 android:layout_width="220dp"
                 android:layout_height="40dp"
-                android:entries="@array/trip_location" />
+                android:entries="@array/service_type" />
 
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/imageBtnCard"
+        android:id="@+id/serviceLocationCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/spinnerCard"
-        android:layout_below="@+id/captionCard"
+        android:layout_below="@id/serviceTypeCard"
         app:cardCornerRadius="16dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="10dp"
-        android:backgroundTint="@color/colorPrimary">
-
-        <RelativeLayout
-            android:id="@+id/imageBtnRelLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dp">
-
-            <ImageButton
-                android:id="@+id/addImage"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:src="@drawable/ic_add_photo" />
-
-        </RelativeLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/currentLocationBtnCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="16dp"
-        android:layout_below="@+id/addLocationCard"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:backgroundTint="@color/colorPrimary">
-
-        <RelativeLayout
-            android:id="@+id/currentLocationBtnRelLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:id="@+id/currentLocationBtn"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="Use Current Location"
-                android:textAllCaps="false" />
-
-        </RelativeLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/addLocationCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/spinnerCard"
-        app:cardCornerRadius="16dp"
-        android:layout_marginTop="15dp"
         android:layout_marginBottom="5dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp">
 
         <RelativeLayout
-            android:id="@+id/addLocationRelLayout"
+            android:id="@+id/serviceLocationRelLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="15dp">
+            android:padding="5dp">
 
-            <EditText
-                android:id="@+id/locationEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:drawableEnd="@drawable/ic_search"
-                android:drawablePadding="10dp"
-                android:focusable="false"
-                android:fontFamily="@font/architects_daughter"
-                android:hint="Specify where you've been . . ."
-                android:textSize="16sp" />
+            <Spinner
+                android:id="@+id/serviceLocationSpinner"
+                android:layout_width="220dp"
+                android:layout_height="40dp"
+                android:entries="@array/service_location" />
 
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/descriptionCard"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:elevation="5dp"
+        android:layout_below="@+id/serviceLocationCard"
+        app:cardCornerRadius="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp">
+
+        <RelativeLayout
+            android:id="@+id/descriptionRelLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="15dp">
+
+            <EditText
+                android:id="@+id/descriptionEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:fontFamily="@font/architects_daughter"
+                android:gravity="top|left"
+                android:hint="Description" />
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/newPhotoRecView"
+        android:id="@+id/serviceNewPhotoRecView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/currentLocationBtnCard"
+        android:layout_below="@+id/descriptionCard"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp" />
+        android:layout_marginBottom="5dp"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -219,12 +195,12 @@
                 android:layout_height="wrap_content">
 
                 <Button
-                    android:id="@+id/btnPost"
+                    android:id="@+id/btnAddNewService"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:backgroundTint="@color/colorPrimary"
-                    android:text="Post"
-                    style="?android:attr/borderlessButtonStyle"
+                    android:text="Add"
                     android:textAllCaps="false" />
 
             </RelativeLayout>
@@ -248,7 +224,7 @@
                 android:layout_height="wrap_content">
 
                 <Button
-                    android:id="@+id/btnCancel"
+                    android:id="@+id/btnCancelService"
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
