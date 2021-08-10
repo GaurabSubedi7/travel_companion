@@ -11,6 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +37,8 @@ public class ServiceHomeFragment extends Fragment {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private final FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);
     private DatabaseReference databaseReference = database.getReference();
+
+    private RecyclerView serviceFeedRecView;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -60,7 +65,16 @@ public class ServiceHomeFragment extends Fragment {
 
             }
         });
-
+        btnAddServices.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm  = getFragmentManager();
+                if(fm != null){
+                    FragmentTransaction ft = fm.beginTransaction().addToBackStack(null);
+                    ft.replace(R.id.FrameContainer,new AddServicesFragment()).commit();
+                }
+            }
+        });
         return view;
     }
 
@@ -68,6 +82,7 @@ public class ServiceHomeFragment extends Fragment {
         serviceName = view.findViewById(R.id.txtServiceName);
         btnAddServices = view.findViewById(R.id.btnAddServices);
         serviceProfileImage = view.findViewById(R.id.serviceProfileImage);
+        serviceFeedRecView = view.findViewById(R.id.serviceFeedRecView);
     }
 }
 
