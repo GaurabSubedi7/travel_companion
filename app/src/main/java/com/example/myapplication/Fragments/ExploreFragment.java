@@ -44,7 +44,7 @@ public class ExploreFragment extends Fragment {
 
     private RecyclerView newsFeedRecView;
     private Spinner locationFilterSpinner;
-    private String selectedtripLocation;
+    private String selectedTripLocation;
     public ExploreFragment() {
         // Required empty public constructor
     }
@@ -57,9 +57,8 @@ public class ExploreFragment extends Fragment {
         locationFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedtripLocation = locationFilterSpinner.getSelectedItem().toString();
-                System.out.println("====================="+selectedtripLocation);
-                getDataFromFirebase(selectedtripLocation);
+                selectedTripLocation = locationFilterSpinner.getSelectedItem().toString();
+                getDataFromFirebase(selectedTripLocation);
             }
 
             @Override
@@ -165,7 +164,7 @@ public class ExploreFragment extends Fragment {
 
     private void initView(View view){
         newsFeedRecView = view.findViewById(R.id.explorePostRecView);
-        locationFilterSpinner = view.findViewById(R.id.locationFilterSpinner);
+        locationFilterSpinner = view.findViewById(R.id.exploreFilterSpinner);
 
     }
 }
