@@ -54,6 +54,7 @@ public class ServicesFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
