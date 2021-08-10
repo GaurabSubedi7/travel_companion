@@ -84,7 +84,6 @@
         app:layout_constraintTop_toTopOf="@+id/createPost" />
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
@@ -99,24 +98,24 @@
             <RelativeLayout
                 android:id="@+id/homeTopRelLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false">
+                android:nestedScrollingEnabled="false"
+                android:layout_height="wrap_content">
 
                 <RelativeLayout
                     android:id="@+id/exploreRelLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="10dp"
-                    android:nestedScrollingEnabled="false">
+                    android:layout_marginTop="10dp">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="160dp"
                         android:layout_height="100dp"
-                        android:layout_marginEnd="10dp"
-                        android:elevation="7dp"
                         android:nestedScrollingEnabled="false"
-                        app:cardCornerRadius="20dp">
+                        android:layout_marginEnd="10dp"
+                        app:cardCornerRadius="20dp"
+                        android:elevation="7dp">
 
                         <RelativeLayout
                             android:id="@+id/exploreBackground"
@@ -128,20 +127,20 @@
                                 android:id="@+id/exploreImage"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
+                                android:src="@drawable/ic_compass"
                                 android:layout_centerHorizontal="true"
-                                android:layout_marginTop="10dp"
-                                android:src="@drawable/ic_compass" />
+                                android:layout_marginTop="10dp"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/exploreImage"
                                 android:layout_centerHorizontal="true"
-                                android:fontFamily="@font/architects_daughter"
                                 android:text="Explore"
                                 android:textColor="@color/white"
-                                android:textSize="16dp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:fontFamily="@font/architects_daughter"
+                                android:textSize="16dp"/>
 
                         </RelativeLayout>
 
@@ -151,20 +150,20 @@
 
                 <RelativeLayout
                     android:id="@+id/findServiceRelLayout"
+                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="10dp"
+                    android:nestedScrollingEnabled="false"
                     android:layout_marginEnd="8dp"
-                    android:nestedScrollingEnabled="false">
+                    android:layout_marginTop="10dp">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="160dp"
                         android:layout_height="100dp"
-                        android:layout_marginStart="10dp"
-                        android:elevation="7dp"
                         android:nestedScrollingEnabled="false"
-                        app:cardCornerRadius="20dp">
+                        app:cardCornerRadius="20dp"
+                        android:layout_marginStart="10dp"
+                        android:elevation="7dp">
 
                         <RelativeLayout
                             android:id="@+id/findServiceBackground"
@@ -176,20 +175,20 @@
                                 android:id="@+id/findServiceImage"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
+                                android:src="@drawable/ic_hotel_service"
                                 android:layout_centerHorizontal="true"
-                                android:layout_marginTop="10dp"
-                                android:src="@drawable/ic_hotel_service" />
+                                android:layout_marginTop="10dp"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/findServiceImage"
                                 android:layout_centerHorizontal="true"
-                                android:fontFamily="@font/architects_daughter"
                                 android:text="Services"
                                 android:textColor="@color/white"
-                                android:textSize="16dp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:fontFamily="@font/architects_daughter"
+                                android:textSize="16dp"/>
 
                         </RelativeLayout>
 
@@ -201,13 +200,13 @@
                     android:id="@+id/txtMemories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/exploreRelLayout"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="@font/architects_daughter"
                     android:text="Stories"
+                    android:fontFamily="@font/architects_daughter"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_below="@id/exploreRelLayout"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginStart="30dp" />
 
             </RelativeLayout>
 
@@ -216,9 +215,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/homeTopRelLayout"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="0dp"
                 android:nestedScrollingEnabled="false">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -227,21 +223,21 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true" />
 
+                <TextView
+                    android:id="@+id/txtEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/newsFeedRecView"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="140dp"
+                    android:fontFamily="@font/architects_daughter"
+                    android:text="You've Reached The End" />
+
             </RelativeLayout>
 
         </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-    <TextView
-        android:id="@+id/txtEnd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:fontFamily="@font/architects_daughter"
-        android:text="You've Reached The End"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nestedScrollView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
