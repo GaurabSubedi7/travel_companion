@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +33,7 @@ public class ServiceHomeFragment extends Fragment {
     private TextView serviceName;
     private Button btnAddServices;
     private ImageView serviceProfileImage;
+    private BottomNavigationView bottomNavigationView;
 
     //firebase
     private FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -48,6 +50,10 @@ public class ServiceHomeFragment extends Fragment {
 
         //initialize all the views
         initView(view);
+        if(getActivity() != null){
+            bottomNavigationView = getActivity().findViewById(R.id.bottomNavigationService);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
