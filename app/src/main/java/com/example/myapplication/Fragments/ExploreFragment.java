@@ -84,9 +84,6 @@ public class ExploreFragment extends Fragment {
                         ArrayList<User> liker;
                         String myId, myCaption, myDate, userId, tripLocation, specificLocation;
                         double latitude, longitude;
-
-
-
                         //get user's post from firebase
                         for(DataSnapshot data: dataSnapshot.child("Posts").getChildren()){
                             myId = (String) data.getKey();
