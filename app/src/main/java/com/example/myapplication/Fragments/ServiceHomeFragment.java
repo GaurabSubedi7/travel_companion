@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,8 +30,7 @@ import static com.example.myapplication.MainActivity.MY_DATABASE;
 public class ServiceHomeFragment extends Fragment {
 
     private TextView serviceName;
-    private Button btnAddServices;
-    private ImageView serviceProfileImage;
+    private ImageView serviceProfileImage, btnAddServices;
     private BottomNavigationView bottomNavigationView;
 
     //firebase
