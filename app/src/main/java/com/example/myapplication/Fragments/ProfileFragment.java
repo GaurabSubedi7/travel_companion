@@ -55,7 +55,7 @@ public class ProfileFragment extends Fragment {
     private Button editProfile;
     private ConstraintLayout profileFragment;
     private RelativeLayout noSmallPostRelLayout;
-    private BottomNavigationView bottomNavigationView;
+//    private BottomNavigationView bottomNavigationView;
 
     //firebase
     private FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -76,10 +76,10 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         initView(view);
-        if(getActivity() != null){
-            bottomNavigationView = getActivity().findViewById(R.id.bottomNavigation);
-            bottomNavigationView.setVisibility(View.VISIBLE);
-        }
+//        if(getActivity() != null){
+//            bottomNavigationView = getActivity().findViewById(R.id.bottomNavigation);
+//            bottomNavigationView.setVisibility(View.VISIBLE);
+//        }
 
         //userPost array list
         getDataFromFirebase();
