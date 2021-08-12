@@ -233,7 +233,7 @@ public class AddServicesFragment extends Fragment {
             @SuppressLint("SimpleDateFormat")
             String currentTime = new SimpleDateFormat("yyyy-MM-dd").format(date);
             servicePost = new ServicePost((String) auth.getUid(), name, currentTime,
-                    loc, type, desc, price, 0);
+                    loc, type, desc, price);
 
             databaseReference.child("Services").child(serviceId).setValue(servicePost);
         }else{

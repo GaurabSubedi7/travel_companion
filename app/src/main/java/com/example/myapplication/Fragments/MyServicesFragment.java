@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Spinner;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,43 +33,33 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ServicesFragment extends Fragment {
+public class MyServicesFragment extends Fragment {
+    private RecyclerView myServiceRecView;
+    private RelativeLayout noServicesRelLayout, myServicesRelLayout;
+    private Button btnAddServices2;
+
+    private ServicePostAdapter adapter;
+
     //firebase
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);
     private DatabaseReference databaseReference = database.getReference();
 
-    private ServicePostAdapter adapter;
-    public ArrayList<ServicePost> servicePosts = new ArrayList<>();
+    private ArrayList<ServicePost> servicePosts = new ArrayList<>();
     public ArrayList<User> users = new ArrayList<>();
-
-    private RecyclerView newsFeedRecView;
-    private Spinner locationFilterSpinner;
-    private String selectedTripLocation;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_services, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_services, container, false);
         initView(view);
 
-        locationFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedTripLocation = locationFilterSpinner.getSelectedItem().toString();
-                getDataFromFirebase(selectedTripLocation);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        getDataFromFirebase();
 
         return view;
     }
 
-    private void getDataFromFirebase(String location){
+    private void getDataFromFirebase(){
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -113,17 +103,9 @@ public class ServicesFragment extends Fragment {
                             if(rating != 0 && count != 0){
                                 rating = rating/count;
                             }
-
-                            if(location.equals("All")) {
+                            if(auth.getUid().equals(userId)){
                                 ServicePost servicePost = new ServicePost(myId, serviceName, serviceType, description,
                                         serviceLocation, price, rating, myImages, myDate, userId);
-                                servicePost.setRating(rating);
-                                servicePosts.add(servicePost);
-                            }
-
-                            if(!location.equals("All") && location.equals(serviceLocation)) {
-                                ServicePost servicePost = new ServicePost(myId, serviceName, serviceType, description,
-                                        location, price, rating, myImages, myDate, userId);
                                 servicePost.setRating(rating);
                                 servicePosts.add(servicePost);
                             }
@@ -131,16 +113,32 @@ public class ServicesFragment extends Fragment {
                     }
 
                     if(!servicePosts.isEmpty()){
+                        noServicesRelLayout.setVisibility(View.GONE);
+                        myServicesRelLayout.setVisibility(View.VISIBLE);
                         //inflate recyclerView with images
                         FragmentManager fm = getFragmentManager();
                         adapter = new ServicePostAdapter(getContext(), fm);
-                        newsFeedRecView.setAdapter(adapter);
-                        newsFeedRecView.setLayoutManager(new LinearLayoutManager(getContext()));
+                        myServiceRecView.setAdapter(adapter);
+                        myServiceRecView.setLayoutManager(new LinearLayoutManager(getContext()));
 
                         //get service's post from firebase and populate the adapter
                         Collections.reverse(servicePosts);
                         adapter.setServicePosts(servicePosts);
                         adapter.setUsers(users);
+                    }else{
+                        noServicesRelLayout.setVisibility(View.VISIBLE);
+                        myServicesRelLayout.setVisibility(View.GONE);
+
+                        btnAddServices2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                FragmentManager fm  = getFragmentManager();
+                                if(fm != null){
+                                    FragmentTransaction ft = fm.beginTransaction().addToBackStack(null);
+                                    ft.replace(R.id.FrameContainer,new AddServicesFragment()).commit();
+                                }
+                            }
+                        });
                     }
                 }
             }
@@ -152,8 +150,10 @@ public class ServicesFragment extends Fragment {
         });
     }
 
-    private void initView(View view){
-        newsFeedRecView = view.findViewById(R.id.servicePostRecView);
-        locationFilterSpinner = view.findViewById(R.id.serviceFilterSpinner);
+    private void initView(View view) {
+        myServiceRecView = view.findViewById(R.id.myServicesRecView);
+        noServicesRelLayout = view.findViewById(R.id.noServiceRelLayout);
+        myServicesRelLayout = view.findViewById(R.id.myServicesRelLayout);
+        btnAddServices2 = view.findViewById(R.id.btnAddNewService2);
     }
 }

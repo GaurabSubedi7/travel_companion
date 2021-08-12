@@ -13,6 +13,7 @@ import android.view.View;
 import com.example.myapplication.Fragments.BudgetFragment;
 import com.example.myapplication.Fragments.HomeFragment;
 import com.example.myapplication.Fragments.MapFragment;
+import com.example.myapplication.Fragments.MyServicesFragment;
 import com.example.myapplication.Fragments.ProfileFragment;
 import com.example.myapplication.Fragments.ProgressBarFragment;
 import com.example.myapplication.Fragments.ServiceHomeFragment;
@@ -88,6 +89,9 @@ public class DashboardActivity extends AppCompatActivity {
                 switch(item.getItemId()){
                     case R.id.homeService:
                         temp = new ServiceHomeFragment();
+                        break;
+                    case R.id.myServices:
+                        temp = new MyServicesFragment();
                         break;
                     case R.id.profileService:
                         temp = new ProfileFragment();

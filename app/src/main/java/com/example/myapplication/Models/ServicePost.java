@@ -27,7 +27,7 @@ public class ServicePost {
     }
 
     public ServicePost(String userId, String serviceName, String uploadDate, String serviceLocation,
-                       String serviceType, String serviceDescription, int price, double rating){
+                       String serviceType, String serviceDescription, int price){
         this.userId = userId;
         this.serviceName = serviceName;
         this.uploadDate = uploadDate;
@@ -35,7 +35,6 @@ public class ServicePost {
         this.serviceType = serviceType;
         this.serviceDescription = serviceDescription;
         this.servicePrice = price;
-        this.rating = rating;
     }
 
     public ServicePost(ArrayList<String> imageURL) {

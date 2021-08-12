@@ -62,7 +62,7 @@
                             android:textStyle="bold" />
 
                         <ImageButton
-                            android:id="@+id/userPopUpMenu"
+                            android:id="@+id/servicePopUpMenu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -80,7 +80,7 @@
                         android:layout_below="@+id/uploaderDetailRelLayout">
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/userPostImageRecView"
+                            android:id="@+id/servicePostImageRecView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true" />
@@ -96,7 +96,7 @@
                             app:cardCornerRadius="5dp">
 
                             <TextView
-                                android:id="@+id/imageCount"
+                                android:id="@+id/serviceImageCount"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_alignParentEnd="true"
@@ -129,10 +129,9 @@
                                 style="?android:attr/ratingBarStyleIndicator"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:numStars="5"
-                                android:rating="1"
-                                android:stepSize="0.5"
-                                android:theme="@style/RatingBar" />
+                                android:isIndicator="false"
+                                android:progressTint="@color/colorPrimary"
+                                android:rating="2" />
 
                         </RelativeLayout>
 
@@ -178,7 +177,7 @@
                     </RelativeLayout>
 
                     <Button
-                        android:id="@+id/bookNowBtn"
+                        android:id="@+id/contactUsBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/captionRelLayout"
@@ -197,8 +196,8 @@
                         android:layout_marginEnd="10dp"
                         android:backgroundTint="@color/colorPrimary"
                         android:text="Edit Service"
-                        android:visibility="gone"
-                        android:textAllCaps="false" />
+                        android:textAllCaps="false"
+                        android:visibility="gone" />
 
                     <RelativeLayout
                         android:id="@+id/postLocationRelLayout"
@@ -216,7 +215,7 @@
                             android:src="@drawable/ic_location" />
 
                         <TextView
-                            android:id="@+id/postLocation"
+                            android:id="@+id/servicePostLocation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -228,7 +227,7 @@
                     </RelativeLayout>
 
                     <TextView
-                        android:id="@+id/postUploadDate"
+                        android:id="@+id/servicePostUploadDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/postLocationRelLayout"

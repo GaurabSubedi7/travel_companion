@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txtAddService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/architects_daughter"
+        android:text="My Services"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/serviceNestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtAddService"
+        android:layout_marginTop="5dp">
+
+        <RelativeLayout
+            android:id="@+id/myServicesRelLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/homeTopRelLayout"
+            android:nestedScrollingEnabled="false">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/myServicesRecView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" />
+
+            <RelativeLayout
+                android:id="@+id/noServiceRelLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/txtNoService"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No Services Added Yet"
+                    android:fontFamily="@font/architects_daughter"
+                    android:layout_centerHorizontal="true" />
+
+                <Button
+                    android:id="@+id/btnAddNewService2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtNoService"
+                    android:layout_centerHorizontal="true"
+                    android:text="Add Services"
+                    android:backgroundTint="@color/colorPrimary"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/txtEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/myServicesRecView"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="140dp"
+                android:fontFamily="@font/architects_daughter"
+                android:text="You've Reached The End" />
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

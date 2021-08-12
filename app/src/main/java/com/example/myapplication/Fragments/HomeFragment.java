@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.myapplication.Adapters.UserPostAdapter;
@@ -35,9 +36,10 @@ import static com.example.myapplication.MainActivity.MY_DATABASE;
 
 public class HomeFragment extends Fragment {
 
-    private ImageView createPost,findServiceImage,exploreImage;
+    private ImageView createPost;
     private TextView txtUsername;
     private RecyclerView newsFeedRecView;
+    private RelativeLayout exploreRelLayout, findServiceRelLayout;
     private BottomNavigationView bottomNavigationView;
 
     private UserPostAdapter adapter;
@@ -91,7 +93,7 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-        exploreImage.setOnClickListener(new View.OnClickListener() {
+        exploreRelLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm  = getFragmentManager();
@@ -101,13 +103,13 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-        findServiceImage.setOnClickListener(new View.OnClickListener() {
+        findServiceRelLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm  = getFragmentManager();
                 if(fm != null){
                     FragmentTransaction ft = fm.beginTransaction().addToBackStack(null);
-                    ft.replace(R.id.FrameContainer,new FindServiceFragment()).commit();
+                    ft.replace(R.id.FrameContainer,new ServicesFragment()).commit();
                 }
             }
         });
@@ -134,7 +136,7 @@ public class HomeFragment extends Fragment {
 
                         //get user's post from firebase
                         for(DataSnapshot data: dataSnapshot.child("Posts").getChildren()){
-                            myId = (String) data.getKey();
+                            myId = data.getKey();
                             userId = (String) data.child("userId").getValue();
                             if(userId != null) {
                                 String userName = dataSnapshot.child("Users").child(userId).child("userName").getValue(String.class);
@@ -169,8 +171,6 @@ public class HomeFragment extends Fragment {
                                 }
                                 userPosts.add(userPost);
                             }
-
-
                         }
 
                         if(!userPosts.isEmpty()){
@@ -200,7 +200,7 @@ public class HomeFragment extends Fragment {
         createPost = view.findViewById(R.id.createPost);
         txtUsername = view.findViewById(R.id.txtServiceName);
         newsFeedRecView = view.findViewById(R.id.newsFeedRecView);
-        exploreImage = view.findViewById(R.id.exploreImage);
-        findServiceImage = view.findViewById(R.id.findServiceImage);
+        exploreRelLayout = view.findViewById(R.id.exploreRelLayout);
+        findServiceRelLayout = view.findViewById(R.id.findServiceRelLayout);
     }
 }
