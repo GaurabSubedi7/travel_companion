@@ -4,6 +4,8 @@ import static com.example.myapplication.MainActivity.MY_DATABASE;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,23 +14,32 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.Fragments.EditPostFragment;
+import com.example.myapplication.Fragments.EditServiceFragment;
 import com.example.myapplication.Models.ServicePost;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ServicePostAdapter extends RecyclerView.Adapter<ServicePostAdapter.ViewHolder>{
     private Context context;
@@ -42,10 +53,12 @@ public class ServicePostAdapter extends RecyclerView.Adapter<ServicePostAdapter.
     private FirebaseAuth auth = FirebaseAuth.getInstance();
 
     private PostImageAdapter adapter;
+    private String caller;
 
-    public ServicePostAdapter(Context context, FragmentManager fm){
+    public ServicePostAdapter(Context context, FragmentManager fm, String caller){
         this.context = context;
         this.fm = fm;
+        this.caller = caller;
     }
 
     @NonNull
@@ -55,6 +68,7 @@ public class ServicePostAdapter extends RecyclerView.Adapter<ServicePostAdapter.
         return new ServicePostAdapter.ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String uid = servicePosts.get(position).getUserId();
@@ -65,11 +79,21 @@ public class ServicePostAdapter extends RecyclerView.Adapter<ServicePostAdapter.
             }
         }
 
+        if(caller.equals("myServices")){
+            holder.edtDltServiceRelLayout.setVisibility(View.VISIBLE);
+            holder.contactUsBtn.setVisibility(View.GONE);
+        }
+
+        if(caller.equals("users")){
+            holder.edtDltServiceRelLayout.setVisibility(View.GONE);
+            holder.contactUsBtn.setVisibility(View.VISIBLE);
+        }
+
         holder.serviceName.setText(servicePosts.get(position).getServiceName());
         holder.serviceType.setText(servicePosts.get(position).getServiceType());
         holder.postUploadDate.setText(servicePosts.get(position).getUploadDate());
         holder.postLocation.setText(servicePosts.get(position).getServiceLocation());
-        holder.servicePrice.setText(String.valueOf(servicePosts.get(position).getServicePrice()));
+        holder.servicePrice.setText("Rs. " + servicePosts.get(position).getServicePrice());
         holder.serviceRatingBar.setRating((float)servicePosts.get(position).getRating());
 
         holder.serviceRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -80,6 +104,28 @@ public class ServicePostAdapter extends RecyclerView.Adapter<ServicePostAdapter.
                             .child("rating").child(auth.getUid()).setValue(rating);
                     holder.serviceRatingBar.setRating(rating);
                 }
+            }
+        });
+
+        //manipulation of buttons
+        holder.deleteServiceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteService(position);
+            }
+        });
+
+        holder.editServiceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editService(position);
+            }
+        });
+
+        holder.contactUsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: 8/13/21 open the goddamn contactus dialog box
             }
         });
 
@@ -116,6 +162,59 @@ public class ServicePostAdapter extends RecyclerView.Adapter<ServicePostAdapter.
         }
     }
 
+    private void deleteService(int position){
+        AlertDialog.Builder serviceTerminator = new AlertDialog.Builder(Objects.requireNonNull(context))
+                .setTitle("Want To Delete This Service?")
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //should be empty
+                    }
+                }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Delete From Firebase
+                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                if(auth.getUid() != null){
+                                    for(DataSnapshot data : snapshot.child("Services").getChildren()){
+                                        String myKey = data.getKey();
+                                        if(myKey != null && myKey.equals(servicePosts.get(position).getServiceId())){
+                                            data.getRef().removeValue();
+                                            Toast.makeText(context, "Service Deleted Successfully", Toast.LENGTH_SHORT).show();
+//                                            if(ownPostDialog != null){
+//                                                ownPostDialog.dismiss();
+//                                            }
+                                            // TODO: 8/13/21 open own service dialog box
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                });
+        serviceTerminator.create().show();
+    }
+
+    private void editService(int position){
+        EditServiceFragment editServiceFragment = new EditServiceFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("serviceId", servicePosts.get(position).getServiceId());
+        bundle.putString("serviceName", servicePosts.get(position).getServiceName());
+        bundle.putInt("servicePrice", servicePosts.get(position).getServicePrice());
+        bundle.putString("serviceDesc", servicePosts.get(position).getServiceDescription());
+        if (fm != null) {
+            editServiceFragment.setArguments(bundle);
+            editServiceFragment.show(fm, "edit service");
+        }
+    }
+
     @Override
     public int getItemCount() {
         return servicePosts.size();
@@ -134,10 +233,10 @@ public class ServicePostAdapter extends RecyclerView.Adapter<ServicePostAdapter.
         private RecyclerView userPostImageRecView;
         private TextView serviceName, serviceType, servicePrice, imageCount, uploaderUserName,
                 postLocation, postUploadDate;
-        private ImageButton userPopUpMenu;
         private ProgressBar userPostImageProgressBar;
-        private Button contactUsBtn;
+        private Button contactUsBtn, deleteServiceBtn, editServiceBtn;
         private RatingBar serviceRatingBar;
+        private RelativeLayout edtDltServiceRelLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -146,8 +245,6 @@ public class ServicePostAdapter extends RecyclerView.Adapter<ServicePostAdapter.
 
         private void initView(View view){
             userPostImageRecView = view.findViewById(R.id.servicePostImageRecView);
-
-            userPopUpMenu = view.findViewById(R.id.servicePopUpMenu);
 
             serviceName = view.findViewById(R.id.serviceName);
             serviceType = view.findViewById(R.id.serviceType);
@@ -159,7 +256,12 @@ public class ServicePostAdapter extends RecyclerView.Adapter<ServicePostAdapter.
             postUploadDate = view.findViewById(R.id.servicePostUploadDate);
 
             contactUsBtn = view.findViewById(R.id.contactUsBtn);
+            deleteServiceBtn = view.findViewById(R.id.deleteServiceBtn);
+            editServiceBtn = view.findViewById(R.id.editServiceBtn);
+
             serviceRatingBar = view.findViewById(R.id.serviceRatingBar);
+
+            edtDltServiceRelLayout = view.findViewById(R.id.edtDltServiceRelLayout);
 
             userPostImageProgressBar = view.findViewById(R.id.userPostImageProgressBar);
             imageCount = view.findViewById(R.id.serviceImageCount);

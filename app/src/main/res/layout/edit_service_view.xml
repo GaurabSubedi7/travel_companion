@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:id="@+id/postRelLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:id="@+id/editServiceRelLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/serviceNameUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Service Name"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/servicePriceUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/serviceNameUpdate"
+            android:hint="Price"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/serviceDescUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/servicePriceUpdate"
+            android:hint="Description"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/postBtnRelLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/editServiceRelLayout">
+
+        <Button
+            android:id="@+id/cancel_edit_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textAllCaps="false"
+            android:textColor="#F1EEEE"
+            android:textSize="16sp"
+            app:backgroundTint="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/update_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@+id/cancel_edit_service"
+            android:text="Update"
+            android:textAllCaps="false"
+            android:textColor="#F1EEEE"
+            android:textSize="16sp"
+            app:backgroundTint="@color/colorPrimary" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

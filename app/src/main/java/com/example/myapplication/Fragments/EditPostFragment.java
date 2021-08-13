@@ -28,6 +28,7 @@ public class EditPostFragment extends DialogFragment {
     private EditText postEditText;
     private String postId, caption;
 
+    //firebase
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);
     private DatabaseReference databaseReference = database.getReference();

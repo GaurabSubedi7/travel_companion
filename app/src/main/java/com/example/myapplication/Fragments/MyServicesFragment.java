@@ -117,7 +117,7 @@ public class MyServicesFragment extends Fragment {
                         myServicesRelLayout.setVisibility(View.VISIBLE);
                         //inflate recyclerView with images
                         FragmentManager fm = getFragmentManager();
-                        adapter = new ServicePostAdapter(getContext(), fm);
+                        adapter = new ServicePostAdapter(getContext(), fm, "myServices");
                         myServiceRecView.setAdapter(adapter);
                         myServiceRecView.setLayoutManager(new LinearLayoutManager(getContext()));
 

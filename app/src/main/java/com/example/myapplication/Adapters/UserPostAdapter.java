@@ -106,6 +106,7 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
                     holder.likeChecked.setVisibility(View.VISIBLE);
                     String likeCountKey = databaseReference.push().getKey();
                     if (likeCountKey != null) {
+                        //like
                         databaseReference.child("Posts").child(userPosts.get(position).getPostId())
                                 .child("likeCount").child(likeCountKey).setValue(currentUserId);
                     }
@@ -228,7 +229,7 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
 
     private void deleteUserPost(int position){
         AlertDialog.Builder postTerminator = new AlertDialog.Builder(Objects.requireNonNull(context))
-                .setTitle("Want To Delete Post?")
+                .setTitle("Want To Delete This Post?")
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

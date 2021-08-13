@@ -133,7 +133,7 @@ public class ServicesFragment extends Fragment {
                     if(!servicePosts.isEmpty()){
                         //inflate recyclerView with images
                         FragmentManager fm = getFragmentManager();
-                        adapter = new ServicePostAdapter(getContext(), fm);
+                        adapter = new ServicePostAdapter(getContext(), fm, "users");
                         newsFeedRecView.setAdapter(adapter);
                         newsFeedRecView.setLayoutManager(new LinearLayoutManager(getContext()));
 

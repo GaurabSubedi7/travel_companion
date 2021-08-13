@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable-anydpi/ic_add_circle.xml" value="0.11640625" />
+        <entry key="app/src/main/res/drawable-anydpi/ic_delete.xml" value="0.334375" />
         <entry key="app/src/main/res/drawable-anydpi/ic_gps.xml" value="0.3109375" />
         <entry key="app/src/main/res/drawable-anydpi/ic_lock.xml" value="0.2359375" />
         <entry key="app/src/main/res/drawable/ic_hotel_service.xml" value="0.334375" />
@@ -13,6 +14,7 @@
         <entry key="app/src/main/res/layout/activity_registration.xml" value="0.75" />
         <entry key="app/src/main/res/layout/checklist_view.xml" value="1.0" />
         <entry key="app/src/main/res/layout/edit_post_view.xml" value="0.31015625" />
+        <entry key="app/src/main/res/layout/edit_service_view.xml" value="0.67" />
         <entry key="app/src/main/res/layout/fragment_add_place_to_list.xml" value="0.75" />
         <entry key="app/src/main/res/layout/fragment_add_services.xml" value="0.75" />
         <entry key="app/src/main/res/layout/fragment_explore.xml" value="0.75" />
@@ -28,7 +30,7 @@
         <entry key="app/src/main/res/layout/fragment_service_post_view.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_services.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_user_post_view.xml" value="0.75" />
-        <entry key="app/src/main/res/layout/individual_service_post.xml" value="0.67" />
+        <entry key="app/src/main/res/layout/individual_service_post.xml" value="0.9002267573696145" />
         <entry key="app/src/main/res/layout/individual_user_post.xml" value="0.49034749034749037" />
         <entry key="app/src/main/res/layout/own_post_view.xml" value="0.5" />
         <entry key="app/src/main/res/layout/post_image_scroll.xml" value="0.21" />

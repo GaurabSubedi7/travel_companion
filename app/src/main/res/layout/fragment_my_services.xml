@@ -20,7 +20,7 @@
         android:layout_below="@+id/txtAddService"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/txtNoService"
@@ -38,8 +38,7 @@
             android:layout_centerHorizontal="true"
             android:text="Add Services"
             android:textAllCaps="false"
-            android:backgroundTint="@color/colorPrimary"
-            android:visibility="gone"/>
+            android:backgroundTint="@color/colorPrimary"/>
 
     </RelativeLayout>
 
