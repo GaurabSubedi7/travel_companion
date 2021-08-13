@@ -46,24 +46,31 @@ public class PostImageAdapter extends RecyclerView.Adapter<PostImageAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull PostImageAdapter.ViewHolder holder, int position) {
+//        if (!images.get(position).isEmpty()){
+//            holder.userPostImageProgressBar.setVisibility(View.VISIBLE);
+//            Glide.with(context).asBitmap()
+//                    .placeholder(R.mipmap.loading)
+//                    .load(images.get(position))
+//                    .listener(new RequestListener<Bitmap>() {
+//                        @Override
+//                        public boolean onLoadFailed(@Nullable @org.jetbrains.annotations.Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
+//                            holder.userPostImageProgressBar.setVisibility(View.VISIBLE);
+//                            return false;
+//                        }
+//
+//                        @Override
+//                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
+//                            holder.userPostImageProgressBar.setVisibility(View.GONE);
+//                            return false;
+//                        }
+//                    })
+//                    .into(holder.singlePostImage);
+//        }
         if (!images.get(position).isEmpty()){
-            holder.userPostImageProgressBar.setVisibility(View.VISIBLE);
-            Glide.with(context).asBitmap()
-                    .placeholder(R.mipmap.loading)
-                    .load(images.get(position))
-                    .listener(new RequestListener<Bitmap>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable @org.jetbrains.annotations.Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                            holder.userPostImageProgressBar.setVisibility(View.VISIBLE);
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Bitmap resource, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                            holder.userPostImageProgressBar.setVisibility(View.GONE);
-                            return false;
-                        }
-                    })
+            holder.userPostImageProgressBar.setVisibility(View.GONE);
+            Glide.with(context).load(images.get(position))
+                    .thumbnail(Glide.with(context).load(R.drawable.loadingsplash))
+                    .fitCenter()
                     .into(holder.singlePostImage);
         }
     }
