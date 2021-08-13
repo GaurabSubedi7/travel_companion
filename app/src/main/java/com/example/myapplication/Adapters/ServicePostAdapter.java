@@ -82,11 +82,13 @@ public class ServicePostAdapter extends RecyclerView.Adapter<ServicePostAdapter.
         if(caller.equals("myServices")){
             holder.edtDltServiceRelLayout.setVisibility(View.VISIBLE);
             holder.contactUsBtn.setVisibility(View.GONE);
+            holder.serviceRatingBar.setIsIndicator(true);
         }
 
         if(caller.equals("users")){
             holder.edtDltServiceRelLayout.setVisibility(View.GONE);
             holder.contactUsBtn.setVisibility(View.VISIBLE);
+            holder.serviceRatingBar.setIsIndicator(false);
         }
 
         holder.serviceName.setText(servicePosts.get(position).getServiceName());
