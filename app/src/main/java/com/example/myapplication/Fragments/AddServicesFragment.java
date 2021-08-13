@@ -28,9 +28,7 @@ import android.widget.Toast;
 import com.example.myapplication.Adapters.ImageAdapter;
 import com.example.myapplication.Models.Image;
 import com.example.myapplication.Models.ServicePost;
-import com.example.myapplication.Models.UserPost;
 import com.example.myapplication.R;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,12 +50,11 @@ public class AddServicesFragment extends Fragment {
     private BottomNavigationView bottomNavigationView;
     private Button btnAddService, btnCancelService;
     private RecyclerView serviceNewPostRecView;
-    private EditText descriptionEditText, priceEditText, serviceNameEditText;
+    private EditText descriptionEditText, contactNumberEditText, serviceNameEditText;
     private Spinner serviceLocationSpinner, serviceTypeSpinner;
     private ImageView addImage;
 
-    private String serviceName, description, serviceType, serviceLocation;
-    private int servicePrice;
+    private String serviceName, description, serviceType, serviceLocation, contactNumber;
 
     // request code to pick image
     private static final int GALLERY_ACCESS_REQUEST_CODE = 201;
@@ -113,12 +110,12 @@ public class AddServicesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 serviceName = serviceNameEditText.getText().toString();
-                servicePrice = Integer.parseInt(priceEditText.getText().toString());
+                contactNumber = contactNumberEditText.getText().toString();
                 serviceType = serviceTypeSpinner.getSelectedItem().toString();
                 serviceLocation = serviceLocationSpinner.getSelectedItem().toString();
                 description = descriptionEditText.getText().toString();
 
-                if(serviceName.isEmpty() || priceEditText.getText().toString().isEmpty()
+                if(serviceName.isEmpty() || contactNumberEditText.getText().toString().isEmpty()
                     || description.isEmpty()){
                     Toast.makeText(getContext(), "Fields Cannot Be Empty", Toast.LENGTH_SHORT).show();
                 }else{
@@ -137,7 +134,7 @@ public class AddServicesFragment extends Fragment {
                         progressDialog.setMessage("Have Patience, Your Service Is Being Uploaded");
                         progressDialog.show();
                         addToFirebase(Image.getInstance().getImageUris(), serviceName, serviceType, description,
-                            servicePrice, serviceLocation, new ServiceCallback() {
+                                contactNumber, serviceLocation, new ServiceCallback() {
                             @Override
                             public void success() {
                                 progressDialog.dismiss();
@@ -198,11 +195,11 @@ public class AddServicesFragment extends Fragment {
 
     //add to firebase
     private void addToFirebase(ArrayList<Uri> imgUris, String name, String type, String desc,
-                               int price, String loc, ServiceCallback serviceCallback){
+                               String contact, String loc, ServiceCallback serviceCallback){
         StorageReference fileRef = null;
 
         //add user caption and upload date to firebase
-        addData(name, type, desc, price, loc);
+        addData(name, type, desc, contact, loc);
         //add images to storage
         for (Uri imageUri : imgUris) {
             fileRef = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(imageUri));
@@ -225,7 +222,7 @@ public class AddServicesFragment extends Fragment {
 
     }
 
-    private void addData(String name, String type, String desc, int price, String loc){
+    private void addData(String name, String type, String desc, String contact, String loc){
         String serviceId = databaseReference.push().getKey();
         if (auth.getUid() != null && serviceId != null){
             //add desc and currentTime to userPost object
@@ -233,7 +230,7 @@ public class AddServicesFragment extends Fragment {
             @SuppressLint("SimpleDateFormat")
             String currentTime = new SimpleDateFormat("yyyy-MM-dd").format(date);
             servicePost = new ServicePost((String) auth.getUid(), name, currentTime,
-                    loc, type, desc, price);
+                    loc, type, desc, contact);
 
             databaseReference.child("Services").child(serviceId).setValue(servicePost);
         }else{
@@ -270,7 +267,7 @@ public class AddServicesFragment extends Fragment {
         serviceLocationSpinner = view.findViewById(R.id.serviceLocationSpinner);
         serviceTypeSpinner = view.findViewById(R.id.serviceTypeSpinner);
         serviceNameEditText = view.findViewById(R.id.serviceNameEditText);
-        priceEditText = view.findViewById(R.id.priceEditText);
+        contactNumberEditText = view.findViewById(R.id.contactNumberEditText);
         addImage = view.findViewById(R.id.addImage);
         descriptionEditText = view.findViewById(R.id.descriptionEditText);
         serviceNewPostRecView = view.findViewById(R.id.serviceNewPhotoRecView);

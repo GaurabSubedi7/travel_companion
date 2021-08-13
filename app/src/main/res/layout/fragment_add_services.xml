@@ -51,7 +51,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/priceCard"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="5dp"
         android:layout_below="@+id/serviceNameCard"
@@ -68,13 +68,13 @@
             android:padding="15dp">
 
             <EditText
-                android:id="@+id/priceEditText"
+                android:id="@+id/contactNumberEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:fontFamily="@font/architects_daughter"
                 android:gravity="left"
-                android:hint="Price"
+                android:hint="Contact Number"
                 android:inputType="numberDecimal" />
 
         </RelativeLayout>

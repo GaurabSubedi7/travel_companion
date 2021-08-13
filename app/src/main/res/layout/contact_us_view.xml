@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/closeDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close"
+        android:layout_alignParentEnd="true"/>
+
+    <RelativeLayout
+        android:id="@+id/serviceInitialInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/serviceTypeView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/architects_daughter"
+            android:text="ServiceType"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/serviceNameView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/serviceTypeView"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/architects_daughter"
+            android:text="ServiceName"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/serviceDescriptionView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/serviceInitialInfo"
+        android:text="long description goes here"
+        android:fontFamily="@font/architects_daughter"
+        android:textSize="16sp"/>
+
+    <RelativeLayout
+        android:id="@+id/contactInfoRelLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/serviceDescriptionView">
+
+        <TextView
+            android:id="@+id/txtContactInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact Information"
+            android:fontFamily="@font/architects_daughter"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/txtEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email : "
+            android:layout_below="@+id/txtContactInfo"
+            android:fontFamily="@font/architects_daughter"
+            android:textSize="16sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/emailInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="email@email.email"
+            android:layout_below="@+id/txtContactInfo"
+            android:layout_toEndOf="@id/txtEmail"
+            android:fontFamily="@font/architects_daughter"
+            android:textSize="16sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/txtContactNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact Number : "
+            android:layout_below="@+id/txtEmail"
+            android:fontFamily="@font/architects_daughter"
+            android:textSize="16sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/contactNumberInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9898989898"
+            android:layout_below="@+id/txtEmail"
+            android:layout_toEndOf="@id/txtContactNumber"
+            android:fontFamily="@font/architects_daughter"
+            android:textSize="16sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contactInfoRelLayout"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/phoneBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:drawableEnd="@drawable/ic_call"
+            android:text="Call"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/emailBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/phoneBtn"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_margin="5dp"
+            android:text="Email"
+            android:textAllCaps="false"
+            android:drawableEnd="@drawable/ic_email"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

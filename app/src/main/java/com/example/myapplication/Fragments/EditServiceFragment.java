@@ -24,8 +24,7 @@ public class EditServiceFragment extends DialogFragment {
     private EditText serviceNameUpdate, servicePriceUpdate, serviceDescUpdate;
     private Button cancelEdit, updateService;
 
-    private String serviceName, serviceDescription, serviceId;
-    private int servicePrice;
+    private String serviceName, serviceDescription, serviceId, serviceContact;
 
     //firebase
     private FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -44,12 +43,12 @@ public class EditServiceFragment extends DialogFragment {
         if(getArguments() != null){
             serviceName = getArguments().getString("serviceName");
             serviceId = getArguments().getString("serviceId");
-            servicePrice = getArguments().getInt("servicePrice");
+            serviceContact = getArguments().getString("serviceContact");
             serviceDescription = getArguments().getString("serviceDesc");
 
             //set values for editTexts
             serviceNameUpdate.setText(serviceName);
-            servicePriceUpdate.setText(String.valueOf(servicePrice));
+            servicePriceUpdate.setText(String.valueOf(serviceContact));
             serviceDescUpdate.setText(serviceDescription);
         }
 
@@ -69,11 +68,11 @@ public class EditServiceFragment extends DialogFragment {
                 }else{
                     serviceName = serviceNameUpdate.getText().toString();
                     serviceDescription = serviceDescUpdate.getText().toString();
-                    servicePrice = Integer.parseInt(servicePriceUpdate.getText().toString());
+                    serviceContact = servicePriceUpdate.getText().toString();
                     if(auth.getUid() != null && serviceId != null){
                         databaseReference.child("Services").child(serviceId).child("serviceName").setValue(serviceName);
                         databaseReference.child("Services").child(serviceId).child("serviceDescription").setValue(serviceDescription);
-                        databaseReference.child("Services").child(serviceId).child("servicePrice").setValue(servicePrice);
+                        databaseReference.child("Services").child(serviceId).child("contactNumber").setValue(serviceContact);
                         dismiss();
                         Toast.makeText(getContext(), "Service Updated Successfully", Toast.LENGTH_SHORT).show();
                     }

@@ -141,7 +141,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
             autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
                 @Override
                 public void onPlaceSelected(@NonNull Place place) {
-                    // TODO: Get info about the selected place.
                     Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
                     if(place.getLatLng()!= null && place.getName()!= null){
                         onCallback.onCallback(place.getLatLng());
@@ -153,7 +152,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, TaskLoa
 
                 @Override
                 public void onError(@NonNull Status status) {
-                    // TODO: Handle the error.
                     Log.i(TAG, "An error occurred BOII: " + status);
                 }
             });

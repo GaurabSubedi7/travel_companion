@@ -37,7 +37,6 @@ import static com.example.myapplication.MainActivity.MY_DATABASE;
 
 
 public class BudgetFragment extends Fragment {
-//Todo make the cards scrollable and  add expenses on card click
 
     public BudgetFragment() {
 

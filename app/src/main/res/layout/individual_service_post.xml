@@ -120,8 +120,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:isIndicator="false"
-                                android:progressTint="@color/colorPrimary"
-                                android:rating="2" />
+                                android:progressTint="@color/colorPrimary" />
 
                         </RelativeLayout>
 
@@ -142,7 +141,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/architects_daughter"
                             android:text="Service Name"
-                            android:textSize="18sp" />
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/serviceType"
@@ -152,16 +151,6 @@
                             android:layout_marginTop="3dp"
                             android:fontFamily="@font/architects_daughter"
                             android:text="Service Type"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/servicePrice"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="7dp"
-                            android:fontFamily="@font/architects_daughter"
-                            android:text="Rs. price"
                             android:textSize="14sp" />
 
                     </RelativeLayout>

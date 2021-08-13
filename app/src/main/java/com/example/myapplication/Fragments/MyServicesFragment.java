@@ -67,8 +67,8 @@ public class MyServicesFragment extends Fragment {
                 users.clear();
                 if(auth.getUid() != null && snapshot.exists()){
                     ArrayList<String> myImages;
-                    String myId, serviceName, description, serviceType, serviceLocation, myDate, userId;
-                    int price;
+                    String myId, serviceName, description, serviceType, serviceLocation, myDate, userId, contact,
+                            email = "unknown";
                     double rating = 0;
                     int count = 0;
 
@@ -78,6 +78,7 @@ public class MyServicesFragment extends Fragment {
 
                         if(userId != null) {
                             String userName = snapshot.child("Users").child(userId).child("thirdPartyServiceName").getValue(String.class);
+                            email = snapshot.child("Users").child(userId).child("email").getValue(String.class);
                             users.add(new User(userId, userName));
                         }
 
@@ -86,7 +87,7 @@ public class MyServicesFragment extends Fragment {
                         serviceType = (String) data.child("serviceType").getValue();
                         description = (String) data.child("serviceDescription").getValue();
                         serviceLocation = (String) data.child("serviceLocation").getValue();
-                        price = data.child("servicePrice").getValue(Integer.class);
+                        contact = (String) data.child("contactNumber").getValue();
                         myDate = (String) data.child("uploadDate").getValue();
 
                         for(DataSnapshot imageId: data.child("Images").getChildren()){
@@ -105,7 +106,7 @@ public class MyServicesFragment extends Fragment {
                             }
                             if(auth.getUid().equals(userId)){
                                 ServicePost servicePost = new ServicePost(myId, serviceName, serviceType, description,
-                                        serviceLocation, price, rating, myImages, myDate, userId);
+                                        serviceLocation, contact, rating, myImages, myDate, userId);
                                 servicePost.setRating(rating);
                                 servicePosts.add(servicePost);
                             }
@@ -117,7 +118,7 @@ public class MyServicesFragment extends Fragment {
                         myServicesRelLayout.setVisibility(View.VISIBLE);
                         //inflate recyclerView with images
                         FragmentManager fm = getFragmentManager();
-                        adapter = new ServicePostAdapter(getContext(), fm, "myServices");
+                        adapter = new ServicePostAdapter(getContext(), fm, "myServices", email);
                         myServiceRecView.setAdapter(adapter);
                         myServiceRecView.setLayoutManager(new LinearLayoutManager(getContext()));
 

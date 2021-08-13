@@ -4,22 +4,21 @@ import java.util.ArrayList;
 
 public class ServicePost {
     private String serviceId, serviceName, serviceType, serviceDescription, serviceLocation, uploadDate,
-            userId;
-    private int servicePrice;
+            userId, contactNumber;
     private double rating;
     private ArrayList<String> imageURL = new ArrayList<>();
 
     public ServicePost(){}
 
     public ServicePost(String serviceId, String serviceName, String serviceType, String serviceDescription,
-                       String serviceLocation, int servicePrice, double rating, ArrayList<String> imageURL,
+                       String serviceLocation, String contactNumber, double rating, ArrayList<String> imageURL,
                        String uploadDate, String userId) {
         this.serviceId = serviceId;
         this.serviceName = serviceName;
         this.serviceType = serviceType;
         this.serviceDescription = serviceDescription;
         this.serviceLocation = serviceLocation;
-        this.servicePrice = servicePrice;
+        this.contactNumber = contactNumber;
         this.rating = rating;
         this.imageURL = imageURL;
         this.uploadDate = uploadDate;
@@ -27,14 +26,14 @@ public class ServicePost {
     }
 
     public ServicePost(String userId, String serviceName, String uploadDate, String serviceLocation,
-                       String serviceType, String serviceDescription, int price){
+                       String serviceType, String serviceDescription, String contact){
         this.userId = userId;
         this.serviceName = serviceName;
         this.uploadDate = uploadDate;
         this.serviceLocation = serviceLocation;
         this.serviceType = serviceType;
         this.serviceDescription = serviceDescription;
-        this.servicePrice = price;
+        this.contactNumber = contact;
     }
 
     public ServicePost(ArrayList<String> imageURL) {
@@ -97,12 +96,12 @@ public class ServicePost {
         this.serviceLocation = serviceLocation;
     }
 
-    public int getServicePrice() {
-        return servicePrice;
+    public String getContactNumber() {
+        return contactNumber;
     }
 
-    public void setServicePrice(int servicePrice) {
-        this.servicePrice = servicePrice;
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
     public double getRating() {
