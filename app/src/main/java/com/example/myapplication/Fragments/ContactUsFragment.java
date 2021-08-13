@@ -1,20 +1,29 @@
 package com.example.myapplication.Fragments;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.myapplication.R;
 
 public class ContactUsFragment extends DialogFragment {
+
+    private static final int REQUEST_PHONE_CALL = 444;
 
     private TextView serviceType, serviceName, description, email, contactNumber;
     private Button phoneBtn, emailBtn;
@@ -27,7 +36,7 @@ public class ContactUsFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.contact_us_view, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setView(view).setTitle("Description");
+                .setView(view);
         initView(view);
         setCancelable(false);
 
@@ -70,11 +79,27 @@ public class ContactUsFragment extends DialogFragment {
     }
 
     private void openPhone() {
-
+        Uri u = Uri.parse("tel:" + sContactNumber);
+        Intent i = new Intent(Intent.ACTION_DIAL, u);
+        if(getContext() != null && getActivity() != null){
+            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_PHONE_CALL);
+                openPhone();
+            }else
+            {
+                startActivity(i);
+            }
+        }
     }
 
     private void openEmail(){
+        if(getContext() != null){
+            final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+            emailIntent.setType("plain/text");
+            emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{sEmail});
 
+            getContext().startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+        }
     }
 
     private void initView(View view) {

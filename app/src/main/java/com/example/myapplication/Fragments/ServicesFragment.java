@@ -97,7 +97,7 @@ public class ServicesFragment extends Fragment {
                         serviceType = (String) data.child("serviceType").getValue();
                         description = (String) data.child("serviceDescription").getValue();
                         serviceLocation = (String) data.child("serviceLocation").getValue();
-                        contact = (String) data.child("servicePrice").getValue();
+                        contact = (String) data.child("contactNumber").getValue();
                         myDate = (String) data.child("uploadDate").getValue();
 
                         for(DataSnapshot imageId: data.child("Images").getChildren()){
