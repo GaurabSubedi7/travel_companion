@@ -43,11 +43,11 @@
         android:id="@+id/serviceDescriptionView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_below="@id/serviceInitialInfo"
-        android:text="long description goes here"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/architects_daughter"
-        android:textSize="16sp"/>
+        android:text="long description goes here"
+        android:textSize="16sp" />
 
     <RelativeLayout
         android:id="@+id/contactInfoRelLayout"
@@ -59,11 +59,11 @@
             android:id="@+id/txtContactInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contact Information"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/architects_daughter"
+            android:text="Contact Information"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtEmail"
@@ -80,13 +80,13 @@
             android:id="@+id/emailInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="email@email.email"
             android:layout_below="@+id/txtContactInfo"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@id/txtEmail"
             android:fontFamily="@font/architects_daughter"
-            android:textSize="16sp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"/>
+            android:text="email@email.email"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/txtContactNumber"

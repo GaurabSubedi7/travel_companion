@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.LoginActivity;
 import com.example.myapplication.Models.UserPost;
 import com.example.myapplication.Adapters.PostAdapter;
@@ -50,12 +51,13 @@ public class ProfileFragment extends Fragment {
     private PostAdapter adapter;
 
     private RecyclerView smallImageRecView;
-    private TextView userName;
+    private TextView userName, fullNameView, addressView;
     private ImageView createPost, userImage, logout;
     private Button editProfile;
     private ConstraintLayout profileFragment;
     private RelativeLayout noSmallPostRelLayout;
-//    private BottomNavigationView bottomNavigationView;
+
+    private String fullName, address, profilePic;
 
     //firebase
     private FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -66,7 +68,6 @@ public class ProfileFragment extends Fragment {
     public ProfileFragment() {
         // Required empty public constructor
     }
-    //variables are declared here in fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,13 +77,10 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         initView(view);
-//        if(getActivity() != null){
-//            bottomNavigationView = getActivity().findViewById(R.id.bottomNavigation);
-//            bottomNavigationView.setVisibility(View.VISIBLE);
-//        }
 
         //userPost array list
         getDataFromFirebase();
+        getProfileInfoFromFirebase();
 
         createPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,13 +115,15 @@ public class ProfileFragment extends Fragment {
                 builder.create().show();
             }
         });
+
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fm= getFragmentManager();
                 if(fm != null) {
+                    EditProfileFragment editProfileFragment = new EditProfileFragment();
                     FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.FrameContainer, new EditProfileFragment()).addToBackStack(null);
+                    ft.replace(R.id.FrameContainer, editProfileFragment).addToBackStack(null);
                     ft.commit();
                 }
             }
@@ -199,6 +199,31 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    private void getProfileInfoFromFirebase(){
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists() && auth.getUid() != null){
+                    fullName = (String) snapshot.child("Users").child(auth.getUid()).child("fullName").getValue();
+                    address = (String) snapshot.child("Users").child(auth.getUid()).child("address").getValue();
+                    profilePic = (String) snapshot.child("Users").child(auth.getUid()).child("img").getValue();
+                    if(fullName != null && address != null && profilePic != null && getContext() != null){
+                        fullNameView.setText(fullName);
+                        addressView.setText(address);
+                        Glide.with(getContext()).load(profilePic)
+                                .thumbnail(Glide.with(getContext()).load(R.drawable.ic_user))
+                                .into(userImage);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     private void initView(View view){
         userName = view.findViewById(R.id.userName);
         editProfile = view.findViewById(R.id.editProfile);
@@ -206,6 +231,9 @@ public class ProfileFragment extends Fragment {
         profileFragment = view.findViewById(R.id.profileFragment);
         userImage = view.findViewById(R.id.userImage);
         createPost = view.findViewById(R.id.createPost);
+
+        fullNameView = view.findViewById(R.id.fullName);
+        addressView = view.findViewById(R.id.address);
 
         smallImageRecView = view.findViewById(R.id.smallImageRecView);
         noSmallPostRelLayout = view.findViewById(R.id.noSmallPostRelLayout);

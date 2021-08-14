@@ -1,14 +1,7 @@
 package com.example.myapplication.Models;
 
 public class User {
-    String profilePic, userName, email, fullName, accountType, userId;
-
-    public User(String profilePic, String userName, String email, String fullName) {
-        this.fullName = fullName;
-        this.profilePic = profilePic;
-        this.userName = userName;
-        this.email = email;
-    }
+    String profilePic, userName, email, fullName, accountType, userId, address;
 
     public User(){}
 
@@ -23,6 +16,14 @@ public class User {
     public User(String userId, String userName){
         this.userId = userId;
         this.userName = userName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getUserId() {

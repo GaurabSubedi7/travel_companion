@@ -27,7 +27,7 @@
         app:layout_constraintStart_toEndOf="@+id/editUserImage">
 
         <ImageButton
-            android:id="@+id/addImageProfile"
+            android:id="@+id/addServiceImageProfile"
             android:layout_width="37dp"
             android:layout_height="27dp"
             android:background="@null"
@@ -35,44 +35,29 @@
 
     </com.google.android.material.circularreveal.cardview.CircularRevealCardView>
 
-    <EditText
-        android:id="@+id/editTxtFullName"
+    <TextView
+        android:id="@+id/editEmailView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="Full Name"
-
-        android:inputType="textPersonName"
+        android:fontFamily="@font/architects_daughter"
+        android:text="email"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
-    <EditText
-        android:id="@+id/editTxtAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:hint="Address"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/editTxtFullName"
-        app:layout_constraintStart_toStartOf="@+id/editTxtFullName"
-        app:layout_constraintTop_toBottomOf="@+id/editTxtFullName" />
-
-
     <Button
-        android:id="@+id/btnSave"
+        android:id="@+id/btnServiceSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="Save Profile"
         android:textAllCaps="false"
         android:textColor="#F1EEEE"
         app:backgroundTint="@color/colorPrimary"
-        app:layout_constraintEnd_toEndOf="@+id/editTxtAddress"
-        app:layout_constraintStart_toStartOf="@+id/editTxtAddress"
-        app:layout_constraintTop_toBottomOf="@+id/editTxtAddress" />
+        app:layout_constraintEnd_toEndOf="@+id/editEmailView"
+        app:layout_constraintStart_toStartOf="@+id/editEmailView"
+        app:layout_constraintTop_toBottomOf="@+id/editEmailView" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"

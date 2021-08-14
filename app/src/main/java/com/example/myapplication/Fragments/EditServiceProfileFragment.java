@@ -1,7 +1,6 @@
 package com.example.myapplication.Fragments;
 
 import static android.app.Activity.RESULT_OK;
-
 import static com.example.myapplication.MainActivity.MY_DATABASE;
 
 import android.annotation.SuppressLint;
@@ -18,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,7 +26,6 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.Models.Image;
-import com.example.myapplication.Models.User;
 import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,22 +38,21 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 
-public class EditProfileFragment extends Fragment {
+public class EditServiceProfileFragment extends Fragment {
     // request code to pick image
-    private static final int GALLERY_ACCESS_REQUEST_CODE = 203;
+    private static final int GALLERY_ACCESS_REQUEST_CODE = 202;
 
-    private EditText editTxtFullName, editTxtAddress;
     private Button btnSave;
+    private TextView editEmailView;
     private ImageView userImage;
     private ImageButton addImage;
+
     public Uri imageUri;
     public ArrayList<Uri> imageUris = new ArrayList<>();
 
-    private String fullName, address, profilePic;
+    private String email, profilePic;
 
     //Firebase
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -65,7 +63,7 @@ public class EditProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        View view = inflater.inflate(R.layout.edit_service_profile, container, false);
         initView(view);
 
         getDataFromFirebase();
@@ -81,34 +79,27 @@ public class EditProfileFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(editTxtAddress.getText().toString().isEmpty() || editTxtFullName.getText().toString().isEmpty()){
-                    Toast.makeText(getContext(), "Fields cannot be empty", Toast.LENGTH_SHORT).show();
-                }else{
-                    fullName = editTxtFullName.getText().toString();
-                    address = editTxtAddress.getText().toString();
-                    if(!Image.getInstance().getImageUris().isEmpty() || profilePic != null) {
-                        if(Image.getInstance().getImageUris().isEmpty()){
-                            addData(fullName, address);
-                            Toast.makeText(getContext(), "Profile Update Successfully", Toast.LENGTH_SHORT).show();
-                        }else{
-                            ProgressDialog progressDialog = new ProgressDialog(getContext());
-                            progressDialog.setCancelable(false);
-                            progressDialog.setMessage("Updating Profile");
-                            progressDialog.show();
-                            addToFirebase(Image.getInstance().getImageUris().get(0), fullName, address, new EditCallback() {
-                                @Override
-                                public void success() {
-                                    progressDialog.dismiss();
-                                    Toast.makeText(getContext(), "Profile Update Successfully", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
+                if(!Image.getInstance().getImageUris().isEmpty() || profilePic != null) {
+                    if(Image.getInstance().getImageUris().isEmpty()){
+                        Toast.makeText(getContext(), "Profile Update Successfully", Toast.LENGTH_SHORT).show();
                     }else{
-                        Toast.makeText(getContext(), "Add an image first", Toast.LENGTH_SHORT).show();
+                        ProgressDialog progressDialog = new ProgressDialog(getContext());
+                        progressDialog.setCancelable(false);
+                        progressDialog.setMessage("Updating Profile");
+                        progressDialog.show();
+                        addToFirebase(Image.getInstance().getImageUris().get(0), new EditServiceCallback() {
+                            @Override
+                            public void success() {
+                                progressDialog.dismiss();
+                                Toast.makeText(getContext(), "Profile Update Successfully", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                     if(getFragmentManager() != null){
-                        getFragmentManager().beginTransaction().replace(R.id.FrameContainer, new ProfileFragment()).commit();
+                        getFragmentManager().beginTransaction().replace(R.id.FrameContainer, new MyServicesFragment()).commit();
                     }
+                }else{
+                    Toast.makeText(getContext(), "Add an image first", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -153,12 +144,10 @@ public class EditProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists() && auth.getUid() != null){
-                    fullName = (String) snapshot.child("Users").child(auth.getUid()).child("fullName").getValue();
-                    address = (String) snapshot.child("Users").child(auth.getUid()).child("address").getValue();
+                    email = (String) snapshot.child("Users").child(auth.getUid()).child("email").getValue();
                     profilePic = (String) snapshot.child("Users").child(auth.getUid()).child("img").getValue();
-                    if(fullName != null && address != null && profilePic != null && getContext() != null){
-                        editTxtFullName.setText(fullName);
-                        editTxtAddress.setText(address);
+                    editEmailView.setText(email);
+                    if(profilePic != null && getContext() != null){
                         Glide.with(getContext()).load(profilePic)
                                 .thumbnail(Glide.with(getContext()).load(R.drawable.ic_user))
                                 .into(userImage);
@@ -173,11 +162,9 @@ public class EditProfileFragment extends Fragment {
         });
     }
 
-    private void addToFirebase(Uri uri, String name, String addr, EditCallback editCallback) {
+    private void addToFirebase(Uri uri, EditServiceCallback editCallback) {
         StorageReference fileRef = null;
 
-        //add user caption and upload date to firebase
-        addData(name, addr);
         fileRef = storageReference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
         StorageReference finalFileRef = fileRef;
         fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -197,13 +184,6 @@ public class EditProfileFragment extends Fragment {
         Image.getInstance().getImageUris().clear();
     }
 
-    private void addData(String name, String addr){
-        if(auth.getUid() != null){
-            databaseReference.child("Users").child(auth.getUid()).child("fullName").setValue(name);
-            databaseReference.child("Users").child(auth.getUid()).child("address").setValue(addr);
-        }
-    }
-
     private String getFileExtension(Uri uri){
         if (getActivity() != null){
             ContentResolver cr = getActivity().getContentResolver();
@@ -214,14 +194,13 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void initView(View view){
-        editTxtFullName = view.findViewById(R.id.editTxtFullName);
-        editTxtAddress = view.findViewById(R.id.editTxtAddress);
-        btnSave = view.findViewById(R.id.btnSave);
+        btnSave = view.findViewById(R.id.btnServiceSave);
         userImage = view.findViewById(R.id.editUserImage);
-        addImage = view.findViewById(R.id.addImageProfile);
+        addImage = view.findViewById(R.id.addServiceImageProfile);
+        editEmailView = view.findViewById(R.id.editEmailView);
     }
 
-    public interface EditCallback{
+    public interface EditServiceCallback{
         void success();
     }
 }

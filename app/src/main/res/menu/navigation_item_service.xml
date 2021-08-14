@@ -11,9 +11,4 @@
         android:id="@+id/myServices"
         android:icon="@drawable/ic_my_services"
         android:title="My Services"/>
-
-    <item
-        android:id="@+id/profileService"
-        android:icon="@drawable/ic_user"
-        android:title="Profile"/>
 </menu>

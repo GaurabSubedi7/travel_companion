@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/txtAddService"
+        android:id="@+id/txtMyService"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -12,12 +12,34 @@
         android:fontFamily="@font/architects_daughter"
         android:text="My Services"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/logout"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_logout" />
+
+    <ImageView
+        android:id="@+id/editServiceProfile"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_toStartOf="@+id/logout"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/ic_user" />
 
     <RelativeLayout
         android:id="@+id/noServiceRelLayout"
         android:layout_width="match_parent"
-        android:layout_below="@+id/txtAddService"
+        android:layout_below="@+id/txtMyService"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:visibility="gone">
@@ -46,14 +68,13 @@
         android:id="@+id/serviceNestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtAddService"
-        android:layout_marginTop="5dp">
+        android:layout_below="@+id/txtMyService"
+        android:layout_marginTop="15dp">
 
         <RelativeLayout
             android:id="@+id/myServicesRelLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/homeTopRelLayout"
             android:nestedScrollingEnabled="false">
 
             <androidx.recyclerview.widget.RecyclerView

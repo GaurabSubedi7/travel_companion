@@ -83,8 +83,6 @@ public class PostUploadFragment extends Fragment {
 
     private Boolean mLocationPermissionGranted = false;
 
-    // request code to capture image
-    private static final int CAMERA_ACCESS_REQUEST_CODE = 101;
     private static final String TAG = "PostUploadFragment";
     //image uris list
     private ArrayList<Uri> imageUris;

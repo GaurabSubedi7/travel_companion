@@ -2,15 +2,19 @@ package com.example.myapplication.Fragments;
 
 import static com.example.myapplication.MainActivity.MY_DATABASE;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.Adapters.ServicePostAdapter;
 import com.example.myapplication.Adapters.UserPostAdapter;
+import com.example.myapplication.LoginActivity;
 import com.example.myapplication.Models.ServicePost;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.Models.UserPost;
@@ -32,11 +37,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Objects;
 
 public class MyServicesFragment extends Fragment {
     private RecyclerView myServiceRecView;
     private RelativeLayout noServicesRelLayout, myServicesRelLayout;
     private Button btnAddServices2;
+    private ImageView logout, editServiceProfile;
 
     private ServicePostAdapter adapter;
 
@@ -55,6 +62,42 @@ public class MyServicesFragment extends Fragment {
         initView(view);
 
         getDataFromFirebase();
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getContext()))
+                        .setTitle("Are You Sure You Want To Logout?")
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //should be empty
+                            }
+                        }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                auth.signOut();
+                                Intent intent = new Intent(getContext(), LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        });
+                builder.create().show();
+            }
+        });
+
+        editServiceProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm= getFragmentManager();
+                if(fm != null) {
+                    EditServiceProfileFragment editServiceProfileFragment = new EditServiceProfileFragment();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(R.id.FrameContainer, editServiceProfileFragment).addToBackStack(null);
+                    ft.commit();
+                }
+            }
+        });
 
         return view;
     }
@@ -116,7 +159,6 @@ public class MyServicesFragment extends Fragment {
                     if(!servicePosts.isEmpty()){
                         noServicesRelLayout.setVisibility(View.GONE);
                         myServicesRelLayout.setVisibility(View.VISIBLE);
-                        //inflate recyclerView with images
                         FragmentManager fm = getFragmentManager();
                         adapter = new ServicePostAdapter(getContext(), fm, "myServices", email);
                         myServiceRecView.setAdapter(adapter);
@@ -156,5 +198,7 @@ public class MyServicesFragment extends Fragment {
         noServicesRelLayout = view.findViewById(R.id.noServiceRelLayout);
         myServicesRelLayout = view.findViewById(R.id.myServicesRelLayout);
         btnAddServices2 = view.findViewById(R.id.btnAddNewService2);
+        logout = view.findViewById(R.id.logout);
+        editServiceProfile = view.findViewById(R.id.editServiceProfile);
     }
 }

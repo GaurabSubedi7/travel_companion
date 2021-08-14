@@ -14,21 +14,24 @@
         <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.67" />
         <entry key="app/src/main/res/layout/activity_registration.xml" value="0.75" />
         <entry key="app/src/main/res/layout/checklist_view.xml" value="1.0" />
-        <entry key="app/src/main/res/layout/contact_us_view.xml" value="0.7114695340501792" />
+        <entry key="app/src/main/res/layout/contact_us_view.xml" value="0.5490909090909091" />
         <entry key="app/src/main/res/layout/edit_post_view.xml" value="0.31015625" />
+        <entry key="app/src/main/res/layout/edit_service_profile.xml" value="0.67" />
         <entry key="app/src/main/res/layout/edit_service_view.xml" value="0.67" />
         <entry key="app/src/main/res/layout/fragment_add_place_to_list.xml" value="0.75" />
         <entry key="app/src/main/res/layout/fragment_add_services.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.680952380952381" />
         <entry key="app/src/main/res/layout/fragment_explore.xml" value="0.75" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="1.0" />
         <entry key="app/src/main/res/layout/fragment_individual_trip.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_map.xml" value="0.28671875" />
-        <entry key="app/src/main/res/layout/fragment_my_services.xml" value="0.67" />
+        <entry key="app/src/main/res/layout/fragment_my_services.xml" value="0.9" />
         <entry key="app/src/main/res/layout/fragment_post.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_post_upload.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.67" />
+        <entry key="app/src/main/res/layout/fragment_profile_service.xml" value="0.67" />
         <entry key="app/src/main/res/layout/fragment_progressbar.xml" value="0.31015625" />
-        <entry key="app/src/main/res/layout/fragment_service_home.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/fragment_service_home.xml" value="0.75" />
         <entry key="app/src/main/res/layout/fragment_service_post_view.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_services.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_user_post_view.xml" value="0.75" />

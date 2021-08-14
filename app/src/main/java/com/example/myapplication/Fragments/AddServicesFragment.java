@@ -57,7 +57,7 @@ public class AddServicesFragment extends Fragment {
     private String serviceName, description, serviceType, serviceLocation, contactNumber;
 
     // request code to pick image
-    private static final int GALLERY_ACCESS_REQUEST_CODE = 201;
+    private static final int GALLERY_ACCESS_REQUEST_CODE = 205;
 
     //Calendar
     private Calendar calendar = Calendar.getInstance();

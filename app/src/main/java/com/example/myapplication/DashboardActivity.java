@@ -93,8 +93,7 @@ public class DashboardActivity extends AppCompatActivity {
                     case R.id.myServices:
                         temp = new MyServicesFragment();
                         break;
-                    case R.id.profileService:
-                        temp = new ProfileFragment();
+                    default:
                         break;
                 }
                 //Replacing the FrameContainer with our temp container
