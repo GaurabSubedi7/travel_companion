@@ -62,11 +62,13 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
     private FirebaseDatabase database = FirebaseDatabase.getInstance(MY_DATABASE);
     private DatabaseReference databaseReference = database.getReference();
     private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private String userType;
 
-    public UserPostAdapter(Context context, String currentUserId, FragmentManager fm) {
+    public UserPostAdapter(Context context, String currentUserId, FragmentManager fm, String userType) {
         this.context = context;
         this.currentUserId = currentUserId;
         this.fm = fm;
+        this.userType = userType;
     }
 
     @NonNull
@@ -92,6 +94,14 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
                     }
                     break;
                 }
+            }
+
+            if(userType.equals("Service")){
+                holder.userPopUpMenu.setVisibility(View.GONE);
+            }
+
+            if(userType.equals("User")){
+                holder.userPopUpMenu.setVisibility(View.VISIBLE);
             }
 
             holder.userPopUpMenu.setOnClickListener(new View.OnClickListener() {

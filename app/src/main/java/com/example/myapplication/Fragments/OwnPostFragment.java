@@ -123,7 +123,7 @@ public class OwnPostFragment extends DialogFragment {
                         if(!userPosts.isEmpty()){
                             //inflate recyclerView with images
                             FragmentManager fm = getFragmentManager();
-                            adapter = new UserPostAdapter(getContext(), auth.getUid(), fm);
+                            adapter = new UserPostAdapter(getContext(), auth.getUid(), fm, "User");
                             ownPostRecView.setAdapter(adapter);
                             ownPostRecView.setLayoutManager(new LinearLayoutManager(getContext()));
 

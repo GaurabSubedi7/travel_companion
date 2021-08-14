@@ -189,7 +189,7 @@ public class HomeFragment extends Fragment {
                         if(!userPosts.isEmpty()){
                             //inflate recyclerView with images
                             FragmentManager fm = getFragmentManager();
-                            adapter = new UserPostAdapter(getContext(), auth.getUid(), fm);
+                            adapter = new UserPostAdapter(getContext(), auth.getUid(), fm, "User");
                             newsFeedRecView.setAdapter(adapter);
                             newsFeedRecView.setLayoutManager(new LinearLayoutManager(getContext()));
 

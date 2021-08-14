@@ -129,6 +129,9 @@ public class EditServiceProfileFragment extends Fragment {
                     Glide.with(getContext()).load(imageUri)
                             .thumbnail(Glide.with(getContext()).load(R.drawable.ic_user))
                             .into(userImage);
+                    if(imageUris.size() > 1){
+                        imageUris.clear();
+                    }
                     imageUris.add(imageUri);
                 }
 

@@ -167,7 +167,7 @@ public class ServiceHomeFragment extends Fragment {
                         if(!userPosts.isEmpty()){
                             //inflate recyclerView with images
                             FragmentManager fm = getFragmentManager();
-                            adapter = new UserPostAdapter(getContext(), auth.getUid(), fm);
+                            adapter = new UserPostAdapter(getContext(), auth.getUid(), fm, "Service");
                             serviceFeedRecView.setAdapter(adapter);
                             serviceFeedRecView.setLayoutManager(new LinearLayoutManager(getContext()));
 
