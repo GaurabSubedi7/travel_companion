@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.Fragments.CategoryFragment;
 import com.example.myapplication.Fragments.EditPostFragment;
 import com.example.myapplication.Fragments.MapFragment;
@@ -84,6 +85,11 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
             for(User user: users){
                 if(user.getUserId().equals(uid)){
                     holder.uploaderUserName.setText(user.getUserName());
+                    if(user.getProfilePic() != null){
+                        Glide.with(context).load(user.getProfilePic())
+                                .thumbnail(Glide.with(context).load(R.drawable.ic_user))
+                                .into(holder.uploaderImage);
+                    }
                     break;
                 }
             }

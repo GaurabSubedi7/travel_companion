@@ -122,7 +122,12 @@ public class MyServicesFragment extends Fragment {
                         if(userId != null) {
                             String userName = snapshot.child("Users").child(userId).child("thirdPartyServiceName").getValue(String.class);
                             email = snapshot.child("Users").child(userId).child("email").getValue(String.class);
-                            users.add(new User(userId, userName));
+                            String profilePic = snapshot.child("Users").child(userId).child("img").getValue(String.class);
+                            User user = new User(userId, userName);
+                            if(profilePic != null){
+                                user.setProfilePic(profilePic);
+                            }
+                            users.add(user);
                         }
 
                         myImages = new ArrayList<>();

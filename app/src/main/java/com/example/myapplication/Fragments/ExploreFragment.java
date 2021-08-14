@@ -89,7 +89,11 @@ public class ExploreFragment extends Fragment {
                             userId = (String) data.child("userId").getValue();
                             if(userId != null) {
                                 String userName = dataSnapshot.child("Users").child(userId).child("userName").getValue(String.class);
-                                users.add(new User(userId, userName));
+                                String profilePic = dataSnapshot.child("Users").child(userId).child("img").getValue(String.class);
+                                User user = new User(userId, userName);
+                                if(profilePic != null){
+                                    user.setProfilePic(profilePic);
+                                }
                             }
                             myImages = new ArrayList<>();
                             liker = new ArrayList<>();

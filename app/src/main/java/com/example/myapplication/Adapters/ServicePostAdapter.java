@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.Fragments.ContactUsFragment;
 import com.example.myapplication.Fragments.EditServiceFragment;
 import com.example.myapplication.Models.ServicePost;
@@ -75,6 +76,11 @@ public class ServicePostAdapter extends RecyclerView.Adapter<ServicePostAdapter.
         for(User user: users){
             if(user.getUserId().equals(uid)){
                 holder.uploaderUserName.setText(user.getUserName());
+                if(user.getProfilePic() != null){
+                    Glide.with(context).load(user.getProfilePic())
+                            .thumbnail(Glide.with(context).load(R.drawable.ic_user))
+                            .into(holder.uploaderImage);
+                }
                 break;
             }
         }

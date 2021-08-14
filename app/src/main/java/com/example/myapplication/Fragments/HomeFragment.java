@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
 
     private UserPostAdapter adapter;
 
-    private String userName;
+    private String userName, profilePic;
 
     //firebase
     private FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -140,7 +140,12 @@ public class HomeFragment extends Fragment {
                             userId = (String) data.child("userId").getValue();
                             if(userId != null) {
                                 String userName = dataSnapshot.child("Users").child(userId).child("userName").getValue(String.class);
-                                users.add(new User(userId, userName));
+                                profilePic = dataSnapshot.child("Users").child(userId).child("img").getValue(String.class);
+                                User user = new User(userId, userName);
+                                if(profilePic != null){
+                                    user.setProfilePic(profilePic);
+                                }
+                                users.add(user);
                             }
                             myImages = new ArrayList<>();
                             liker = new ArrayList<>();
