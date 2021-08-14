@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.Adapters.UserPostAdapter;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.Models.UserPost;
@@ -41,6 +42,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView newsFeedRecView;
     private RelativeLayout exploreRelLayout, findServiceRelLayout;
     private BottomNavigationView bottomNavigationView;
+    private ImageView userProfileImage;
 
     private UserPostAdapter adapter;
 
@@ -72,6 +74,12 @@ public class HomeFragment extends Fragment {
                 if(dataSnapshot.exists()){
                     if(auth.getUid() != null){
                         userName = dataSnapshot.child("Users").child(auth.getUid()).child("userName").getValue(String.class);
+                        String profilePic = dataSnapshot.child("Users").child(auth.getUid()).child("img").getValue(String.class);
+                        if(profilePic != null && getContext() != null){
+                            Glide.with(getContext()).load(profilePic)
+                                    .thumbnail(Glide.with(getContext()).load(R.drawable.ic_user))
+                                    .into(userProfileImage);
+                        }
                         txtUsername.setText(userName);
                     }
                 }
@@ -207,5 +215,6 @@ public class HomeFragment extends Fragment {
         newsFeedRecView = view.findViewById(R.id.newsFeedRecView);
         exploreRelLayout = view.findViewById(R.id.exploreRelLayout);
         findServiceRelLayout = view.findViewById(R.id.findServiceRelLayout);
+        userProfileImage = view.findViewById(R.id.userProfileImage);
     }
 }

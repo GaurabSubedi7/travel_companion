@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.Adapters.UserPostAdapter;
 import com.example.myapplication.Models.User;
 import com.example.myapplication.Models.UserPost;
@@ -71,6 +72,12 @@ public class ServiceHomeFragment extends Fragment {
                 if(snapshot.exists()){
                     if(auth.getUid() != null){
                         String thirdPartyServiceName = snapshot.child("Users").child(auth.getUid()).child("thirdPartyServiceName").getValue(String.class);
+                        String profilePic = snapshot.child("Users").child(auth.getUid()).child("img").getValue(String.class);
+                        if(profilePic != null && getContext() != null){
+                            Glide.with(getContext()).load(profilePic)
+                                    .thumbnail(Glide.with(getContext()).load(R.drawable.ic_user))
+                                    .into(serviceProfileImage);
+                        }
                         serviceName.setText(thirdPartyServiceName);
                     }
                 }
