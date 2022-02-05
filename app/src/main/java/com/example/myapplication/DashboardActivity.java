@@ -2,6 +2,7 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -75,6 +76,8 @@ public class DashboardActivity extends AppCompatActivity {
                         temp = new ProfileFragment();
                         break;
                 }
+                //Pop all the back_stacks_at_once
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 //Replace the FrameContainer with our temp container
                 getSupportFragmentManager().beginTransaction().replace(R.id.FrameContainer,temp).commit();
                 return true;
