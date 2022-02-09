@@ -94,6 +94,7 @@ public class ExploreFragment extends Fragment {
                                 if(profilePic != null){
                                     user.setProfilePic(profilePic);
                                 }
+                                users.add(user);
                             }
                             myImages = new ArrayList<>();
                             liker = new ArrayList<>();
