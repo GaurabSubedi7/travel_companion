@@ -28,8 +28,17 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/architects_daughter"
-                android:text="Trip Details"
-                android:textSize="22sp" />
+                android:text="My Trips"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/expense_report"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_report" />
 
         </RelativeLayout>
 

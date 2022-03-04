@@ -3,7 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/My Data/College and Studies/College/Projects/7th semester project/travel_companion/app/src/main/res/layout/fragment_budget.xml" value="1.0" />
+        <entry key="..\:/My Data/College and Studies/College/Projects/7th semester project/travel_companion/app/src/main/res/layout/fragment_category.xml" value="0.22447916666666667" />
+        <entry key="..\:/My Data/College and Studies/College/Projects/7th semester project/travel_companion/app/src/main/res/layout/fragment_expense.xml" value="0.22447916666666667" />
+        <entry key="..\:/My Data/College and Studies/College/Projects/7th semester project/travel_companion/app/src/main/res/layout/fragment_expense_report.xml" value="0.6122159090909091" />
         <entry key="..\:/My Data/College and Studies/College/Projects/7th semester project/travel_companion/app/src/main/res/layout/fragment_explore.xml" value="0.33" />
+        <entry key="..\:/My Data/College and Studies/College/Projects/7th semester project/travel_companion/app/src/main/res/layout/fragment_home.xml" value="0.22447916666666667" />
+        <entry key="..\:/My Data/College and Studies/College/Projects/7th semester project/travel_companion/app/src/main/res/layout/fragment_individual_trip.xml" value="0.22447916666666667" />
         <entry key="app/src/main/res/drawable-anydpi/ic_add_circle.xml" value="0.11640625" />
         <entry key="app/src/main/res/drawable-anydpi/ic_delete.xml" value="0.334375" />
         <entry key="app/src/main/res/drawable-anydpi/ic_email.xml" value="0.334375" />
