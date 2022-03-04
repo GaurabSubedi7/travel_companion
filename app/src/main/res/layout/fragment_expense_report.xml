@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.ExpenseReportFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:backgroundTint="@color/grey"
+        app:layout_constraintBottom_toTopOf="@+id/guideline5"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txtTripDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/architects_daughter"
+                android:text="My Expense Report"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/myTrips"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_travelbag" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+        <RelativeLayout
+            android:id="@+id/userExpenseRelLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <!-- daily expenses details-->
+            <RelativeLayout
+                android:id="@+id/dailyExpenseRelLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:elevation="7dp"
+                    app:cardCornerRadius="7dp"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <!--no expenses-->
+                    <RelativeLayout
+                        android:id="@+id/noDailyExpensesRelLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/grey"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/txtNoDailyExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="40dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="No Daily Expenses Yet"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+
+                    <!--daily expense-->
+                    <RelativeLayout
+                        android:id="@+id/dailyPieChartRelLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/grey"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/txtYourDailyExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="3dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="Daily Expenses %"
+                            android:textSize="16sp" />
+
+                        <com.github.mikephil.charting.charts.PieChart
+                            android:id="@+id/dailyExpensePieChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_below="@+id/txtYourDailyExpenses"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp" />
+
+                        <TextView
+                            android:id="@+id/dailyFoodExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/dailyExpensePieChart"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="Food"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/dailyTransportExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/dailyFoodExpenses"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="Transport"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/dailyHotelExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/dailyTransportExpenses"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="Hotel"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/dailyMiscExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/dailyHotelExpenses"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="Miscellaneous"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+            <!-- weekly expenses details-->
+            <RelativeLayout
+                android:id="@+id/weeklyExpenseRelLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dailyExpenseRelLayout"
+                android:layout_marginTop="2dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:elevation="7dp"
+                    app:cardCornerRadius="7dp">
+
+                    <!--no expenses-->
+                    <RelativeLayout
+                        android:id="@+id/noWeeklyExpensesRelLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/grey"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/txtNoWeeklyExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="40dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="No Weekly Expenses Yet"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+
+                    <!--weekly expense-->
+                    <RelativeLayout
+                        android:id="@+id/weeklyPieChartRelLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/grey"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/txtYourWeeklyExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="3dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="Weekly Expenses %"
+                            android:textSize="16sp" />
+
+                        <com.github.mikephil.charting.charts.PieChart
+                            android:id="@+id/weeklyExpensePieChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_below="@+id/txtYourWeeklyExpenses"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp" />
+
+                        <TextView
+                            android:id="@+id/weeklyFoodExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/weeklyExpensePieChart"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="Food"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/weeklyTransportExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/weeklyFoodExpenses"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="Transport"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/weeklyHotelExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/weeklyTransportExpenses"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="Hotel"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/weeklyMiscExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/weeklyHotelExpenses"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="Miscellaneous"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+            <!-- monthly expenses details-->
+            <RelativeLayout
+                android:id="@+id/monthlyExpenseRelLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/weeklyExpenseRelLayout"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="120dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:elevation="7dp"
+                    app:cardCornerRadius="7dp">
+
+                    <!--no expenses-->
+                    <RelativeLayout
+                        android:id="@+id/noMonthlyExpensesRelLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/grey"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/txtNoMonthlyExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="40dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="No Monthly Expenses Yet"
+                            android:textSize="18sp" />
+
+                    </RelativeLayout>
+
+                    <!--monthly expense-->
+                    <RelativeLayout
+                        android:id="@+id/monthlyPieChartRelLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/grey"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/txtYourMonthlyExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="3dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="Monthly Expenses %"
+                            android:textSize="16sp" />
+
+                        <com.github.mikephil.charting.charts.PieChart
+                            android:id="@+id/monthlyExpensePieChart"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_below="@+id/txtYourMonthlyExpenses"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp" />
+
+                        <TextView
+                            android:id="@+id/monthlyFoodExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/monthlyExpensePieChart"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="Food"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/monthlyTransportExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/monthlyFoodExpenses"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="Transport"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/monthlyHotelExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/monthlyTransportExpenses"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="Hotel"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/monthlyMiscExpenses"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/monthlyHotelExpenses"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/architects_daughter"
+                            android:text="Miscellaneous"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="60dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="957dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+

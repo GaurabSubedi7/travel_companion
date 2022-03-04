@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -52,6 +53,7 @@ public class BudgetFragment extends Fragment {
     private RelativeLayout noPlanRelLayout;
     private RecyclerView smallPlanRecView;
     private NestedScrollView tripNestedScrollView;
+    private ImageView expense_report;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,6 +76,19 @@ public class BudgetFragment extends Fragment {
                 goToPlanFragment();
             }
         });
+
+        expense_report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getFragmentManager();
+                if (fm != null) {
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(R.id.FrameContainer, new ExpenseReportFragment()).addToBackStack(null);
+                    ft.commit();
+                }
+            }
+        });
+
         getDataFromFireBase();
         return view;
     }
@@ -137,5 +152,6 @@ public class BudgetFragment extends Fragment {
         smallPlanRecView = view.findViewById(R.id.smallPlanRecView);
         noPlanRelLayout = view.findViewById(R.id.noPlanRelLayout);
         tripNestedScrollView = view.findViewById(R.id.tripNestedScrollView);
+        expense_report = view.findViewById(R.id.expense_report);
     }
 }

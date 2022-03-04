@@ -99,6 +99,8 @@ public class DashboardActivity extends AppCompatActivity {
                     default:
                         break;
                 }
+                //Pop all the back_stacks_at_once
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 //Replacing the FrameContainer with our temp container
                 getSupportFragmentManager().beginTransaction().replace(R.id.FrameContainer,temp).commit();
                 return true;
